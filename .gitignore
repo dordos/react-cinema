@@ -9,6 +9,7 @@
 /coverage
 
 .env
+.idea
 
 # production
 /build
