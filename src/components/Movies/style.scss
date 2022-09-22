@@ -1,0 +1,21 @@
+ul{
+  width: 1200px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  li{
+  list-style: none;
+  //background-color: red;
+  width: 350px;
+  height: 250px;
+  & img{
+    width: 100%;
+    height: auto;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+  }
+}
+}

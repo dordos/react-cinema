@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.55",
+    "@types/node-sass": "^4.11.3",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "axios": "^0.27.2",
@@ -41,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "node-sass": "^7.0.3"
   }
 }
