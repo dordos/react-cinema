@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
 import Movies from "./components/Movies";
+import MenuBar from "./components/MenuBar";
 
 // type User = {
 //   id: number;
@@ -21,19 +22,10 @@ function App() {
   }, []);
 
   return (
-    <Movies movieInfo={movieInfo} />
-
-    // <ul>
-    //   {posts.map((post: any) => (
-    //     <li key={post.id}>
-    //       {post.title}e
-    //       <img
-    //         src={`https://image.tmdb.org/t/p/w500/${post.poster_path}`}
-    //         alt=""
-    //       />
-    //     </li>
-    //   ))}
-    // </ul>
+    <>
+      <MenuBar />
+      <Movies movieInfo={movieInfo} />
+    </>
   );
 }
 

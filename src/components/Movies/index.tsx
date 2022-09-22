@@ -4,7 +4,7 @@ import "./style.scss";
 const Movies = ({ movieInfo }: any) => {
   console.log("-> movieInfo", movieInfo);
   return (
-    <ul>
+    <ul className="moviesContainer">
       {movieInfo.map((movie: any) => (
         <li key={movie.id}>
           {/*<p>{movie.title}</p>*/}
