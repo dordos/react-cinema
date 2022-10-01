@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
 import Movies from "./page/Movies";
-import MenuBar from "./page/MenuBar";
+import MenuBar from "./layout/MenuBar";
+import { BrowserRouter, Routes } from "react-router-dom";
 
 // type User = {
 //   id: number;
@@ -12,7 +13,6 @@ const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.e
 const test = `https://api.themoviedb.org/3/movie/297762/videos?api_key=${process.env.REACT_APP_CINEMA_API_KEY}`;
 function App() {
   const [movieInfo, setMovieInfo] = useState([]);
-  console.log("-> test", test);
   useEffect(() => {
     const movieData = async () => {
       const response = await axios.get(API_URL);
@@ -22,10 +22,12 @@ function App() {
   }, []);
 
   return (
-    <>
+    <BrowserRouter>
       <MenuBar />
-      <Movies movieInfo={movieInfo} />
-    </>
+      <Routes>
+        <Movies movieInfo={movieInfo} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
