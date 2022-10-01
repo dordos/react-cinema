@@ -5,7 +5,7 @@ import { faMagnifyingGlass, faBell } from "@fortawesome/free-solid-svg-icons";
 
 const movie_icon = require("../../img/movie_Icon.png");
 const smile_icon1 = require("../../img/smile_icon1.png");
-const smile_icon2 = require("../../img/smile_icon2.png");
+// const smile_icon2 = require("../../img/smile_icon2.png");
 
 const MenuBar = () => {
   return (

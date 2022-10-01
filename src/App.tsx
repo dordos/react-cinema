@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import Movies from "./components/Movies";
-import MenuBar from "./components/MenuBar";
+import Movies from "./page/Movies";
+import MenuBar from "./page/MenuBar";
 
 // type User = {
 //   id: number;
 //   name: string;
 // };
-
 const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_CINEMA_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`;
+const test = `https://api.themoviedb.org/3/movie/297762/videos?api_key=${process.env.REACT_APP_CINEMA_API_KEY}`;
 function App() {
   const [movieInfo, setMovieInfo] = useState([]);
-
+  console.log("-> test", test);
   useEffect(() => {
     const movieData = async () => {
       const response = await axios.get(API_URL);
