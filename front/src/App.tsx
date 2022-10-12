@@ -19,6 +19,7 @@ function App() {
       setMovieInfo(response.data.results);
       console.log("-> dd");
       console.log("-> dd");
+      console.log("-> dd");
     };
     movieData();
   }, []);
