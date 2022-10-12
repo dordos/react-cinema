@@ -17,9 +17,6 @@ function App() {
     const movieData = async () => {
       const response = await axios.get(API_URL);
       setMovieInfo(response.data.results);
-      console.log("-> dd");
-      console.log("-> dd");
-      console.log("-> dd");
     };
     movieData();
   }, []);
