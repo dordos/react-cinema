@@ -6,7 +6,6 @@ import './style.scss';
 const LogInModal = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   // const onSubmit = useCallback(
   //   (e: React.FormEvent<HTMLInputElement>) => {
   //     e.preventDefault();
@@ -33,7 +32,7 @@ const LogInModal = () => {
         <div>
           <p>
             계정이 없으신가요?
-            <Link to={<SingUp />}>
+            <Link to='/SignUp'>
               <span>회원가입</span>
             </Link>
           </p>

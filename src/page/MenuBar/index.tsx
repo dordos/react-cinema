@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import "./style.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faBell } from "@fortawesome/free-solid-svg-icons";
-import LogInModal from "../../components/LogInModal";
+import React, { useState } from 'react';
+import './style.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass, faBell } from '@fortawesome/free-solid-svg-icons';
+import LogInModal from '../../components/LogInModal';
 
-const movie_icon = require("../../img/movie_Icon.png");
-const smile_icon1 = require("../../img/smile_icon1.png");
+const logo = require('../../img/logo.png');
+const smile_icon1 = require('../../img/smile_icon1.png');
 // const smile_icon2 = require("../../img/smile_icon2.png");
 
 const MenuBar = () => {
@@ -18,8 +18,8 @@ const MenuBar = () => {
     <nav className='menuBarContainer'>
       <ul>
         <li className='menuBar__logo'>
-          <img src={movie_icon} alt='' />
-          <p>React Cinema</p>
+          <img src={logo} alt='' />
+          {/* <p>React Cinema</p> */}
           <div className='menuBar__Lists'>
             <p>홈</p>
             <p>시리즈</p>
