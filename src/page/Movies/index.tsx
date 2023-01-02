@@ -1,14 +1,25 @@
-import React from "react";
-import { useState } from "react";
-import "./style.scss";
-import MovieModal from "../../components/MovieModal";
-import axios from "axios";
-// import { Link, Route, Routes } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import './style.scss';
+import MovieModal from '../../components/MovieModal';
+import axios from 'axios';
 
-const Movies = ({ movieInfo, API_KEY }: any) => {
+const Movies = () => {
   const [movieModalOnOff, setMovieModalOnOff] = useState(false);
   const [movieDetail, setMovieDetail] = useState();
   const [selectMovieData, setSelectMovieData] = useState({});
+
+  const [movieInfo, setMovieInfo] = useState([]);
+  const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_CINEMA_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`;
+  const API_KEY = process.env.REACT_APP_CINEMA_API_KEY;
+
+  useEffect(() => {
+    async function movieData() {
+      const response = await axios.get(API_URL);
+      setMovieInfo(response.data.results);
+    }
+    movieData();
+  }, []);
 
   const onMovieDetail = (id: any) => {
     setMovieModalOnOff(true);
