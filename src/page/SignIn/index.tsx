@@ -4,7 +4,7 @@ import useInput from '../../hooks/useInput';
 import './style.scss';
 
 const logo = require('../../img/logo.png');
-const SignUp = () => {
+const SignIn = () => {
   const [email, onChangeEmail] = useInput('');
   const [password, setPassword] = useInput('');
   const [passwordCheck, setPasswordCheck] = useInput('');
@@ -76,8 +76,8 @@ const SignUp = () => {
   // };
 
   return (
-    <div className='signUp'>
-      <div className='signUpContainer'>
+    <div className='signIn'>
+      <div className='signInContainer'>
         <div className='logo'>
           <img src={logo} alt='' />
         </div>
@@ -98,11 +98,6 @@ const SignUp = () => {
             </label>
 
             <label onFocus={inFocus} onBlur={outFocus}>
-              <span>닉네임</span>
-              <input type='text' name='nickname' />
-            </label>
-
-            <label onFocus={inFocus} onBlur={outFocus}>
               <span>비밀번호</span>
               <input
                 type='password'
@@ -113,26 +108,15 @@ const SignUp = () => {
               <p>비밀번호는 8자리 이상으로 입력해주세요.</p>
             </label>
 
-            <label>
-              <span>비밀번호 확인</span>
-              <input
-                type='password'
-                name='password-check'
-                value={passwordCheck}
-                onChange={onChangePasswordCheck}
-              />
-              <p>비밀번호와 비밀번호 확인이 일치하지 않습니다.</p>
-            </label>
-
             <button>회원가입</button>
           </div>
         </Form>
 
         <div className='suggestion'>
           <p>
-            이미 회원이신가요?
-            <Link to='/SignIn'>
-              <span>로그인 하러가기</span>
+            아직 회원이 아니신가요?
+            <Link to='/SignUp'>
+              <span>회원가입 하러가기</span>
             </Link>
           </p>
         </div>
@@ -141,4 +125,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;
