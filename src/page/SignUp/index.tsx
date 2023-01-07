@@ -12,23 +12,22 @@ const SignUp = () => {
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
-  const [aniState, setAniState] = useState(false);
+  const [aniState, setAniState] = useState([false, false, false, false]);
 
   const focusState = (e: any) => {
-    // console.log(e.target.name);
-
-    setAniState((state: boolean | undefined): any => {
-      if (e.target.value != '') {
-        return state;
-      }
-      return !state;
-    });
+    if ((e.target.name = 'email')) {
+      setAniState((state): any => {
+        if (e.target.value != '') {
+          return state;
+        }
+        return !state;
+      });
+    }
   };
 
   const inFocus = (e: any) => {
     e.preventDefault();
 
-    console.log(e);
     // if (
     //   (e.target.name == 'nickname' &&
     //     e.target.previousSibling.className == '') ||

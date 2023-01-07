@@ -12,12 +12,12 @@ const SignIn = () => {
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
-  const [aniState, setAniState] = useState(false);
+  const [aniState, setAniState] = useState([false, false, false, false]);
 
   const focusState = (e: any) => {
-    // console.log(e.target.name);
-
-    setAniState((state: boolean | undefined): any => {
+    console.log(e.target.name);
+    console.log('ee');
+    setAniState((state): any => {
       if (e.target.value != '') {
         return state;
       }
@@ -28,7 +28,7 @@ const SignIn = () => {
   const inFocus = (e: any) => {
     e.preventDefault();
 
-    console.log(e);
+    // console.log(e);
     // if (
     //   (e.target.name == 'nickname' &&
     //     e.target.previousSibling.className == '') ||

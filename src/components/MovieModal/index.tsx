@@ -1,8 +1,9 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import "./style.scss";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import './style.scss';
 
 const MovieModal = ({ movieDetail, selectMovieData }: any) => {
+  console.log(movieDetail);
   // console.log(selectMovieData);
   // console.log(movieDetail);
   // console.log(movieDetail);
@@ -17,6 +18,7 @@ const MovieModal = ({ movieDetail, selectMovieData }: any) => {
   //   };
   //   movieData();
   // }, []);
+
   return (
     <div className='movieModalContainer'>
       <div>dd</div>

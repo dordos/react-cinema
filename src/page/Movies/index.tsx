@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useState } from 'react';
 import './style.scss';
 import MovieModal from '../../components/MovieModal';
 import axios from 'axios';
 
+import { firebaseDB, firebaseData } from '../../api/firebase';
+
 const Movies = () => {
+  const d = firebaseData;
+  console.log(firebaseData);
+
   const [movieModalOnOff, setMovieModalOnOff] = useState(false);
-  const [movieDetail, setMovieDetail] = useState();
+  const [movieDetail, setMovieDetail] = useState('');
   const [selectMovieData, setSelectMovieData] = useState({});
 
   const [movieInfo, setMovieInfo] = useState([]);
@@ -21,7 +26,10 @@ const Movies = () => {
     movieData();
   }, []);
 
+  const selectMovie = useCallback(() => {}, []);
+
   const onMovieDetail = (id: any) => {
+    // console.log(id);
     setMovieModalOnOff(true);
     const selectMovie = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
     const response = axios.get(selectMovie);
