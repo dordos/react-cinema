@@ -36,20 +36,14 @@ const SignUp = () => {
   const onSubmit = useCallback(
     (e: FormEvent) => {
       e.preventDefault();
-      console.log(email, password);
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          console.log(userCredential);
-          // Signed in
-          const user = userCredential.user;
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // ..
-          console.log(error.code);
-        });
+      // createUserWithEmailAndPassword(auth, email, password)
+      //   .then((userCredential) => {
+      //     const user = userCredential.user;
+      //     console.log(user);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     },
     [email, nickname, password, passwordCheck]
   );
@@ -57,16 +51,24 @@ const SignUp = () => {
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
-  const [aniState, setAniState] = useState([false, false, false, false]);
+  const [aniState, setAniState] = useState(false);
+
+  //이메일 정규식
+  const regEmail = (data: any) => {
+    return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(
+      data
+    );
+  };
 
   const focusState = (e: any) => {
-    if ((e.target.name = 'email')) {
-      setAniState((state): any => {
-        if (e.target.value != '') {
-          return state;
-        }
-        return !state;
-      });
+    if (e.target.name == 'email' && e.target.value != '') {
+      if (regEmail(e.target.value) === false) setSignUpSuccess(!signUpSuccess);
+      // setAniState((state): any => {
+      //   if (e.target.value != '') {
+      //     return state;
+      //   }
+      //   return !state;
+      // });
     }
   };
 
