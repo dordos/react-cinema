@@ -15,8 +15,6 @@ const SignIn = () => {
   const [aniState, setAniState] = useState([false, false, false, false]);
 
   const focusState = (e: any) => {
-    console.log(e.target.name);
-    console.log('ee');
     setAniState((state): any => {
       if (e.target.value != '') {
         return state;

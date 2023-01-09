@@ -1,13 +1,58 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useRef, useState } from 'react';
 import { Form, Link } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
 import './style.scss';
-
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { app, auth } from '../../api/firebase';
 const logo = require('../../img/logo.png');
+
 const SignUp = () => {
-  const [email, onChangeEmail] = useInput('');
-  const [password, setPassword] = useInput('');
-  const [passwordCheck, setPasswordCheck] = useInput('');
+  const [email, setEmail] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordCheck, setPasswordCheck] = useState('');
+  const [mismatchError, setMismatchError] = useState(false);
+
+  const onChangeEmail = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  }, []);
+
+  const onChangeNickname = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value);
+  }, []);
+
+  const onChangePassword = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.target.value);
+      setMismatchError(e.target.value === passwordCheck);
+    },
+    [setPasswordCheck]
+  );
+
+  const onChangePasswordCheck = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setPasswordCheck(e.target.value);
+  }, []);
+
+  const onSubmit = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+      console.log(email, password);
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          console.log(userCredential);
+          // Signed in
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+          console.log(error.code);
+        });
+    },
+    [email, nickname, password, passwordCheck]
+  );
 
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
@@ -47,23 +92,6 @@ const SignUp = () => {
     // }
   };
 
-  const onChangePassword = useCallback(
-    (e: any) => {
-      setPassword(e.target.value);
-    },
-    [passwordCheck]
-  );
-
-  const onChangePasswordCheck = useCallback(
-    (e: any) => {
-      setPasswordCheck(e.target.value);
-    },
-    [password]
-  );
-
-  // surbmit
-  const onsSubmit = () => {};
-
   // const focusState = (e: any) => {
   //   e.target.previousSibling.className = 'inputOnFocus';
   // };
@@ -81,7 +109,7 @@ const SignUp = () => {
           <img src={logo} alt='' />
         </div>
 
-        <Form onSubmit={onsSubmit}>
+        <Form onSubmit={onSubmit}>
           <div className='infoContainer'>
             <label>
               <span>이메일</span>
@@ -98,17 +126,12 @@ const SignUp = () => {
 
             <label onFocus={inFocus} onBlur={outFocus}>
               <span>닉네임</span>
-              <input type='text' name='nickname' />
+              <input type='text' name='nickname' value={nickname} onChange={onChangeNickname} />
             </label>
 
             <label onFocus={inFocus} onBlur={outFocus}>
               <span>비밀번호</span>
-              <input
-                type='password'
-                name='password'
-                value={password}
-                onChange={onChangePassword}
-              />
+              <input type='password' name='password' value={password} onChange={onChangePassword} />
               <p>비밀번호는 8자리 이상으로 입력해주세요.</p>
             </label>
 
@@ -123,7 +146,7 @@ const SignUp = () => {
               <p>비밀번호와 비밀번호 확인이 일치하지 않습니다.</p>
             </label>
 
-            <button>회원가입</button>
+            <button type='submit'>회원가입</button>
           </div>
         </Form>
 

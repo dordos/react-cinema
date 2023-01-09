@@ -4,19 +4,14 @@ import './style.scss';
 import MovieModal from '../../components/MovieModal';
 import axios from 'axios';
 
-import { firebaseDB, firebaseData } from '../../api/firebase';
-
 const Movies = () => {
-  const d = firebaseData;
-  console.log(firebaseData);
-
   const [movieModalOnOff, setMovieModalOnOff] = useState(false);
   const [movieDetail, setMovieDetail] = useState('');
   const [selectMovieData, setSelectMovieData] = useState({});
 
   const [movieInfo, setMovieInfo] = useState([]);
-  const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_CINEMA_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`;
-  const API_KEY = process.env.REACT_APP_CINEMA_API_KEY;
+  const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`;
+  const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
   useEffect(() => {
     async function movieData() {
@@ -24,6 +19,7 @@ const Movies = () => {
       setMovieInfo(response.data.results);
     }
     movieData();
+    // writeUserData('eieie', 'eieiei', 'eie');
   }, []);
 
   const selectMovie = useCallback(() => {}, []);
