@@ -4,6 +4,7 @@ import useInput from '../../hooks/useInput';
 import './style.scss';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { app, auth } from '../../api/firebase';
+import { EventEmitter } from 'stream';
 const logo = require('../../img/logo.png');
 
 const SignUp = () => {
@@ -48,10 +49,8 @@ const SignUp = () => {
     [email, nickname, password, passwordCheck]
   );
 
-  const [signUpError, setSignUpError] = useState('');
-  const [signUpSuccess, setSignUpSuccess] = useState(false);
-
-  const [aniState, setAniState] = useState(false);
+  const [signUpError, setSignUpError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   //이메일 정규식
   const regEmail = (data: any) => {
@@ -61,48 +60,39 @@ const SignUp = () => {
   };
 
   const focusState = (e: any) => {
-    if (e.target.name == 'email' && e.target.value != '') {
-      if (regEmail(e.target.value) === false) setSignUpSuccess(!signUpSuccess);
-      // setAniState((state): any => {
-      //   if (e.target.value != '') {
-      //     return state;
-      //   }
-      //   return !state;
-      // });
+    // console.log();
+    // if (e.target.name == 'emai' && e.target.value != '') {
+    //   if (regEmail(e.target.value) === false) setSignUpSuccess(!signUpSuccess);
+    //   // setAniState((state): any => {
+    //   //   if (e.target.value != '') {
+    //   //     return state;
+    //   //   }
+    //   //   return !state;
+    //   // });
+    // }
+  };
+
+  const focusIn = (e: any) => {
+    if (e.target.previousSibling.className == 'inputOffFocus' && e.target.value == '') {
+      e.target.previousSibling.className = 'inputOnFocus';
     }
   };
 
-  const inFocus = (e: any) => {
-    e.preventDefault();
+  const focusOut = (e: any) => {
+    //빈값일 때 placeholder animation
+    if (e.target.value == '') e.target.previousSibling.className = 'inputOffFocus';
 
-    // if (
-    //   (e.target.name == 'nickname' &&
-    //     e.target.previousSibling.className == '') ||
-    //   e.target.previousSibling.className == 'inputOffFocus'
-    // ) {
-    //   e.target.previousSibling.className = 'inputOnFocus';
-    // }
+    //이메일 체크
+
+    //닉네임 체크
+
+    //비밀번호 체크
+    if (e.target.name == 'password' && e.target.value.length <= 7) {
+      e.target.nextSibling.className = 'errorMessage';
+    } else e.target.nextSibling.className = '';
+
+    //비밀번호 확인 체크
   };
-
-  const outFocus = (e: any) => {
-    // if (
-    //   e.target.name == 'nickname' &&
-    //   e.target.value == '' &&
-    //   e.target.previousSibling.className == 'inputOnFocus'
-    // ) {
-    //   e.target.previousSibling.className = 'inputOffFocus';
-    // }
-  };
-
-  // const focusState = (e: any) => {
-  //   e.target.previousSibling.className = 'inputOnFocus';
-  // };
-
-  // const offFocus = (e: any) => {
-  // if ((e.target.value = '')) {
-  // e.target.previousSibling.className = 'inputOffFocus';
-  // }
-  // };
 
   return (
     <div className='signUp'>
@@ -111,10 +101,14 @@ const SignUp = () => {
           <img src={logo} alt='' />
         </div>
 
+        <div className='signUp-title'>
+          <h1>Sign Up</h1>
+        </div>
+
         <Form onSubmit={onSubmit}>
           <div className='infoContainer'>
-            <label>
-              <span>이메일</span>
+            <label onFocus={focusIn} onBlur={focusOut}>
+              <span className='inputOffFocus'>이메일</span>
               <input
                 type='email'
                 name='email'
@@ -123,22 +117,23 @@ const SignUp = () => {
                 onChange={onChangeEmail}
                 value={email}
               />
-              {signUpSuccess && <p>규칙에 맞는 이메일 주소를 입력해주세요</p>}
+              <p>규칙에 맞는 이메일 주소를 입력해주세요</p>
             </label>
 
-            <label onFocus={inFocus} onBlur={outFocus}>
-              <span>닉네임</span>
+            <label onFocus={focusIn} onBlur={focusOut}>
+              <span className='inputOffFocus'>닉네임</span>
               <input type='text' name='nickname' value={nickname} onChange={onChangeNickname} />
+              <p>규칙에 맞는 이메일 주소를 입력해주세요</p>
             </label>
 
-            <label onFocus={inFocus} onBlur={outFocus}>
-              <span>비밀번호</span>
+            <label onFocus={focusIn} onBlur={focusOut}>
+              <span className='inputOffFocus'>비밀번호</span>
               <input type='password' name='password' value={password} onChange={onChangePassword} />
               <p>비밀번호는 8자리 이상으로 입력해주세요.</p>
             </label>
 
-            <label>
-              <span>비밀번호 확인</span>
+            <label onFocus={focusIn} onBlur={focusOut}>
+              <span className='inputOffFocus'>비밀번호 확인</span>
               <input
                 type='password'
                 name='password-check'

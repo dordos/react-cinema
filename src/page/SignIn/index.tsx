@@ -80,6 +80,10 @@ const SignIn = () => {
           <img src={logo} alt='' />
         </div>
 
+        <div className='signIn-title'>
+          <h1>Sign In</h1>
+        </div>
+
         <Form onSubmit={onsSubmit}>
           <div className='infoContainer'>
             <label>
@@ -92,17 +96,12 @@ const SignIn = () => {
                 onChange={onChangeEmail}
                 value={email}
               />
-              {signUpSuccess && <p>규칙에 맞는 이메일 주소를 입력해주세요</p>}
+              <p>규칙에 맞는 이메일 주소를 입력해주세요</p>
             </label>
 
             <label onFocus={inFocus} onBlur={outFocus}>
               <span>비밀번호</span>
-              <input
-                type='password'
-                name='password'
-                value={password}
-                onChange={onChangePassword}
-              />
+              <input type='password' name='password' value={password} onChange={onChangePassword} />
               <p>비밀번호는 8자리 이상으로 입력해주세요.</p>
             </label>
 
