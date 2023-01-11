@@ -43,15 +43,9 @@ const Movies = () => {
             onMovieDetail(movie.id);
           }}
         >
-          <img
-            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-            alt=''
-          />
+          <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='' />
           {movieModalOnOff && (
-            <MovieModal
-              movieDetail={movieDetail}
-              selectMovieData={selectMovieData}
-            />
+            <MovieModal movieDetail={movieDetail} selectMovieData={selectMovieData} />
           )}
         </li>
       ))}
