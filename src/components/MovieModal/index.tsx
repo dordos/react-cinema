@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import './style.scss';
 
 const MovieModal = ({ movieDetail, selectMovieData }: any) => {
-  console.log(movieDetail);
   // console.log(selectMovieData);
   // console.log(movieDetail);
   // console.log(movieDetail);

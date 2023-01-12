@@ -17,12 +17,7 @@ const LogInModal = () => {
     <div className='logInModal'>
       {/* <Form onSubmit={onSubmit}> */}
       <div className='logInContainer'>
-        <input
-          type='email'
-          placeholder='이메일'
-          value={email}
-          // onChange={setEmail}
-        />
+        <input type='email' placeholder='이메일' />
         <input
           type='password'
           placeholder='비밀번호'

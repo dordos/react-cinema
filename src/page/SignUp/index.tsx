@@ -111,9 +111,14 @@ const SignUp = () => {
           <span>회원가입</span>을 축하드립니다.
         </h1>
         <p>RETFLX에서 제공하는 모든 서비스를 이용할 수 있습니다.</p>
-        <Link to='/'>
-          <button>홈으로 이동</button>
-        </Link>
+        <div>
+          <Link to='/SignIn'>
+            <button className='signInBtn'>로그인 하러가기</button>
+          </Link>
+          <Link to='/'>
+            <button className='homeBtn'>홈으로 이동</button>
+          </Link>
+        </div>
       </div>
     );
   };
@@ -164,6 +169,9 @@ const SignUp = () => {
                 <button type='submit' onClick={onSubmit}>
                   회원가입
                 </button>
+                <Link to='/'>
+                  <button className='homeBtn'>홈으로 가기</button>
+                </Link>
               </div>
             </Form>
             <div className='suggestion'>
