@@ -12,16 +12,18 @@ const LogInModal = () => {
   const onSubmit = useCallback(
     (e: any) => {
       e.preventDefault();
+      login();
     },
     [email, password]
   );
 
   const auth = getAuth();
-  // const login;
-  signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-    const user = userCredential.user;
-    console.log(user);
-  });
+  const login = () => {
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+    });
+  };
 
   return (
     <div className='logInModal'>
