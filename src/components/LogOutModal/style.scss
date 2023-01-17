@@ -1,6 +1,6 @@
 .logOutModal {
   width: 300px;
-  height: 180px;
+  height: 220px;
   position: absolute;
   padding: 30px 0px;
   right: 60px;
@@ -14,21 +14,46 @@
   .logOutContainer {
     background-color: #000000bb;
     width: 280px;
-    height: 180px;
+    height: 220px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
     & ul {
+      box-sizing: border-box;
+      margin-top: 15px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 250px;
-      height: 30px;
+      align-items: center;
+      // width: 250px;
+      width: 100%;
+      height: 100px;
+      padding: 0px;
+
+      & li:hover {
+        background-color: #666666;
+      }
 
       li {
-        background-color: #666666;
+        // background-color: #c40a1b;
+        width: 250px;
+        margin: 8px 0px;
+        height: 30px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0px 70px;
+        img {
+          width: 25px;
+          height: 25px;
+        }
+        p {
+          color: #e5e5e5;
+          font-size: 14px;
+          font-weight: 700;
+        }
       }
     }
 
@@ -41,7 +66,7 @@
       font-weight: 600;
       color: #e5e5e5;
       border: 0;
-      margin-top: 15px;
+      margin-top: 30px;
       cursor: pointer;
     }
 
