@@ -36,8 +36,7 @@ const MenuBar = () => {
             }}
           >
             <img src={smile_icon1} alt='' />
-            <LogInModal />
-            {/* {modalOnOff && } */}
+            {modalOnOff && <LogInModal />}
           </div>
         </li>
       </ul>

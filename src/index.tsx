@@ -6,6 +6,7 @@ import SignUp from './page/SignUp';
 import MenuBar from './page/MenuBar';
 import Movies from './page/Movies';
 import SignIn from './page/SignIn';
+import MovieDetail from './page/MovieDetail';
 
 const router = createBrowserRouter([
   {
@@ -23,11 +24,10 @@ const router = createBrowserRouter([
       },
       { path: 'SignUp', element: <SignUp /> },
       { path: 'SignIn', element: <SignIn /> },
+      { path: 'MovieDetail', element: <MovieDetail /> },
     ],
   },
 ]);
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(<RouterProvider router={router} />);
