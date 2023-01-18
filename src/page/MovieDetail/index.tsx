@@ -7,48 +7,49 @@ import { useEffect } from 'react';
 const MovieDetail = () => {
   const API_URL = `https://api.themoviedb.org/3/movie/${76600}?api_key=${
     process.env.REACT_APP_TMDB_API_KEY
-  }&language=en-US`;
+  }&language=ko-KR`;
 
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
   type movieType = {
-    adult: boolean;
-    backdrop_path: string;
-    genre_ids: Array<number>;
-    id: number;
-    original_language: string;
-    original_title: string;
-    overview: string;
-    popularity: number;
-    poster_path: string;
-    release_date: string;
     title: string;
-    video: boolean;
-    vote_average: number;
-    vote_count: number;
+    poster_path: string;
   };
 
-  const [movieDetail, setMovieDetail] = useState<movieType[]>([]);
+  const [movieDetail, setMovieDetail] = useState<String | any>([]);
 
   useEffect(() => {
     async function movieData() {
       const response = await axios.get(API_URL);
-      console.log(response.data);
-      setMovieDetail(response.data.results);
+      const results = response.data;
+      console.log(results);
+      setMovieDetail(results);
     }
     movieData();
-    // writeUserData('eieie', 'eieiei', 'eie');
   }, []);
+  // console.log(movieDetail);
 
   return (
     <>
       <MenuBar />
       <div className='movieDetail'>
-        <h2>ddd</h2>
-        <p>{movieDetail.title}</p>
-        <img src={`https://image.tmdb.org/t/p/w342${movieDetail.poster_path}`} alt='' />
-        <p></p>
-        {/* <img src={} alt='' /> */}
+        <div className='detail__wrap'>
+          <div className='detail__poster'>
+            <img src={`https://image.tmdb.org/t/p/w500/${movieDetail.poster_path}`} alt='' />
+          </div>
+          <div className='detail__info'>
+            <h1>{movieDetail.title}</h1>
+            <div>
+              <ul className='detail__subInfo'>
+                <h3>{movieDetail.release_date}</h3>
+                {movieDetail.genres.map((item: any) => (
+                  <li key={item.id}>{item.name}</li>
+                ))}
+                <span>•{movieDetail.runtime}분</span>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
