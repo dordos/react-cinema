@@ -33,7 +33,9 @@ const Movies = () => {
     // setSelectMovieData(response.data);
     // setSelectMovieData(response.data);
     setMovieDetail(id);
+    console.log(movieDetail);
   };
+
   return (
     <ul className='moviesContainer'>
       {movieInfo.map((movie: any) => (
