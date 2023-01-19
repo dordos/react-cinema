@@ -35,11 +35,13 @@ const MovieDetail = () => {
       height: number;
       width: number;
     }>;
+    results: Array<{ key: string | undefined }>;
   };
 
   const [movieDetail, setMovieDetail] = useState<movieType>();
 
   const [images, setImages] = useState<movieImgType>();
+  const [videos, setVideos] = useState<movieImgType | undefined>();
 
   useEffect(() => {
     async function movieData() {
@@ -49,21 +51,24 @@ const MovieDetail = () => {
 
       const response_img = await axios.get(MOIVE_IMG);
       setImages(response_img.data);
+
+      const response_video = await axios.get(MOIVE_VIDEO);
+      setVideos(response_video.data);
     }
     movieData();
   }, []);
-  console.log(images);
   // console.log(movieDetail);
 
   return (
     <>
       <MenuBar />
       <div className='movieDetail'>
-        <div className='detailContainer'>
+        <div className='mainDetailContainer'>
           <img
             src={`https://image.tmdb.org/t/p/original/${images?.backdrops[0].file_path}`}
             alt=''
           />
+
           <div className='detail__wrap'>
             <div className='detail__poster'>
               <img src={`https://image.tmdb.org/t/p/w500/${movieDetail?.poster_path}`} alt='' />
@@ -83,13 +88,23 @@ const MovieDetail = () => {
                 <h3>개요</h3>
                 <p>{movieDetail?.overview}</p>
               </div>
-              {/* {images?.backdrops.map((item: any, idx) => (
-              <li>
-                <img key={idx} src={`https://image.tmdb.org/t/p/w500/${item?.file_path}`} alt='' />
-              </li>
-            ))} */}
             </div>
           </div>
+        </div>
+
+        <div className='detailMediaContainer'>
+          <div className='selectMedia'>
+            <span>미디어</span>
+            <button>포토</button>
+            <button>동영상</button>
+          </div>
+          <ul>
+            {images?.backdrops.map((item: any, idx) => (
+              <li key={idx}>
+                <img src={`https://image.tmdb.org/t/p/w500/${item?.file_path}`} alt='' />
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </>
