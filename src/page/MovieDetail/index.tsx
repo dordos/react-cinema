@@ -5,6 +5,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import ImagePreview from '../../components/ImagePreview';
 import VideoPreview from '../../components/VideoPreview';
+import MovieCast from '../../components/MovieCast';
+import MovieRec from '../../components/MovieRec';
 
 const MovieDetail = () => {
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
@@ -13,10 +15,6 @@ const MovieDetail = () => {
   }&language=ko-KR`;
 
   const MOIVE_IMG = `https://api.themoviedb.org/3/movie/${505642}/images?api_key=${
-    process.env.REACT_APP_TMDB_API_KEY
-  }`;
-
-  const MOVIE_CAST = `https://api.themoviedb.org/3/movie/${505642}/credits?api_key=${
     process.env.REACT_APP_TMDB_API_KEY
   }`;
 
@@ -45,16 +43,9 @@ const MovieDetail = () => {
     }>;
   };
 
-  type movieCastType = {
-    cast: Array<{
-      profile_path: string;
-    }>;
-  };
-
   const [movieDetail, setMovieDetail] = useState<movieType>();
 
   const [images, setImages] = useState<movieImgType>();
-  const [movieCast, setMovieCast] = useState<movieCastType>();
 
   useEffect(() => {
     async function movieData() {
@@ -64,13 +55,9 @@ const MovieDetail = () => {
 
       const response_img = await axios.get(MOIVE_IMG);
       setImages(response_img.data);
-
-      const response_cast = await axios.get(MOVIE_CAST);
-      setMovieCast(response_cast.data);
     }
     movieData();
   }, []);
-  console.log(movieCast);
   const [onPhoto, setOnPhoto] = useState(true);
   const [onVideo, setOnVideo] = useState(false);
 
@@ -111,32 +98,18 @@ const MovieDetail = () => {
             </div>
           </div>
         </div>
-        <div className='movieCastContainer'>
-          <ul>
-            {movieCast?.cast.map((item, idx) => (
-              <li key={idx}>
-                <img src={`https://image.tmdb.org/t/p/w300/${item.profile_path}`} alt='' />
-              </li>
-            ))}
-          </ul>
-        </div>
+        <MovieCast />
 
         <div className='detailMediaContainer'>
           <div className='selectMedia'>
-            <span>미디어</span>
+            <h2>미디어</h2>
             <button onClick={onMedia}>포토</button>
             <button onClick={onMedia}>동영상</button>
           </div>
           {onPhoto && <ImagePreview />}
           {onVideo && <VideoPreview />}
-          {/* <ul>
-            {images?.backdrops.map((item: any, idx) => (
-              <li key={idx}>
-                <img src={`https://image.tmdb.org/t/p/w500/${item?.file_path}`} alt='' />
-              </li>
-            ))}
-          </ul> */}
         </div>
+        <MovieRec />
       </div>
     </>
   );
