@@ -7,6 +7,7 @@ import MenuBar from './page/MenuBar';
 import Movies from './page/Movies';
 import SignIn from './page/SignIn';
 import MovieDetail from './page/MovieDetail';
+import MoviePreview from './page/MoviePreview';
 
 const router = createBrowserRouter([
   {

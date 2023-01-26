@@ -3,6 +3,7 @@ import { useState } from 'react';
 import './style.scss';
 import MovieModal from '../../components/MovieModal';
 import axios from 'axios';
+import MoviePreview from '../MoviePreview';
 
 const Movies = () => {
   const [movieModalOnOff, setMovieModalOnOff] = useState(false);
@@ -37,21 +38,24 @@ const Movies = () => {
   };
 
   return (
-    <ul className='moviesContainer'>
-      {movieInfo.map((movie: any) => (
-        <li
-          key={movie.id}
-          onMouseOver={() => {
-            onMovieDetail(movie.id);
-          }}
-        >
-          <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='' />
-          {movieModalOnOff && (
-            <MovieModal movieDetail={movieDetail} selectMovieData={selectMovieData} />
-          )}
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className='moviesContainer'>
+        {movieInfo.map((movie: any) => (
+          <li
+            key={movie.id}
+            onMouseOver={() => {
+              onMovieDetail(movie.id);
+            }}
+          >
+            <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='' />
+            {movieModalOnOff && (
+              <MovieModal movieDetail={movieDetail} selectMovieData={selectMovieData} />
+            )}
+          </li>
+        ))}
+      </ul>
+      <MoviePreview />
+    </>
   );
 };
 

@@ -20,7 +20,13 @@
   justify-items: center;
   justify-content: center;
   align-items: center;
-  & > img {
+  cursor: pointer;
+
+  & > a {
+    width: 120px;
+    height: 40px;
+  }
+  & > a > img {
     width: 120px;
     height: 40px;
   }

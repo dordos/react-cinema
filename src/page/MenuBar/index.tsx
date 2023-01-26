@@ -3,6 +3,8 @@ import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faBell } from '@fortawesome/free-solid-svg-icons';
 import LogInModal from '../../components/LogInModal';
+import { Link } from 'react-router-dom';
+import LogOutModal from '../../components/LogOutModal';
 
 const logo = require('../../img/logo.png');
 const smile_icon1 = require('../../img/smile_icon1.png');
@@ -18,7 +20,9 @@ const MenuBar = () => {
     <nav className='menuBarContainer'>
       <ul>
         <li className='menuBar__logo'>
-          <img src={logo} alt='' />
+          <Link to='/'>
+            <img src={logo} alt='' />
+          </Link>
           {/* <p>React Cinema</p> */}
           <div className='menuBar__Lists'>
             <p>홈</p>
@@ -36,6 +40,7 @@ const MenuBar = () => {
             }}
           >
             <img src={smile_icon1} alt='' />
+            {/* <LogOutModal /> */}
             {modalOnOff && <LogInModal />}
           </div>
         </li>
