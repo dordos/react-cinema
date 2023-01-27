@@ -21,8 +21,9 @@ const MoviePreview = () => {
   };
 
   const [detailData, setDetailData] = useState<movieDetail>();
+  const [movieAverage, setMovieAverage] = useState([]);
 
-  const average = (e: any) => {
+  const ad = (e: any) => {
     console.log(e);
   };
 
@@ -30,7 +31,6 @@ const MoviePreview = () => {
     async function movieDetail() {
       const response_detail = await axios.get(MOVIE_DETAIL);
       // console.log(response_detail.data);
-      average(response_detail.data);
       setDetailData(response_detail.data);
     }
     movieDetail();
@@ -49,9 +49,11 @@ const MoviePreview = () => {
             <div className='metaData'>
               <span>{detailData?.release_date}</span>
               <div>
-                <BsStarFill size='24' color='#31da3a' />
-                <BsStarHalf size='24' color='#31da3a' />
-                <BsStar size='24' color='#31da3a' />
+                <BsStarFill size='20' color='#7dee63' />
+                <BsStarFill size='20' color='#7dee63' />
+                <BsStarFill size='20' color='#7dee63' />
+                <BsStarHalf size='20' color='#7dee63' />
+                <BsStar size='20' color='#7dee63' />
               </div>
             </div>
 
@@ -75,7 +77,7 @@ const MoviePreview = () => {
               </div>
             </div>
             <div className='myPageInfo'>
-              <div className='heartWrap'>
+              <div className='heartWrap' onClick={ad}>
                 <img src={heart} alt='' />
               </div>
               <div className='cartWrap'>
