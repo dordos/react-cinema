@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './style.scss';
 import cart from '../../img/cart.svg';
 import heart from '../../img/heart.svg';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { AiOutlineCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 
 const MoviePreview = () => {
@@ -77,6 +77,9 @@ const MoviePreview = () => {
               </div>
             </div>
             <div className='myPageInfo'>
+              <AiFillHeart />
+              <AiOutlineHeart />
+
               <div className='heartWrap' onClick={ad}>
                 <img src={heart} alt='' />
               </div>
