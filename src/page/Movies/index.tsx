@@ -1,17 +1,18 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { SetStateAction, useCallback, useEffect } from 'react';
 import { useState } from 'react';
 import './style.scss';
-import MovieModal from '../../components/MovieModal';
+// import MovieModal from '../../components/MovieModal';
 import axios from 'axios';
-import MoviePreview from '../MoviePreview';
+import MovieModal from '../../components/MovieModal';
+// import MoviePreview from '../../components/MovieModal';
 
 const Movies = () => {
-  const [movieModalOnOff, setMovieModalOnOff] = useState(false);
-  const [movieDetail, setMovieDetail] = useState('');
-  const [selectMovieData, setSelectMovieData] = useState({});
+  // MovieModal
+  const [movieModalState, setMovieModalState] = useState(false);
+  const [selectMovie, setSelectMovie] = useState();
 
   const [movieInfo, setMovieInfo] = useState([]);
-  const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`;
+  const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=ko-KR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`;
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
   useEffect(() => {
@@ -23,19 +24,14 @@ const Movies = () => {
     // writeUserData('eieie', 'eieiei', 'eie');
   }, []);
 
-  const selectMovie = useCallback(() => {}, []);
-
-  const onMovieDetail = (id: any) => {
-    // console.log(id);
-    setMovieModalOnOff(true);
-    const selectMovie = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
+  const onMovieDetail = (id: SetStateAction<undefined>) => {
+    const selectMovie = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=ko-KR`;
     const response = axios.get(selectMovie);
-    // console.log(response.data);
-    // setSelectMovieData(response.data);
-    // setSelectMovieData(response.data);
-    setMovieDetail(id);
-    console.log(movieDetail);
+    setMovieModalState(!movieModalState);
+    setSelectMovie(id);
   };
+
+  const closeModal = () => setMovieModalState(false);
 
   return (
     <>
@@ -48,13 +44,16 @@ const Movies = () => {
             }}
           >
             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='' />
-            {movieModalOnOff && (
-              <MovieModal movieDetail={movieDetail} selectMovieData={selectMovieData} />
-            )}
           </li>
         ))}
       </ul>
-      <MoviePreview />
+      {movieModalState && (
+        <MovieModal
+          selectMovie={selectMovie}
+          movieModalState={movieModalState}
+          closeModal={closeModal}
+        />
+      )}
     </>
   );
 };
