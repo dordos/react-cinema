@@ -1,9 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './style.scss';
-import cart from '../../img/cart.svg';
-import heart from '../../img/heart.svg';
-import { AiOutlineCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import {
+  AiOutlineCloseCircle,
+  AiFillHeart,
+  AiOutlineHeart,
+  AiOutlineShoppingCart,
+} from 'react-icons/ai';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 
 const MoviePreview = () => {
@@ -43,17 +46,17 @@ const MoviePreview = () => {
         </div>
         <div className='previewRight'>
           <div className='closeBtn'>
-            <AiOutlineCloseCircle size='36' color='#353535' />
+            <AiOutlineCloseCircle size='36' color='#a3a3a3' />
           </div>
           <div className='previewInfo'>
             <div className='metaData'>
               <span>{detailData?.release_date}</span>
               <div>
-                <BsStarFill size='20' color='#7dee63' />
-                <BsStarFill size='20' color='#7dee63' />
-                <BsStarFill size='20' color='#7dee63' />
-                <BsStarHalf size='20' color='#7dee63' />
-                <BsStar size='20' color='#7dee63' />
+                <BsStarFill size='20' color='#3beb12' />
+                <BsStarFill size='20' color='#3beb12' />
+                <BsStarFill size='20' color='#3beb12' />
+                <BsStarHalf size='20' color='#3beb12' />
+                <BsStar size='20' color='#3beb12' />
               </div>
             </div>
 
@@ -77,15 +80,9 @@ const MoviePreview = () => {
               </div>
             </div>
             <div className='myPageInfo'>
-              <AiFillHeart />
-              <AiOutlineHeart />
-
-              <div className='heartWrap' onClick={ad}>
-                <img src={heart} alt='' />
-              </div>
-              <div className='cartWrap'>
-                <img src={cart} alt='' />
-              </div>
+              <AiFillHeart className='fillHeart' color='#f91f1f' />
+              <AiOutlineHeart className='OutlineHeart' color='#e5e5e5' />
+              <AiOutlineShoppingCart className='addcart' color='#e5e5e5' />
             </div>
           </div>
         </div>
