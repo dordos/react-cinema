@@ -26,9 +26,7 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
   const [movieAverage, setMovieAverage] = useState([]);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const abc = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e.target);
-    console.log(modalRef.current);
+  const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current && e.target) closeModal();
   };
 
@@ -39,9 +37,10 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
       setDetailData(response_detail.data);
     }
     movieDetail();
-  }, [modalRef]);
+  }, []);
+
   return (
-    <div className='moviePreviewContainer' onClick={abc} ref={modalRef}>
+    <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
       <div className='previewContent'>
         <div className='previewLeft'>
           <img src={`https://image.tmdb.org/t/p/w500/${detailData?.poster_path}`} alt='' />

@@ -39,7 +39,7 @@ const Movies = () => {
         {movieInfo.map((movie: any) => (
           <li
             key={movie.id}
-            onMouseOver={() => {
+            onClick={() => {
               onMovieDetail(movie.id);
             }}
           >
