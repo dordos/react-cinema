@@ -19,21 +19,24 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
     genres: Array<{ id: number; name: string }>;
     spoken_languages: Array<{ iso_639_1: string }>;
     vote_average: number;
+    title: string;
   };
 
-  const [previewState, setPreviewState] = useState(true);
   const [detailData, setDetailData] = useState<movieDetail>();
+  const [heartState, setHeartState] = useState(false);
+
   const [movieAverage, setMovieAverage] = useState([]);
   const modalRef = useRef<HTMLDivElement>(null);
 
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
-    if (modalRef.current && e.target) closeModal();
+    if (modalRef.current == e.target) closeModal();
   };
 
   useEffect(() => {
     async function movieDetail() {
       const response_detail = await axios.get(MOVIE_DETAIL);
-      // console.log(response_detail.data);
+      console.log(response_detail.data);
+
       setDetailData(response_detail.data);
     }
     movieDetail();
@@ -48,6 +51,9 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
         <div className='previewRight'>
           <div className='closeBtn'>
             <AiOutlineCloseCircle size='36' color='#a3a3a3' onClick={closeModal} />
+          </div>
+          <div className='previeTitle'>
+            <h1>{detailData?.title}</h1>
           </div>
           <div className='previewInfo'>
             <div className='metaData'>
@@ -81,8 +87,13 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
               </div>
             </div>
             <div className='myPageInfo'>
-              <AiFillHeart className='fillHeart' color='#f91f1f' />
-              <AiOutlineHeart className='OutlineHeart' color='#e5e5e5' />
+              {/* <AiFillHeart className='fillHeart' color='#f91f1f' /> */}
+              <AiOutlineHeart
+                className='OutlineHeart'
+                color='#e5e5e5'
+                onClick={() => setHeartState(!heartState)}
+              />
+              {heartState && <AiFillHeart className='fillHeart' color='#f91f1f' />}
               <AiOutlineShoppingCart className='addcart' color='#e5e5e5' />
             </div>
           </div>
