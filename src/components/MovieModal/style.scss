@@ -54,15 +54,19 @@
 
 .previewLeft {
   // background-color: red;
+  width: 40%;
   img {
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     height: 100%;
+    background-size: contain;
+    width: 100%;
   }
 }
 
 .previewRight {
   padding: 0px 20px;
+  width: 60%;
   display: flex;
   flex-direction: column;
   justify-content: start;
