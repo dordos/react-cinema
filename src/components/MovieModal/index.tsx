@@ -88,12 +88,21 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
             </div>
             <div className='myPageInfo'>
               {/* <AiFillHeart className='fillHeart' color='#f91f1f' /> */}
-              <AiOutlineHeart
-                className='OutlineHeart'
-                color='#e5e5e5'
-                onClick={() => setHeartState(!heartState)}
-              />
-              {heartState && <AiFillHeart className='fillHeart' color='#f91f1f' />}
+              {!heartState && (
+                <AiOutlineHeart
+                  className='OutlineHeart'
+                  color='#e5e5e5'
+                  onClick={() => setHeartState(!heartState)}
+                />
+              )}
+
+              {heartState && (
+                <AiFillHeart
+                  className='fillHeart'
+                  color='#f91f1f'
+                  onClick={() => setHeartState(!heartState)}
+                />
+              )}
               <AiOutlineShoppingCart className='addcart' color='#e5e5e5' />
             </div>
           </div>
