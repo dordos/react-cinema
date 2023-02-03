@@ -24,19 +24,37 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
 
   const [detailData, setDetailData] = useState<movieDetail>();
   const [heartState, setHeartState] = useState(false);
+  const [starAverage, setStarAverage] = useState([
+    <BsStar size='20' color='#3beb12' />,
+    <BsStar size='20' color='#3beb12' />,
+    <BsStar size='20' color='#3beb12' />,
+    <BsStar size='20' color='#3beb12' />,
+    <BsStar size='20' color='#3beb12' />,
+  ]);
 
-  const [movieAverage, setMovieAverage] = useState([]);
   const modalRef = useRef<HTMLDivElement>(null);
 
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current == e.target) closeModal();
   };
 
+  const star = (average: number) => {
+    const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
+    const copy = [...starAverage];
+
+    for (let i = 0; i < Number(first); i++) {
+      copy[i] = <BsStarFill size='20' color='#3beb12' />;
+    }
+    if (Number(second) >= 5) {
+      copy[Number(first)] = <BsStarHalf size='20' color='#3beb12' />;
+    }
+    setStarAverage(copy);
+  };
+
   useEffect(() => {
     async function movieDetail() {
       const response_detail = await axios.get(MOVIE_DETAIL);
-      console.log(response_detail.data);
-
+      star(response_detail.data.vote_average);
       setDetailData(response_detail.data);
     }
     movieDetail();
@@ -58,13 +76,7 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
           <div className='previewInfo'>
             <div className='metaData'>
               <span>{detailData?.release_date}</span>
-              <div>
-                <BsStarFill size='20' color='#3beb12' />
-                <BsStarFill size='20' color='#3beb12' />
-                <BsStarFill size='20' color='#3beb12' />
-                <BsStarHalf size='20' color='#3beb12' />
-                <BsStar size='20' color='#3beb12' />
-              </div>
+              <div>{starAverage}</div>
             </div>
 
             <div className='overview'>
@@ -87,7 +99,6 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
               </div>
             </div>
             <div className='myPageInfo'>
-              {/* <AiFillHeart className='fillHeart' color='#f91f1f' /> */}
               {!heartState && (
                 <AiOutlineHeart
                   className='OutlineHeart'
