@@ -8,6 +8,7 @@ import {
   AiOutlineShoppingCart,
 } from 'react-icons/ai';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
   const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectMovie}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=ko-KR`;
@@ -40,15 +41,15 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
 
   const star = (average: number) => {
     const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
-    const copy = [...starAverage];
+    const averageCopy = [...starAverage];
 
     for (let i = 0; i < Number(first); i++) {
-      copy[i] = <BsStarFill size='20' color='#3beb12' />;
+      averageCopy[i] = <BsStarFill size='20' color='#3beb12' />;
     }
     if (Number(second) >= 5) {
-      copy[Number(first)] = <BsStarHalf size='20' color='#3beb12' />;
+      averageCopy[Number(first)] = <BsStarHalf size='20' color='#3beb12' />;
     }
-    setStarAverage(copy);
+    setStarAverage(averageCopy);
   };
 
   useEffect(() => {
@@ -64,7 +65,9 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
       <div className='previewContent'>
         <div className='previewLeft'>
-          <img src={`https://image.tmdb.org/t/p/w500/${detailData?.poster_path}`} alt='' />
+          <Link to='/MovieDetail'>
+            <img src={`https://image.tmdb.org/t/p/w500/${detailData?.poster_path}`} alt='' />
+          </Link>
         </div>
         <div className='previewRight'>
           <div className='closeBtn'>
