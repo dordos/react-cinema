@@ -9,6 +9,7 @@ import MovieCast from '../../components/MovieCast';
 import MovieRec from '../../components/MovieRec';
 
 const MovieDetail = () => {
+  console.log(detailData);
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
   const API_URL = `https://api.themoviedb.org/3/movie/${505642}?api_key=${
     process.env.REACT_APP_TMDB_API_KEY
@@ -17,8 +18,6 @@ const MovieDetail = () => {
   const MOIVE_IMG = `https://api.themoviedb.org/3/movie/${505642}/images?api_key=${
     process.env.REACT_APP_TMDB_API_KEY
   }`;
-
-  // /movie/{movie_id}/credits
 
   type movieType = {
     title: string;

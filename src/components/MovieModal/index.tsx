@@ -21,6 +21,7 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
     spoken_languages: Array<{ iso_639_1: string }>;
     vote_average: number;
     title: string;
+    id: string;
   };
 
   const [detailData, setDetailData] = useState<movieDetail>();
@@ -55,6 +56,7 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
   useEffect(() => {
     async function movieDetail() {
       const response_detail = await axios.get(MOVIE_DETAIL);
+
       star(response_detail.data.vote_average);
       setDetailData(response_detail.data);
     }
@@ -74,7 +76,9 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
             <AiOutlineCloseCircle size='36' color='#a3a3a3' onClick={closeModal} />
           </div>
           <div className='previeTitle'>
-            <h1>{detailData?.title}</h1>
+            <Link to='/MovieDetail' state={{ detailData }}>
+              <h1>{detailData?.title}</h1>
+            </Link>
           </div>
           <div className='previewInfo'>
             <div className='metaData'>
