@@ -7,9 +7,9 @@ import ImagePreview from '../../components/ImagePreview';
 import VideoPreview from '../../components/VideoPreview';
 import MovieCast from '../../components/MovieCast';
 import MovieRec from '../../components/MovieRec';
+import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 
 const MovieDetail = () => {
-  console.log(detailData);
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
   const API_URL = `https://api.themoviedb.org/3/movie/${505642}?api_key=${
     process.env.REACT_APP_TMDB_API_KEY
@@ -45,6 +45,26 @@ const MovieDetail = () => {
   const [movieDetail, setMovieDetail] = useState<movieType>();
 
   const [images, setImages] = useState<movieImgType>();
+  const [starAverage, setStarAverage] = useState([
+    <BsStar size='20' color='#3beb12' />,
+    <BsStar size='20' color='#3beb12' />,
+    <BsStar size='20' color='#3beb12' />,
+    <BsStar size='20' color='#3beb12' />,
+    <BsStar size='20' color='#3beb12' />,
+  ]);
+
+  const star = (average: number) => {
+    const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
+    const averageCopy = [...starAverage];
+
+    for (let i = 0; i < Number(first); i++) {
+      averageCopy[i] = <BsStarFill size='20' color='#3beb12' />;
+    }
+    if (Number(second) >= 5) {
+      averageCopy[Number(first)] = <BsStarHalf size='20' color='#3beb12' />;
+    }
+    setStarAverage(averageCopy);
+  };
 
   useEffect(() => {
     async function movieData() {
@@ -54,6 +74,7 @@ const MovieDetail = () => {
 
       const response_img = await axios.get(MOIVE_IMG);
       setImages(response_img.data);
+      star(response.data.vote_average);
     }
     movieData();
   }, []);
@@ -82,13 +103,14 @@ const MovieDetail = () => {
             <div className='detail__info'>
               <h1>{movieDetail?.title}</h1>
               <div className='detail__subInfo'>
-                <h3>{movieDetail?.release_date}</h3>
+                <span>{movieDetail?.release_date}</span>
                 <ul>
                   {movieDetail?.genres.map((item) => (
                     <li key={item.id}>{item.name}</li>
                   ))}
                 </ul>
                 <span>•{movieDetail?.runtime}분</span>
+                <div>{starAverage}</div>
               </div>
               <div className='detail__overview'>
                 <h3>개요</h3>
