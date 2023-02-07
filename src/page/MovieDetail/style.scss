@@ -51,12 +51,24 @@
     display: flex;
     align-items: center;
     margin-top: 20px;
-    span {
+    .releaseData {
       background-color: #b66d3b;
       border-radius: 3px;
       padding: 5px;
       margin: 0px;
+      color: #e5e5e5;
+      margin-right: 20px;
+      font-weight: 700;
+    }
 
+    & > div > svg {
+      margin: 0px 2px;
+    }
+    .movieTime {
+      background-color: #3b7bb6;
+      border-radius: 3px;
+      padding: 5px;
+      margin: 0px;
       color: #e5e5e5;
       margin-right: 20px;
       font-weight: 700;
@@ -65,6 +77,13 @@
       display: flex;
       margin-right: 20px;
       li {
+        color: #e5e5e5;
+        font-weight: 700;
+        border-radius: 5px;
+        text-transform: uppercase;
+        margin: 5px 5px;
+        padding: 3px 5px;
+        background-color: #ac8b29;
         list-style: none;
       }
     }

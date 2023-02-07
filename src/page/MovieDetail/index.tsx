@@ -8,6 +8,7 @@ import VideoPreview from '../../components/VideoPreview';
 import MovieCast from '../../components/MovieCast';
 import MovieRec from '../../components/MovieRec';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
+import { AiFillHeart, AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai';
 
 const MovieDetail = () => {
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
@@ -43,6 +44,7 @@ const MovieDetail = () => {
   };
 
   const [movieDetail, setMovieDetail] = useState<movieType>();
+  const [heartState, setHeartState] = useState(false);
 
   const [images, setImages] = useState<movieImgType>();
   const [starAverage, setStarAverage] = useState([
@@ -103,18 +105,36 @@ const MovieDetail = () => {
             <div className='detail__info'>
               <h1>{movieDetail?.title}</h1>
               <div className='detail__subInfo'>
-                <span>{movieDetail?.release_date}</span>
+                <span className='releaseData'>{movieDetail?.release_date}</span>
                 <ul>
                   {movieDetail?.genres.map((item) => (
                     <li key={item.id}>{item.name}</li>
                   ))}
                 </ul>
-                <span>•{movieDetail?.runtime}분</span>
+                <span className='movieTime'>•{movieDetail?.runtime}분</span>
                 <div>{starAverage}</div>
               </div>
               <div className='detail__overview'>
                 <h3>개요</h3>
                 <p>{movieDetail?.overview}</p>
+              </div>
+              <div className='myPageInfo'>
+                {!heartState && (
+                  <AiOutlineHeart
+                    className='OutlineHeart'
+                    color='#e5e5e5'
+                    onClick={() => setHeartState(!heartState)}
+                  />
+                )}
+
+                {heartState && (
+                  <AiFillHeart
+                    className='fillHeart'
+                    color='#f91f1f'
+                    onClick={() => setHeartState(!heartState)}
+                  />
+                )}
+                <AiOutlineShoppingCart className='addcart' color='#e5e5e5' />
               </div>
             </div>
           </div>

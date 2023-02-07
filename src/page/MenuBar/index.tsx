@@ -40,8 +40,8 @@ const MenuBar = () => {
             }}
           >
             <img src={smile_icon1} alt='' />
-            {/* <LogOutModal /> */}
             {modalOnOff && <LogInModal />}
+            {/* {!modalOnOff && <LogOutModal />} */}
           </div>
         </li>
       </ul>
