@@ -5,7 +5,7 @@ import cart from '../../img/cart.svg';
 import heart from '../../img/heart.svg';
 import clapperboard from '../../img/clapperboard.svg';
 
-const LogOutModal = () => {
+const LogOutModal = ({ userState }: any) => {
   return (
     <div className='logOutModal'>
       <div className='logOutContainer'>
@@ -23,7 +23,13 @@ const LogOutModal = () => {
             <p>대여목록</p>
           </li>
         </ul>
-        <button>로그아웃</button>
+        <button
+          onClick={() => {
+            userState(true);
+          }}
+        >
+          로그아웃
+        </button>
       </div>
     </div>
   );

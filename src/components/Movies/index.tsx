@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './style.scss';
 // import MovieModal from '../../components/MovieModal';
 import axios from 'axios';
-import MovieModal from '../../components/MovieModal';
+import MovieModal from '../MovieModal';
 // import MoviePreview from '../../components/MovieModal';
 
 const Movies = () => {
@@ -21,7 +21,6 @@ const Movies = () => {
       setMovieInfo(response.data.results);
     }
     movieData();
-    // writeUserData('eieie', 'eieiei', 'eie');
   }, []);
 
   const onMovieDetail = (id: SetStateAction<undefined>) => {

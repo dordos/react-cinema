@@ -1,33 +1,24 @@
-import React, { useCallback, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { Form, Link } from 'react-router-dom';
 import SingUp from '../../page/SignUp';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import './style.scss';
 import useInput from '../../hooks/useInput';
 import LogOutModal from '../LogOutModal';
+import { logIn } from '../../api/firebase';
 
-const LogInModal = () => {
+const LogInModal = ({ userState }: any) => {
   const [email, setEmail] = useInput('');
   const [password, setPassword] = useInput('');
-
-  const [user, setUser] = useState(true);
 
   const onSubmit = useCallback(
     (e: any) => {
       e.preventDefault();
-      login();
-      setUser(true);
+      logIn(email, password);
+      userState(false);
     },
     [email, password]
   );
-
-  const auth = getAuth();
-  async function login() {
-    return signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      const user = userCredential.user;
-      console.log(user);
-    });
-  }
 
   return (
     <div className='logInModal'>

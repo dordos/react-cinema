@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { Dispatch, useState } from 'react';
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faBell } from '@fortawesome/free-solid-svg-icons';
-import LogInModal from '../../components/LogInModal';
+import LogInModal from '../LogInModal';
 import { Link } from 'react-router-dom';
-import LogOutModal from '../../components/LogOutModal';
+import LogOutModal from '../LogOutModal';
 
 const logo = require('../../img/logo.png');
 const smile_icon1 = require('../../img/smile_icon1.png');
@@ -12,7 +12,7 @@ const smile_icon1 = require('../../img/smile_icon1.png');
 
 const MenuBar = () => {
   const [modalOnOff, setModalOnOff] = useState(false);
-
+  const [user, setUser] = useState(true);
   const onMouseOver = () => setModalOnOff(true);
   const offMouseOut = () => setModalOnOff(false);
 
@@ -40,8 +40,8 @@ const MenuBar = () => {
             }}
           >
             <img src={smile_icon1} alt='' />
-            {modalOnOff && <LogInModal />}
-            {/* {!modalOnOff && <LogOutModal />} */}
+            {modalOnOff && user && <LogInModal userState={setUser} />}
+            {modalOnOff && !user && <LogOutModal userState={setUser} />}
           </div>
         </li>
       </ul>
