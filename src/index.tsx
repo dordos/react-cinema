@@ -7,7 +7,7 @@ import MenuBar from './components/MenuBar';
 import Movies from './components/Movies';
 import SignIn from './page/SignIn';
 import MovieDetail from './page/MovieDetail';
-import MoviePreview from './components/MovieModal';
+import { RecoilRoot } from 'recoil';
 
 const router = createBrowserRouter([
   {
@@ -31,4 +31,8 @@ const router = createBrowserRouter([
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(<RouterProvider router={router} />);
+root.render(
+  <RecoilRoot>
+    <RouterProvider router={router} />
+  </RecoilRoot>
+);
