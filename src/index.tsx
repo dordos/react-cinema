@@ -9,6 +9,7 @@ import SignIn from './page/SignIn';
 import MovieDetail from './page/MovieDetail';
 import { RecoilRoot } from 'recoil';
 import PickList from './page/PickList';
+import Cart from './page/Cart';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: 'SignIn', element: <SignIn /> },
       { path: 'MovieDetail', element: <MovieDetail /> },
       { path: 'PickList', element: <PickList /> },
+      { path: 'Cart', element: <Cart /> },
     ],
   },
 ]);
