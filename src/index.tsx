@@ -10,6 +10,7 @@ import MovieDetail from './page/MovieDetail';
 import { RecoilRoot } from 'recoil';
 import PickList from './page/PickList';
 import Cart from './page/Cart';
+import OrderList from './page/OrderList';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: 'MovieDetail', element: <MovieDetail /> },
       { path: 'PickList', element: <PickList /> },
       { path: 'Cart', element: <Cart /> },
+      { path: 'OrderList', element: <OrderList /> },
     ],
   },
 ]);
