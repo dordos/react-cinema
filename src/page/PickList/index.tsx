@@ -5,6 +5,7 @@ import MovieModal from '../../components/MovieModal';
 import MenuBar from '../../components/MenuBar';
 import './style.scss';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
+import { start } from 'repl';
 
 const PickList = () => {
   const [movieModalState, setMovieModalState] = useState(false);
@@ -32,6 +33,7 @@ const PickList = () => {
   ]);
 
   const star = (average: number) => {
+    console.log(average);
     const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
     const averageCopy = [...starAverage];
 
@@ -48,7 +50,7 @@ const PickList = () => {
     async function movieData() {
       const response = await axios.get(API_URL);
       setMovieInfo(response.data.results);
-      star(response.data.vote_average);
+      star(response.data.results);
     }
     movieData();
   }, []);
@@ -65,7 +67,10 @@ const PickList = () => {
             }}
           >
             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='' />
-            <div>{starAverage}</div>
+            <div className='pickListInfo'>
+              <h3>{movie.title}</h3>
+              <div>{starAverage}</div>
+            </div>
           </li>
         ))}
       </ul>
