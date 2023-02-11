@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -30,4 +30,10 @@ export async function logOut() {
     .catch((error) => {
       console.log(error);
     });
+}
+
+export function onUserStateChange(callback: any) {
+  onAuthStateChanged(auth, (user) => {
+    callback(user);
+  });
 }

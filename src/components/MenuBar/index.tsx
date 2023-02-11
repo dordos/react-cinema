@@ -1,10 +1,11 @@
-import React, { Dispatch, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faBell } from '@fortawesome/free-solid-svg-icons';
 import LogInModal from '../LogInModal';
 import { Link } from 'react-router-dom';
 import LogOutModal from '../LogOutModal';
+import { onUserStateChange } from '../../api/firebase';
 
 const logo = require('../../img/logo.png');
 const smile_icon1 = require('../../img/smile_icon1.png');
@@ -15,6 +16,13 @@ const MenuBar = () => {
   const [user, setUser] = useState();
   const onMouseOver = () => setModalOnOff(true);
   const offMouseOut = () => setModalOnOff(false);
+
+  useEffect(() => {
+    onUserStateChange((user: any) => {
+      console.log(user);
+      setUser(user);
+    });
+  }, []);
 
   return (
     <nav className='menuBarContainer'>
