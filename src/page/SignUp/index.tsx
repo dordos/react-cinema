@@ -4,7 +4,7 @@ import { User } from '@firebase/auth';
 import useInput from '../../hooks/useInput';
 import './style.scss';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { app, auth } from '../../api/firebase';
+import { auth } from '../../api/firebase';
 import { EventEmitter } from 'stream';
 import { stringLength } from '@firebase/util';
 import SignIn from '../SignIn';

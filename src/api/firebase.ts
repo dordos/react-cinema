@@ -9,13 +9,14 @@ const firebaseConfig = {
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
 };
 
-export const app = initializeApp(firebaseConfig);
-export const auth = getAuth();
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 
 export async function logIn(email: string, password: string) {
   return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      console.log('succeess');
       return user;
     })
     .catch((error) => {
@@ -23,4 +24,10 @@ export async function logIn(email: string, password: string) {
     });
 }
 
-export async function logOut() {}
+export async function logOut() {
+  signOut(auth)
+    .then(() => {})
+    .catch((error) => {
+      console.log(error);
+    });
+}

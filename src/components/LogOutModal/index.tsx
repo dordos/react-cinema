@@ -4,8 +4,15 @@ import './style.scss';
 import cart from '../../img/cart.svg';
 import heart from '../../img/heart.svg';
 import clapperboard from '../../img/clapperboard.svg';
+import { logOut } from '../../api/firebase';
 
 const LogOutModal = ({ userState }: any) => {
+  const handleLogOut = () => {
+    logOut().then(() => {
+      userState(false);
+    });
+  };
+
   return (
     <div className='logOutModal'>
       <div className='logOutContainer'>
@@ -23,13 +30,7 @@ const LogOutModal = ({ userState }: any) => {
             <p>대여목록</p>
           </li>
         </ul>
-        <button
-          onClick={() => {
-            userState(true);
-          }}
-        >
-          로그아웃
-        </button>
+        <button onClick={handleLogOut}>로그아웃</button>
       </div>
     </div>
   );

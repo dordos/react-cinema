@@ -33,7 +33,7 @@ const PickList = () => {
   ]);
 
   const star = (average: number) => {
-    console.log(average);
+    // console.log(average);
     const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
     const averageCopy = [...starAverage];
 

@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { Form, Link } from 'react-router-dom';
 import SingUp from '../../page/SignUp';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+// import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import './style.scss';
 import useInput from '../../hooks/useInput';
 import LogOutModal from '../LogOutModal';
@@ -14,8 +14,9 @@ const LogInModal = ({ userState }: any) => {
   const onSubmit = useCallback(
     (e: any) => {
       e.preventDefault();
-      logIn(email, password);
-      userState(false);
+      logIn(email, password).then(() => {
+        userState(true);
+      });
     },
     [email, password]
   );

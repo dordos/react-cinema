@@ -12,7 +12,7 @@ const smile_icon1 = require('../../img/smile_icon1.png');
 
 const MenuBar = () => {
   const [modalOnOff, setModalOnOff] = useState(false);
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState();
   const onMouseOver = () => setModalOnOff(true);
   const offMouseOut = () => setModalOnOff(false);
 
@@ -40,8 +40,8 @@ const MenuBar = () => {
             }}
           >
             <img src={smile_icon1} alt='' />
-            {modalOnOff && user && <LogInModal userState={setUser} />}
-            {modalOnOff && !user && <LogOutModal userState={setUser} />}
+            {modalOnOff && !user && <LogInModal userState={setUser} />}
+            {modalOnOff && user && <LogOutModal userState={setUser} />}
           </div>
         </li>
       </ul>
