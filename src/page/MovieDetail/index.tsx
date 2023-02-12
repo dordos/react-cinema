@@ -9,6 +9,7 @@ import MovieCast from '../../components/MovieCast';
 import MovieRec from '../../components/MovieRec';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 import { AiFillHeart, AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai';
+import Social from '../../components/MovieReviews';
 
 const MovieDetail = () => {
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
@@ -126,7 +127,6 @@ const MovieDetail = () => {
                     onClick={() => setHeartState(!heartState)}
                   />
                 )}
-
                 {heartState && (
                   <AiFillHeart
                     className='fillHeart'
@@ -139,8 +139,8 @@ const MovieDetail = () => {
             </div>
           </div>
         </div>
+        <Social />
         <MovieCast />
-
         <div className='detailMediaContainer'>
           <div className='selectMedia'>
             <h2>미디어</h2>

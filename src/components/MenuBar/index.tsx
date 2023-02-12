@@ -18,10 +18,7 @@ const MenuBar = () => {
   const offMouseOut = () => setModalOnOff(false);
 
   useEffect(() => {
-    onUserStateChange((user: any) => {
-      console.log(user);
-      setUser(user);
-    });
+    onUserStateChange(setUser);
   }, []);
 
   return (
@@ -31,7 +28,6 @@ const MenuBar = () => {
           <Link to='/'>
             <img src={logo} alt='' />
           </Link>
-          {/* <p>React Cinema</p> */}
           <div className='menuBar__Lists'>
             <p>홈</p>
             <p>시리즈</p>

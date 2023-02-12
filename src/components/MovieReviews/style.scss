@@ -1,0 +1,29 @@
+.reviews {
+  display: flex;
+  padding: 80px;
+  .addReviews {
+    background-color: blue;
+    width: 50%;
+    .moviePoint {
+      text-align: center;
+    }
+    .addReviewBox {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      textarea {
+        width: 70%;
+        height: 90px;
+        resize: none;
+      }
+      button {
+        width: 70%;
+        height: 30px;
+      }
+    }
+  }
+  .reviewsList {
+    width: 50%;
+    background-color: red;
+  }
+}
