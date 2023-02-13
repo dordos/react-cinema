@@ -5,7 +5,6 @@ import MovieModal from '../../components/MovieModal';
 import MenuBar from '../../components/MenuBar';
 import './style.scss';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
-import { start } from 'repl';
 
 const PickList = () => {
   const [movieModalState, setMovieModalState] = useState(false);

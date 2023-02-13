@@ -23,14 +23,18 @@ const LogOutModal = ({ userState }: any) => {
               <p>찜 목록</p>
             </li>
           </Link>
-          <li>
-            <img src={cart} />
-            <p>장바구니</p>
-          </li>
-          <li>
-            <img src={clapperboard} />
-            <p>대여목록</p>
-          </li>
+          <Link to='/Cart'>
+            <li>
+              <img src={cart} />
+              <p>장바구니</p>
+            </li>
+          </Link>
+          <Link to='/OrderList'>
+            <li>
+              <img src={clapperboard} />
+              <p>대여목록</p>
+            </li>
+          </Link>
         </ul>
         <button onClick={handleLogOut}>로그아웃</button>
       </div>

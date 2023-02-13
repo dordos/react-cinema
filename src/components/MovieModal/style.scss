@@ -97,7 +97,7 @@
   margin: 30px 0px 10px 0px;
   p {
     width: 100%;
-    height: 100px;
+    height: 4rem;
     overflow-y: auto;
   }
 }
@@ -165,5 +165,11 @@
       width: 100%;
       height: 100%;
     }
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .metaDataDetail {
+    display: none;
   }
 }

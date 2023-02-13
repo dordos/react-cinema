@@ -7,7 +7,7 @@ import {
   AiOutlineHeart,
   AiOutlineShoppingCart,
 } from 'react-icons/ai';
-import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
+import { BsStar, BsStarHalf, BsStarFill, BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
 const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
@@ -121,7 +121,7 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
                   onClick={() => setHeartState(!heartState)}
                 />
               )}
-              <AiOutlineShoppingCart className='addcart' color='#e5e5e5' />
+              <BsCartPlus className='addcart' color='#e5e5e5' />
             </div>
           </div>
         </div>
