@@ -42,7 +42,7 @@ const Reviews = () => {
                 <div className='reviewScore'>5</div>
               </div>
 
-              <p className='reviewText'>
+              <p className='reviewText onClickReview '>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti nesciunt eum
                 laudantium optio vero voluptatum quisquam saepe architecto illum harum porro,
                 mollitia

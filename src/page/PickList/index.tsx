@@ -25,11 +25,11 @@ const PickList = () => {
   };
 
   const [starAverage, setStarAverage] = useState([
-    <BsStar size='20' color='#3beb12' />,
-    <BsStar size='20' color='#3beb12' />,
-    <BsStar size='20' color='#3beb12' />,
-    <BsStar size='20' color='#3beb12' />,
-    <BsStar size='20' color='#3beb12' />,
+    <BsStarFill size='14' color='#e22232' />,
+    <BsStarFill size='14' color='#e22232' />,
+    <BsStarFill size='14' color='#e22232' />,
+    <BsStar size='14' color='#888888' />,
+    <BsStar size='14' color='#888888' />,
   ]);
 
   const star = (average: number) => {
@@ -59,9 +59,9 @@ const PickList = () => {
     <>
       <MenuBar />
       <ul className='pickList'>
-        {movieInfo.map((movie: any) => (
+        {movieInfo.map((movie: any, idx) => (
           <li
-            key={movie.id}
+            key={idx}
             onClick={() => {
               onMovieDetail(movie.id);
             }}

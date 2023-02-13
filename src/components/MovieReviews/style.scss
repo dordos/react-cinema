@@ -7,15 +7,20 @@
   .addReviews {
     background-color: rgb(20, 20, 20);
     border: 1px solid #727272;
-
     border-radius: 10px;
     margin-right: 5px;
     width: 50%;
     .moviePoint {
       text-align: center;
+      & > p {
+        margin-bottom: 0;
+      }
       & svg {
         cursor: pointer;
         margin: 3px;
+      }
+      & .grade {
+        margin: 5px 0px;
       }
     }
     .addReviewBox {
@@ -52,12 +57,12 @@
   margin-left: 5px;
   border-radius: 10px;
   padding: 10px;
+  overflow-y: auto;
   li {
     display: flex;
     list-style: none;
     border-bottom: 1px solid #727272;
-    padding-bottom: 4px;
-    margin: 5px 0px;
+    padding: 5px 0px;
     cursor: pointer;
     .reviewsListNumber {
       width: 8%;
@@ -71,17 +76,23 @@
       display: flex;
       width: 92%;
       flex-direction: column;
-      & p {
+      & .reviewText {
         margin: 0;
         width: 95%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
+      & .reviewText.onClickReview {
+        white-space: normal;
+      }
       .reviewText {
         margin-bottom: 4px;
       }
     }
+  }
+  li:hover {
+    background-color: #66666684;
   }
 
   .movieListPoint {
@@ -111,6 +122,13 @@
     cursor: pointer;
     margin: 0px 20px;
     border: 0;
+  }
+  & li {
+    color: #666666;
+  }
+  li:hover {
+    background-color: rgba(255, 255, 255, 0);
+    color: #e5e5e5e5;
   }
 }
 

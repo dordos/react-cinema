@@ -17,10 +17,12 @@ const LogOutModal = ({ userState }: any) => {
     <div className='logOutModal'>
       <div className='logOutContainer'>
         <ul>
-          <li>
-            <img src={heart} />
-            <p>찜 목록</p>
-          </li>
+          <Link to='/PickList'>
+            <li>
+              <img src={heart} />
+              <p>찜 목록</p>
+            </li>
+          </Link>
           <li>
             <img src={cart} />
             <p>장바구니</p>
