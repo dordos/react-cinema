@@ -6,26 +6,95 @@
   flex-wrap: wrap;
   justify-content: space-around;
   height: 100%;
-  li {
+
+  .cartItemList {
+    background-color: #66666666;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    width: 100%;
+    height: 40%;
+    margin: 20px 0px;
+    border: 1px solid white;
+    color: #e5e5e5;
+    .cartItem__img {
+      width: 20%;
+      height: 100%;
+      & img {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+  .orderCheck {
     display: flex;
     justify-content: center;
-    list-style: none;
-    cursor: pointer;
-    width: 100%;
-    height: 30%;
-    margin: 20px 0px;
-
-    border: 1px solid white;
-
-    & div {
-      color: white;
+    align-items: center;
+    input[type='checkbox'] {
+      width: 30px;
+      height: 30px;
     }
-    & img {
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+  }
+
+  & ul {
+    display: flex;
+    margin-right: 20px;
+    li {
+      color: #e5e5e5;
+      font-weight: 700;
+      border-radius: 5px;
+      text-transform: uppercase;
+      margin: 5px 5px;
+      padding: 3px 5px;
+      background-color: #ac8b29;
+      list-style: none;
+    }
+  }
+}
+
+.cartInfo {
+  display: flex;
+  flex-direction: column;
+
+  .genres {
+    background-color: #b66d3b;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 0px;
+    color: #e5e5e5;
+    margin-right: 20px;
+    font-weight: 700;
+  }
+  .movieTime {
+    background-color: #3b7bb6;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 0px;
+    color: #e5e5e5;
+    margin-right: 20px;
+    font-weight: 700;
+  }
+}
+
+.rentalTime {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & > .addRentalTime {
+    display: flex;
+    align-items: center;
+    svg {
+      margin: 0px 10px;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+    p {
+      font-size: 20px;
     }
   }
 }
