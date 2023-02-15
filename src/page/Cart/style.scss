@@ -1,26 +1,96 @@
 .cart {
   width: 1200px;
+  height: 100%;
   padding-top: 80px;
   margin: auto;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow-y: auto;
+
+  .boxControl {
+    width: 100%;
+    color: #e5e5e5;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: 1px solid #66666666;
+    .box-all-select {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 30px;
+      background-color: #66666666;
+      border: 1px solid #666666;
+      margin-right: 20px;
+
+      input[type='checkbox'] {
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      p {
+        color: #e5e5e5;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+      }
+    }
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #66666666;
+      border: 1px solid #666666;
+      width: 100px;
+      height: 30px;
+      cursor: pointer;
+      svg {
+        width: 20px;
+        height: 20px;
+        color: #b63b3b;
+        margin-right: 5px;
+      }
+      p {
+        color: #e5e5e5;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+      }
+    }
+  }
 
   .cartItemList {
-    background-color: #66666666;
+    background-color: #131313;
     display: flex;
-    justify-content: space-around;
+    justify-content: start;
     align-items: center;
     list-style: none;
     width: 100%;
-    height: 40%;
+    height: 220px;
     margin: 20px 0px;
-    border: 1px solid white;
+    border: 1px solid #919191;
     color: #e5e5e5;
+    padding: 10px;
+    .orderCheck {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0px 20px;
+      margin-right: 15px;
+      input[type='checkbox'] {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+      }
+    }
     .cartItem__img {
-      width: 20%;
+      width: 14%;
       height: 100%;
+      margin-right: 100px;
       & img {
         width: 100%;
         height: 100%;
@@ -28,15 +98,6 @@
         background-position: center;
         background-repeat: no-repeat;
       }
-    }
-  }
-  .orderCheck {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    input[type='checkbox'] {
-      width: 30px;
-      height: 30px;
     }
   }
 
@@ -58,25 +119,80 @@
 
 .cartInfo {
   display: flex;
+  justify-content: space-around;
   flex-direction: column;
-
-  .genres {
-    background-color: #b66d3b;
-    border-radius: 3px;
-    padding: 5px;
-    margin: 0px;
-    color: #e5e5e5;
-    margin-right: 20px;
-    font-weight: 700;
+  align-items: center;
+  margin-right: 200px;
+  height: 100%;
+  & > h1 {
+    font-size: 20px;
   }
-  .movieTime {
-    background-color: #3b7bb6;
-    border-radius: 3px;
-    padding: 5px;
-    margin: 0px;
+
+  .cartAverage {
+    display: flex;
+    .averageImg {
+      margin-right: 10px;
+    }
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .cartInfo__metaData {
+    display: flex;
+    justify-content: start;
+    .moviedDte {
+      background-color: #b66d3b;
+      font-size: 14px;
+      border-radius: 3px;
+      padding: 2px;
+      margin: 0px;
+      color: #e5e5e5;
+      margin-right: 10px;
+      font-weight: 700;
+    }
+    .movieTime {
+      background-color: #3b7bb6;
+      font-size: 14px;
+      border-radius: 3px;
+      padding: 2px;
+      margin: 0px;
+      color: #e5e5e5;
+      font-weight: 700;
+    }
+  }
+}
+
+.genres {
+  color: #454545;
+  font-weight: 600;
+  margin: 0;
+  & > span {
     color: #e5e5e5;
-    margin-right: 20px;
+    font-size: 12px;
     font-weight: 700;
+    border-radius: 5px;
+    text-transform: uppercase;
+    margin: 5px 5px;
+    padding: 3px 5px;
+    background-color: #ac8b29;
+  }
+}
+
+.language {
+  color: #454545;
+  font-weight: 600;
+  margin: 0;
+  & > span {
+    color: #e5e5e5;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 5px;
+    text-transform: uppercase;
+    margin: 5px 5px;
+    padding: 3px 5px;
+    background-color: #666666;
   }
 }
 
@@ -84,17 +200,66 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  margin-right: 100px;
+  padding-top: 5px;
+  h2 {
+    font-size: 20px;
+    margin-bottom: 50px;
+  }
+  p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
   & > .addRentalTime {
     display: flex;
     align-items: center;
+    margin-bottom: 30px;
     svg {
       margin: 0px 10px;
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       cursor: pointer;
     }
+  }
+  .retalDate {
     p {
-      font-size: 20px;
+      margin: 5px 0px;
+      font-size: 14px;
     }
   }
+}
+.rentalPrice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding-top: 5px;
+  h2 {
+    font-size: 20px;
+    margin-bottom: 50px;
+  }
+  p {
+    font-size: 20px;
+    margin: 0;
+    font-weight: 700;
+    color: #3ce21e;
+  }
+  & > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  span {
+    margin-left: 5px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+.totalPrice {
+  background-color: #3b7bb6;
+  width: 100%;
+  height: 600px;
 }

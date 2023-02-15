@@ -49,11 +49,11 @@ const MovieDetail = () => {
 
   const [images, setImages] = useState<movieImgType>();
   const [starAverage, setStarAverage] = useState([
-    <BsStar size='20' color='#3beb12' />,
-    <BsStar size='20' color='#3beb12' />,
-    <BsStar size='20' color='#3beb12' />,
-    <BsStar size='20' color='#3beb12' />,
-    <BsStar size='20' color='#3beb12' />,
+    <BsStar size='20' color='#888888' />,
+    <BsStar size='20' color='#888888' />,
+    <BsStar size='20' color='#888888' />,
+    <BsStar size='20' color='#888888' />,
+    <BsStar size='20' color='#888888' />,
   ]);
 
   const star = (average: number) => {
@@ -61,10 +61,10 @@ const MovieDetail = () => {
     const averageCopy = [...starAverage];
 
     for (let i = 0; i < Number(first); i++) {
-      averageCopy[i] = <BsStarFill size='20' color='#3beb12' />;
+      averageCopy[i] = <BsStarFill size='20' color='#e22232' />;
     }
     if (Number(second) >= 5) {
-      averageCopy[Number(first)] = <BsStarHalf size='20' color='#3beb12' />;
+      averageCopy[Number(first)] = <BsStarHalf size='20' color='#e22232' />;
     }
     setStarAverage(averageCopy);
   };
