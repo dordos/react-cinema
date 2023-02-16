@@ -122,7 +122,7 @@
   justify-content: space-around;
   flex-direction: column;
   align-items: center;
-  margin-right: 200px;
+  margin-right: 150px;
   height: 100%;
   & > h1 {
     font-size: 20px;
@@ -136,6 +136,9 @@
     svg {
       width: 20px;
       height: 20px;
+    }
+    .avaerageNum {
+      font-weight: 800;
     }
   }
 
@@ -236,6 +239,7 @@
   align-items: center;
   height: 100%;
   padding-top: 5px;
+  margin-right: 70px;
   h2 {
     font-size: 20px;
     margin-bottom: 50px;
@@ -257,9 +261,73 @@
     font-weight: 700;
   }
 }
+.listClose {
+  display: flex;
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
 
 .totalPrice {
-  background-color: #3b7bb6;
   width: 100%;
-  height: 600px;
+  height: 200px;
+  display: flex;
+  color: #e5e5e5;
+  font-weight: 700;
+  & > div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 1200px;
+    border-top: 2px solid #66666666;
+    margin: auto;
+    padding: 50px;
+    p {
+      margin: 0;
+    }
+  }
+
+  button {
+    background-color: #b63b3b;
+    border-radius: 10px;
+    width: 200px;
+    height: 80px;
+    color: #e5e5e5;
+    font-size: 25px;
+    font-weight: 700;
+    border: 0;
+  }
+
+  .selectAllMovieWrap,
+  .selectAllTimeWrap,
+  .selectAllPriceWrap {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    justify-content: center;
+    align-items: center;
+    div {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    p {
+      font-size: 24px;
+    }
+    span {
+      margin-left: 10px;
+      font-size: 24px;
+    }
+  }
+
+  .selectAllMovieWrap p {
+    // color: #b63b3b;
+  }
+  .selectAllTimeWrap p {
+    // color: #3b7bb6;
+  }
+  .selectAllPriceWrap p {
+    color: #3ce21e;
+  }
 }

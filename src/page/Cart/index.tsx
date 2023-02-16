@@ -5,6 +5,8 @@ import axios from 'axios';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineClose } from 'react-icons/ai';
 
+import { FaEquals, FaPlus } from 'react-icons/fa';
+
 const Cart = () => {
   const API_URL = `https://api.themoviedb.org/3/movie/${505642}?api_key=${
     process.env.REACT_APP_TMDB_API_KEY
@@ -104,7 +106,7 @@ const Cart = () => {
             <h1>{movieDetail?.title}</h1>
             <div className='cartAverage'>
               <div className='averageImg'>{starAverage}</div>
-              <div>{movieDetail?.vote_average}</div>
+              <div className='avaerageNum'>{movieDetail?.vote_average}</div>
             </div>
             <div className='cartInfo__metaData'>
               <div className='moviedDte'>{movieDetail?.release_date}</div>
@@ -147,6 +149,9 @@ const Cart = () => {
               <p>10,000</p>
               <span>원</span>
             </div>
+          </div>
+          <div className='listClose'>
+            <AiOutlineClose />
           </div>
         </li>
         <li className='cartItemList'>
@@ -268,26 +273,35 @@ const Cart = () => {
       </ul>
       <div className='totalPrice'>
         <div>
-          <div>
-            <h2>총 선택 영화 : </h2>
+          <div className='selectAllMovieWrap'>
+            <h2>총 선택 영화</h2>
             <div>
               <p>2</p>
               <span>편</span>
             </div>
           </div>
           <div>
-            <h2>총 대여 시간 : </h2>
+            <FaPlus />
+          </div>
+          <div className='selectAllTimeWrap'>
+            <h2>총 대여 시간</h2>
             <div>
               <p>292</p>
               <span>일</span>
             </div>
           </div>
           <div>
-            <h2>총 결제 금액 : </h2>
+            <FaEquals />
+          </div>
+          <div className='selectAllPriceWrap'>
+            <h2>총 결제 금액</h2>
             <div>
               <p>24,000</p>
               <span>원</span>
             </div>
+          </div>
+          <div>
+            <button>결제하기</button>
           </div>
         </div>
       </div>
