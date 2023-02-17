@@ -1,5 +1,89 @@
 .orderList {
   width: 1200px;
+  padding-bottom: 200px;
   padding-top: 80px;
   color: white;
+  margin: auto;
+  .orderList__rentalListWrap {
+    width: 100%;
+    padding-top: 40px;
+    margin-bottom: 100px;
+    & > div {
+      display: flex;
+      justify-content: space-between;
+      // align-items: center;
+      svg {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+      }
+      h1 {
+        margin-bottom: 40px;
+      }
+    }
+    .onRentalList,
+    .outRentalList {
+      li {
+        padding: 10px 0px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #666666;
+        display: flex;
+        justify-content: space-around;
+        list-style: none;
+        height: 260px;
+        margin-bottom: 20px;
+        .orderList__rentalInfoWrap {
+          display: flex;
+          justify-content: space-around;
+          margin-right: 200px;
+          .orderLIst__imgBox {
+            height: 100%;
+            img {
+              height: 100%;
+            }
+          }
+          .orderList__rentalInfo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            padding: 20px;
+            div {
+              height: 40px;
+            }
+            p {
+              color: #666666;
+              margin: 0;
+            }
+            span {
+              color: #e5e5e5;
+            }
+          }
+        }
+        .orderList__rentalPriceWrap {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-around;
+          p {
+            margin: 0;
+            height: 40px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #3ce21e;
+            span {
+              color: #e5e5e5;
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .orderList__rentalExpire h2 {
+    color: #666666;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
 }
