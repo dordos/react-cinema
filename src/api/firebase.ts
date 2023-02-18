@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { getDatabase, ref, get } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -11,12 +12,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+const database = getDatabase(app);
 
+//로그인
 export async function logIn(email: string, password: string) {
   return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      console.log('succeess');
       return user;
     })
     .catch((error) => {
@@ -24,6 +26,7 @@ export async function logIn(email: string, password: string) {
     });
 }
 
+//로그아웃
 export async function logOut() {
   signOut(auth)
     .then(() => {})
@@ -33,7 +36,27 @@ export async function logOut() {
 }
 
 export function onUserStateChange(callback: any) {
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
+    await loginUser(user);
     callback(user);
+  });
+}
+
+export async function loginUser(user: any) {
+  return get(ref(database, 'user')) //
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const admins = snapshot.val();
+      }
+      return user;
+    });
+}
+
+export async function pickDB(users: any) {
+  return get(ref(database, users)).then((snapshot) => {
+    if (snapshot.exists()) {
+      const adimns = snapshot.val();
+      console.log(adimns);
+    }
   });
 }

@@ -1,31 +1,18 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import './style.scss';
-import {
-  AiOutlineCloseCircle,
-  AiFillHeart,
-  AiOutlineHeart,
-  AiOutlineShoppingCart,
-} from 'react-icons/ai';
+import { AiOutlineCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsStar, BsStarHalf, BsStarFill, BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import { movieDetail } from '../../types/movieType';
+import { pickDB } from '../../api/firebase';
 
-const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
+const MoviePreview = ({ selectMovie, closeModal }: any) => {
   const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectMovie}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=ko-KR`;
-
-  type movieDetail = {
-    poster_path: string;
-    release_date: string;
-    overview: string;
-    genres: Array<{ id: number; name: string }>;
-    spoken_languages: Array<{ iso_639_1: string }>;
-    vote_average: number;
-    title: string;
-    id: string;
-  };
 
   const [detailData, setDetailData] = useState<movieDetail>();
   const [heartState, setHeartState] = useState(false);
+  const [pickState, setPickState] = useState(false);
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
     <BsStar size='20' color='#888888' />,
@@ -38,6 +25,13 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
 
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current == e.target) closeModal();
+  };
+
+  //찜목록
+  const pickStateFn = (e: any) => {
+    setPickState(e);
+    console.log(e);
+    pickDB('myMovies');
   };
 
   const star = (average: number) => {
@@ -56,7 +50,6 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
   useEffect(() => {
     async function movieDetail() {
       const response_detail = await axios.get(MOVIE_DETAIL);
-
       star(response_detail.data.vote_average);
       setDetailData(response_detail.data);
     }
@@ -110,7 +103,10 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
                 <AiOutlineHeart
                   className='OutlineHeart'
                   color='#e5e5e5'
-                  onClick={() => setHeartState(!heartState)}
+                  onClick={() => {
+                    setHeartState(!heartState);
+                    pickStateFn(!pickState);
+                  }}
                 />
               )}
 
@@ -118,7 +114,10 @@ const MoviePreview = ({ selectMovie, movieModalState, closeModal }: any) => {
                 <AiFillHeart
                   className='fillHeart'
                   color='#f91f1f'
-                  onClick={() => setHeartState(!heartState)}
+                  onClick={() => {
+                    setHeartState(!heartState);
+                    pickStateFn(!pickState);
+                  }}
                 />
               )}
               <BsCartPlus className='addcart' color='#e5e5e5' />
