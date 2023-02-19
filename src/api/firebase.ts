@@ -37,23 +37,13 @@ export async function logOut() {
 
 export function onUserStateChange(callback: any) {
   onAuthStateChanged(auth, async (user) => {
-    await loginUser(user);
-    callback(user);
+    const updateUser = user ? await pickDB(user) : null;
+    callback(updateUser);
   });
 }
 
-export async function loginUser(user: any) {
-  return get(ref(database, 'user')) //
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const admins = snapshot.val();
-      }
-      return user;
-    });
-}
-
 export async function pickDB(users: any) {
-  return get(ref(database, users)).then((snapshot) => {
+  return get(ref(database, 'movie')).then((snapshot) => {
     if (snapshot.exists()) {
       const adimns = snapshot.val();
       console.log(adimns);
