@@ -23,4 +23,8 @@
       background-repeat: no-repeat;
     }
   }
+  li:hover {
+    transition-duration: 0.5s;
+    transform: scale(1.2, 1.2);
+  }
 }
