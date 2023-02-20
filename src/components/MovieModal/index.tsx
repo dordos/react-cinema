@@ -6,13 +6,14 @@ import { BsStar, BsStarHalf, BsStarFill, BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { movieDetail } from '../../types/movieType';
 import { pickDB } from '../../api/firebase';
+import { API_KEY } from '../../api/theMovieDB';
+import { useQuery } from 'react-query';
 
-const MoviePreview = ({ selectMovie, closeModal }: any) => {
-  const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectMovie}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=ko-KR`;
+const MovieModal = ({ selectMovie, closeModal }: any) => {
+  const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectMovie}?api_key=${API_KEY}&language=ko-KR`;
 
   const [detailData, setDetailData] = useState<movieDetail>();
-  const [heartState, setHeartState] = useState(false);
-  const [pickState, setPickState] = useState(false);
+
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
     <BsStar size='20' color='#888888' />,
@@ -28,10 +29,11 @@ const MoviePreview = ({ selectMovie, closeModal }: any) => {
   };
 
   //찜목록
+  const [heartState, setHeartState] = useState(false);
+  const [pickState, setPickState] = useState(false);
   const pickStateFn = (e: any) => {
     setPickState(e);
-    console.log(e);
-    pickDB('myMovies');
+    pickDB(detailData);
   };
 
   const star = (average: number) => {
@@ -54,7 +56,7 @@ const MoviePreview = ({ selectMovie, closeModal }: any) => {
       setDetailData(response_detail.data);
     }
     movieDetail();
-  }, []);
+  }, [pickState]);
 
   return (
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
@@ -129,4 +131,4 @@ const MoviePreview = ({ selectMovie, closeModal }: any) => {
   );
 };
 
-export default MoviePreview;
+export default MovieModal;

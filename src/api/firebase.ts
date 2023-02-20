@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { getDatabase, ref, get } from 'firebase/database';
+import { getDatabase, ref, get, set } from 'firebase/database';
+import { v4 as uuid } from 'uuid';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -42,11 +43,23 @@ export function onUserStateChange(callback: any) {
   });
 }
 
-export async function pickDB(users: any) {
-  return get(ref(database, 'movie')).then((snapshot) => {
-    if (snapshot.exists()) {
-      const adimns = snapshot.val();
-      console.log(adimns);
-    }
-  });
+export function loginUUID(user: string | undefined) {
+  return user;
 }
+
+export async function pickDB(user: any) {
+  return set(ref(database, `admins/${user.id}`), {
+    ...user,
+    difj: 'wefoij',
+  }); //
+}
+
+// export async function pickDB(user: any) {
+//   return get(ref(database, `admins${user.id}`))//
+//   .then((snapshot) => {
+//     if (snapshot.exists()) {
+//       const admins = snapshot.val();
+//       const isAdmin = admins.includes(user);
+//     }
+//   });
+// }
