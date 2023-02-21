@@ -11,12 +11,18 @@ import { RecoilRoot } from 'recoil';
 import PickList from './page/PickList';
 import Cart from './page/Cart';
 import OrderList from './page/OrderList';
+import Home from './page/Home';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
+      {
+        index: true,
+        path: '/',
+        element: <Home />,
+      },
       { path: 'SignUp', element: <SignUp /> },
       { path: 'SignIn', element: <SignIn /> },
       { path: 'MovieDetail', element: <MovieDetail /> },

@@ -25,7 +25,6 @@ const MovieRec = () => {
   useEffect(() => {
     async function recData() {
       const response_rec = await axios.get(MOVIE_RECOMMENDATIONS);
-      console.log(response_rec);
       setMovieRec(response_rec.data);
     }
     recData();

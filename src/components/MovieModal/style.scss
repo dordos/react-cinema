@@ -110,6 +110,8 @@
   div {
     svg {
       margin: 0px 2px;
+      font-size: 20px;
+      color: #888888;
     }
   }
 }
@@ -166,4 +168,12 @@
       height: 100%;
     }
   }
+}
+
+.OutlineHeart {
+  color: #e5e5e5;
+}
+
+.fillHeart {
+  color: #f91f1f;
 }

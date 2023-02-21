@@ -5,7 +5,7 @@ import { AiOutlineCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/a
 import { BsStar, BsStarHalf, BsStarFill, BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { movieDetail } from '../../types/movieType';
-import { pickDB } from '../../api/firebase';
+import { pickDB, onUserStateChange } from '../../api/firebase';
 import { API_KEY } from '../../api/theMovieDB';
 import { useQuery } from 'react-query';
 
@@ -13,13 +13,12 @@ const MovieModal = ({ selectMovie, closeModal }: any) => {
   const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectMovie}?api_key=${API_KEY}&language=ko-KR`;
 
   const [detailData, setDetailData] = useState<movieDetail>();
-
   const [starAverage, setStarAverage] = useState([
-    <BsStar size='20' color='#888888' />,
-    <BsStar size='20' color='#888888' />,
-    <BsStar size='20' color='#888888' />,
-    <BsStar size='20' color='#888888' />,
-    <BsStar size='20' color='#888888' />,
+    <BsStar />,
+    <BsStar />,
+    <BsStar />,
+    <BsStar />,
+    <BsStar />,
   ]);
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -56,7 +55,7 @@ const MovieModal = ({ selectMovie, closeModal }: any) => {
       setDetailData(response_detail.data);
     }
     movieDetail();
-  }, [pickState]);
+  }, [heartState]);
 
   return (
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
@@ -104,7 +103,6 @@ const MovieModal = ({ selectMovie, closeModal }: any) => {
               {!heartState && (
                 <AiOutlineHeart
                   className='OutlineHeart'
-                  color='#e5e5e5'
                   onClick={() => {
                     setHeartState(!heartState);
                     pickStateFn(!pickState);
@@ -115,7 +113,6 @@ const MovieModal = ({ selectMovie, closeModal }: any) => {
               {heartState && (
                 <AiFillHeart
                   className='fillHeart'
-                  color='#f91f1f'
                   onClick={() => {
                     setHeartState(!heartState);
                     pickStateFn(!pickState);
