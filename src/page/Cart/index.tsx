@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MenuBar from '../../components/MenuBar';
+import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
 import axios from 'axios';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';

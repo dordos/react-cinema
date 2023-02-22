@@ -5,10 +5,10 @@ import { faMagnifyingGlass, faBell } from '@fortawesome/free-solid-svg-icons';
 import LogInModal from '../LogInModal';
 import { Link } from 'react-router-dom';
 import LogOutModal from '../LogOutModal';
-import { onUserStateChange } from '../../api/firebase';
+import { onUserStateChange } from '../../../api/firebase';
 
-const logo = require('../../img/logo.png');
-const smile_icon1 = require('../../img/smile_icon1.png');
+const logo = require('../../../img/logo.png');
+const smile_icon1 = require('../../../img/smile_icon1.png');
 // const smile_icon2 = require("../../img/smile_icon2.png");
 
 const MenuBar = () => {

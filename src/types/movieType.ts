@@ -1,4 +1,4 @@
-export type movieDetail = {
+export type movieType = {
   poster_path: string;
   release_date: string;
   overview: string;

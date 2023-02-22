@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import MenuBar from '../../components/MenuBar';
+import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
 import axios from 'axios';
 import { useEffect } from 'react';
-import ImagePreview from '../../components/ImagePreview';
-import VideoPreview from '../../components/VideoPreview';
-import MovieCast from '../../components/MovieCast';
-import MovieRec from '../../components/MovieRec';
+import ImagePreview from '../../components/ui/ImagePreview';
+import VideoPreview from '../../components/ui/VideoPreview';
+import MovieCast from '../../components/ui/MovieCast';
+import MovieRec from '../../components/ui/MovieRec';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 import { AiFillHeart, AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai';
-import Social from '../../components/MovieReviews';
+import Social from '../../components/ui/MovieReviews';
 
 const MovieDetail = () => {
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;

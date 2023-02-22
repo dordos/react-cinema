@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './style.scss';
-import cart from '../../img/cart.svg';
-import heart from '../../img/heart.svg';
-import clapperboard from '../../img/clapperboard.svg';
-import { logOut } from '../../api/firebase';
+import cart from '../../../img/cart.svg';
+import heart from '../../../img/heart.svg';
+import clapperboard from '../../../img/clapperboard.svg';
+import { logOut } from '../../../api/firebase';
 
 const LogOutModal = ({ userState }: any) => {
   const handleLogOut = () => {

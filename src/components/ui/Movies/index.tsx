@@ -4,8 +4,8 @@ import './style.scss';
 import axios from 'axios';
 import MovieModal from '../MovieModal';
 import { useQuery } from 'react-query';
-import { API_URL } from '../../api/theMovieAPI';
-import useMoviesInfo from '../../hooks/MoviesInfo';
+import { API_URL } from '../../../api/theMovieAPI';
+import useMoviesInfo from '../../../hooks/useMoviesInfo';
 
 const Movies = () => {
   const [movieModalState, setMovieModalState] = useState(false);

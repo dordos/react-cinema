@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './style.scss';
 import axios from 'axios';
-import { async } from '@firebase/util';
 
 const VideoPreview = () => {
   const MOIVE_VIDEO = `https://api.themoviedb.org/3/movie/${505642}/videos?api_key=${

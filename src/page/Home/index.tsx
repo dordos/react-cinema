@@ -1,6 +1,6 @@
 import React from 'react';
-import MenuBar from '../../components/MenuBar';
-import Movies from '../../components/Movies';
+import MenuBar from '../../components/ui/MenuBar';
+import Movies from '../../components/ui/Movies';
 
 const Home = () => {
   return (

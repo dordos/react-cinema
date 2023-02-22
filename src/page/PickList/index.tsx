@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import MovieModal from '../../components/MovieModal';
-import MenuBar from '../../components/MenuBar';
+import MovieModal from '../../components/ui/MovieModal';
+import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 
