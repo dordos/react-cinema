@@ -3,22 +3,26 @@ import { useState } from 'react';
 import './style.scss';
 import axios from 'axios';
 import MovieModal from '../MovieModal';
+import { useQuery } from 'react-query';
+import { API_URL } from '../../api/theMovieAPI';
+import useMoviesInfo from '../../hooks/MoviesInfo';
 
 const Movies = () => {
   const [movieModalState, setMovieModalState] = useState(false);
   const [selectMovie, setSelectMovie] = useState();
   const [movieInfo, setMovieInfo] = useState([]);
-  const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=ko-KR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`;
+  // const { isLoading, error, data } = useQuery(['movies'], MoviesInfo);
 
   const onMovieDetail = (id: SetStateAction<undefined>) => {
     setMovieModalState(!movieModalState);
     setSelectMovie(id);
   };
+  // console.log(data);
 
   const closeModal = () => setMovieModalState(false);
 
   useEffect(() => {
-    async function movieData() {
+    async function movieData(): Promise<void> {
       const response = await axios.get(API_URL);
       setMovieInfo(response.data.results);
     }

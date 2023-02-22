@@ -1,9 +1,7 @@
 // Import the functions you need from the SDKs you need
-import { reverse } from 'dns';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getDatabase, ref, get, set } from 'firebase/database';
-import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 const firebaseConfig = {
@@ -48,7 +46,7 @@ export function onUserStateChange(callback: any) {
   });
 }
 
-export async function pickDB(user: any) {
+export async function getPickDB(user: any) {
   console.log(currentUser);
   return get(ref(database, `admins/${currentUser}`)) //
     .then((snapshot) => {
@@ -60,9 +58,9 @@ export async function pickDB(user: any) {
     });
 }
 
-// export async function pickDB(user: any) {
-//   return set(ref(database, `admins/`), {
-//     ...user,
-//     difj: 'wefoij',
-//   }); //
-// }
+//firebase set data
+export async function setPickDB(movieId: number, pickState: any) {
+  return set(ref(database, `admins/${currentUser}/${movieId}`), {
+    pick: pickState,
+  }); //
+}

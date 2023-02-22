@@ -5,12 +5,12 @@ import { AiOutlineCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/a
 import { BsStar, BsStarHalf, BsStarFill, BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { movieDetail } from '../../types/movieType';
-import { pickDB, onUserStateChange } from '../../api/firebase';
-import { API_KEY } from '../../api/theMovieDB';
-import { useQuery } from 'react-query';
+import { setPickDB } from '../../api/firebase';
+import { API_KEY } from '../../api/theMovieAPI';
+import useMoviesInfo from '../../hooks/MoviesInfo';
 
 const MovieModal = ({ selectMovie, closeModal }: any) => {
-  const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectMovie}?api_key=${API_KEY}&language=ko-KR`;
+  // const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectMovie}?api_key=${API_KEY}&language=ko-KR`;
 
   const [detailData, setDetailData] = useState<movieDetail>();
   const [starAverage, setStarAverage] = useState([
@@ -21,18 +21,22 @@ const MovieModal = ({ selectMovie, closeModal }: any) => {
     <BsStar />,
   ]);
 
+  const [movieInfo] = useMoviesInfo({ selectMovie });
+
   const modalRef = useRef<HTMLDivElement>(null);
 
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current == e.target) closeModal();
   };
 
+  console.log(movieInfo);
+
   //찜목록
   const [heartState, setHeartState] = useState(false);
   const [pickState, setPickState] = useState(false);
   const pickStateFn = (e: any) => {
     setPickState(e);
-    pickDB(detailData);
+    setPickDB(selectMovie, !pickState);
   };
 
   const star = (average: number) => {
@@ -50,9 +54,9 @@ const MovieModal = ({ selectMovie, closeModal }: any) => {
 
   useEffect(() => {
     async function movieDetail() {
-      const response_detail = await axios.get(MOVIE_DETAIL);
-      star(response_detail.data.vote_average);
-      setDetailData(response_detail.data);
+      // const response_detail = await axios.get(MOVIE_DETAIL);
+      // star(response_detail.data.vote_average);
+      // setDetailData(response_detail.data);
     }
     movieDetail();
   }, [heartState]);
