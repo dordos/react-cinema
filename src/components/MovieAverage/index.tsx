@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 
-const MovieAverage = ({ selectMovie }: any) => {
-  console.log(selectMovie);
+const MovieAverage = ({ movieAverage }: any): JSX.Element => {
   const [starAverage, setStarAverage] = useState([
     <BsStar />,
     <BsStar />,
@@ -11,19 +10,24 @@ const MovieAverage = ({ selectMovie }: any) => {
     <BsStar />,
   ]);
 
-  const star = (average: number | undefined) => {
+  const star = (average: number) => {
+    // console.log(average);
     const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
     const averageCopy = [...starAverage];
-
     for (let i = 0; i < Number(first); i++) {
       averageCopy[i] = <BsStarFill size='20' color='#e22232' />;
     }
     if (Number(second) >= 5) {
       averageCopy[Number(first)] = <BsStarHalf size='20' color='#e22232' />;
     }
-    setStarAverage(averageCopy);
+    return setStarAverage(averageCopy);
   };
-  return <div>{starAverage}</div>;
+
+  useEffect(() => {
+    star(movieAverage);
+  }, [movieAverage]);
+
+  return <>{starAverage}</>;
 };
 
 export default MovieAverage;

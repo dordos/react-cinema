@@ -22,7 +22,7 @@ const Movies = () => {
   const closeModal = () => setMovieModalState(false);
 
   useEffect(() => {
-    async function movieData(): Promise<void> {
+    async function movieData() {
       const response = await axios.get(API_URL);
       setMovieInfo(response.data.results);
     }

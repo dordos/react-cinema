@@ -10,13 +10,11 @@ import MovieAverage from '../../MovieAverage';
 
 const MovieModal = ({ selectMovie, closeModal }: any) => {
   const [movieInfo] = useMoviesInfo({ selectMovie });
-
   const modalRef = useRef<HTMLDivElement>(null);
 
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current == e.target) closeModal();
   };
-
   //찜목록
   const [heartState, setHeartState] = useState(false);
   const [pickState, setPickState] = useState(false);
@@ -47,7 +45,9 @@ const MovieModal = ({ selectMovie, closeModal }: any) => {
           <div className='previewInfo'>
             <div className='metaData'>
               <span>{movieInfo?.release_date}</span>
-              <MovieAverage selectMovie={selectMovie} />
+              <div>
+                <MovieAverage movieAverage={movieInfo?.vote_average} />
+              </div>
             </div>
 
             <div className='overview'>
