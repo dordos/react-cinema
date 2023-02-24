@@ -47,18 +47,22 @@ export function onUserStateChange(callback: any) {
   });
 }
 
-export async function addMovies(movieList: any) {
+export async function addMovies(movieId: any, movieList: any) {
   // const list = movieList.map(({ id, ...item }: any) => id);
-  while (currentUser != undefined) {
-    console.log(currentUser);
-    return set(ref(database, `admins/${currentUser}`), {
-      ...movieList,
-    });
-  }
 
-  // id: list,
+  const myObject: { [key: number]: any } = {};
+
+  movieList.forEach((item: any) => {
+    myObject[item.id] = item;
+  });
+
+  // console.log(movieList);
+  return set(ref(database, `moives/`), {
+    ...myObject,
+  });
 }
 
+// id: list,
 export async function getPickDB(user: any) {
   return get(ref(database, `admins/${currentUser}`)) //
     .then((snapshot) => {

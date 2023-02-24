@@ -11,7 +11,8 @@ const Home = () => {
   useEffect(() => {
     async function movieData() {
       const response = await axios.get(API_URL);
-      addMovies(response.data.results);
+      let movieId = response.data.results.map((result: any, ...list: any[]) => result.id);
+      addMovies(movieId, response.data.results);
       // console.log(response.data.results);
       // setMovieInfo(response.data.results);
     }
