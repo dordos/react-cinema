@@ -27,7 +27,13 @@ const MovieAverage = ({ movieAverage }: any): JSX.Element => {
     star(movieAverage);
   }, [movieAverage]);
 
-  return <>{starAverage}</>;
+  return (
+    <React.Fragment>
+      {starAverage.map((item, idx) => (
+        <React.Fragment key={idx}>{item}</React.Fragment>
+      ))}
+    </React.Fragment>
+  );
 };
 
 export default MovieAverage;

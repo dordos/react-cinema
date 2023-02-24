@@ -4,26 +4,31 @@ import './style.scss';
 import { AiOutlineCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { setPickDB } from '../../../api/firebase';
+import { setPickDB, getPickDB } from '../../../api/firebase';
 import useMoviesInfo from '../../../hooks/useMoviesInfo';
 import MovieAverage from '../../MovieAverage';
+import { useQuery } from 'react-query';
 
-const MovieModal = ({ selectMovie, closeModal }: any) => {
-  const [movieInfo] = useMoviesInfo({ selectMovie });
+const MovieModal = ({ movieId, closeModal }: any) => {
+  const [movieInfo] = useMoviesInfo({ movieId });
+  const { isLoading, data } = useQuery(['movie'], () => {
+    getPickDB(movieId);
+  });
   const modalRef = useRef<HTMLDivElement>(null);
 
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current == e.target) closeModal();
   };
+
   //찜목록
   const [heartState, setHeartState] = useState(false);
   const [pickState, setPickState] = useState(false);
   const pickStateFn = (e: any) => {
-    setPickState(e);
-    setPickDB(selectMovie, !pickState);
+    setPickDB(movieId, !pickState);
   };
-
-  useEffect(() => {}, [heartState]);
+  useEffect(() => {
+    console.log(data);
+  }, [heartState]);
 
   return (
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
@@ -46,7 +51,7 @@ const MovieModal = ({ selectMovie, closeModal }: any) => {
             <div className='metaData'>
               <span>{movieInfo?.release_date}</span>
               <div>
-                <MovieAverage movieAverage={movieInfo?.vote_average} />
+                <MovieAverage movieAverage={movieInfo?.vote_average} key={movieInfo?.id} />
               </div>
             </div>
 

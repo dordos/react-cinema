@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getDatabase, ref, get, set } from 'firebase/database';
+import { title } from 'process';
 import { v4 as uuid } from 'uuid';
 
 const firebaseConfig = {
@@ -46,14 +47,29 @@ export function onUserStateChange(callback: any) {
   });
 }
 
+export async function addMovies(movieList: any) {
+  // const list = movieList.map(({ id, ...item }: any) => id);
+  while (currentUser != undefined) {
+    console.log(currentUser);
+    return set(ref(database, `admins/${currentUser}`), {
+      ...movieList,
+    });
+  }
+
+  // id: list,
+}
+
 export async function getPickDB(user: any) {
-  console.log(currentUser);
   return get(ref(database, `admins/${currentUser}`)) //
     .then((snapshot) => {
       if (snapshot.exists()) {
+        return Object.values(snapshot.val());
         const admins = snapshot.val();
         console.log(admins);
-        // const isAdmin = admins.includes(user);
+        console.log(user);
+        const isAdmin = admins.includes(user);
+        console.log(isAdmin);
+        // console.log(admins);
       }
     });
 }
