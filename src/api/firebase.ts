@@ -48,15 +48,10 @@ export function onUserStateChange(callback: any) {
 }
 
 export async function addMovies(movieId: any, movieList: any) {
-  // const list = movieList.map(({ id, ...item }: any) => id);
-
   const myObject: { [key: number]: any } = {};
-
   movieList.forEach((item: any) => {
     myObject[item.id] = item;
   });
-
-  // console.log(movieList);
   return set(ref(database, `moives/`), {
     ...myObject,
   });
