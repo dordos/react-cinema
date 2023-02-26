@@ -1,33 +1,29 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import { addMovies, getMovies } from '../../../api/firebase';
 import { API_URL } from '../../../api/theMovieAPI';
 import MovieModal from '../MovieModal';
 import './style.scss';
+import { movieType } from '../../../types/movieType';
 
 const Movies = () => {
   const [movieModalState, setMovieModalState] = useState(false);
+  const closeModal = () => setMovieModalState(false);
+
   const [movieId, setMovieId] = useState<number | undefined>();
-  const [movieInfo, setMovieInfo] = useState([]);
-  // const { isLoading, error, data } = useQuery(['movies'], MoviesInfo);
+  const { isLoading, error, data: movies } = useQuery(['movies'], getMovies);
 
   const onMovieDetail = (selectId: undefined | number) => {
     setMovieModalState(!movieModalState);
     setMovieId(selectId);
   };
 
-  const closeModal = () => setMovieModalState(false);
-  useEffect(() => {
-    async function movieData() {
-      const response = await axios.get(API_URL);
-      setMovieInfo(response.data.results);
-    }
-    movieData();
-  }, []);
-
   return (
     <>
       <ul className='moviesContainer'>
-        {movieInfo.map((movie: any) => (
+        {isLoading && <p>Loading</p>}
+        {movies?.map((movie: any) => (
           <li
             key={movie.id}
             onClick={() => {
@@ -39,7 +35,7 @@ const Movies = () => {
         ))}
       </ul>
       {movieModalState && (
-        <MovieModal movieId={movieId} closeModal={closeModal} movieInfo={movieInfo} />
+        <MovieModal movieId={movieId} closeModal={closeModal} movieInfo={movies} />
       )}
     </>
   );

@@ -2,8 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getDatabase, ref, get, set } from 'firebase/database';
-import { title } from 'process';
-import { v4 as uuid } from 'uuid';
+import { movieType } from '../types/movieType';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -47,13 +46,21 @@ export function onUserStateChange(callback: any) {
   });
 }
 
-export async function addMovies(movieId: any, movieList: any) {
-  const myObject: { [key: number]: any } = {};
+export async function addMovies(movieList: any) {
+  const myObject: { [key: number]: movieType } = {};
   movieList.forEach((item: any) => {
     myObject[item.id] = item;
   });
-  return set(ref(database, `moives/`), {
+  return set(ref(database, `movies/`), {
     ...myObject,
+  });
+}
+
+export async function getMovies() {
+  return get(ref(database, 'movies')).then((snapshot) => {
+    if (snapshot.exists()) {
+      return Object.values(snapshot.val());
+    }
   });
 }
 

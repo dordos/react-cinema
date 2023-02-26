@@ -6,15 +6,10 @@ import axios from 'axios';
 import { API_URL } from '../../api/theMovieAPI';
 
 const Home = () => {
-  const [movieInfo, setMovieInfo] = useState([]);
-
   useEffect(() => {
     async function movieData() {
       const response = await axios.get(API_URL);
-      let movieId = response.data.results.map((result: any, ...list: any[]) => result.id);
-      addMovies(movieId, response.data.results);
-      // console.log(response.data.results);
-      // setMovieInfo(response.data.results);
+      addMovies(response.data.results);
     }
     movieData();
   }, []);
