@@ -12,7 +12,7 @@ const Movies = () => {
   const closeModal = () => setMovieModalState(false);
 
   const [movieId, setMovieId] = useState<number | undefined>();
-  const { isLoading, error, data: movies } = useQuery(['movies'], getMovies);
+  const { data: movies } = useQuery(['movies'], getMovies);
 
   const onMovieDetail = (selectId: undefined | number) => {
     setMovieModalState(!movieModalState);
@@ -22,7 +22,6 @@ const Movies = () => {
   return (
     <>
       <ul className='moviesContainer'>
-        {isLoading && <p>Loading</p>}
         {movies?.map((movie: any) => (
           <li
             key={movie.id}
@@ -34,9 +33,7 @@ const Movies = () => {
           </li>
         ))}
       </ul>
-      {movieModalState && (
-        <MovieModal movieId={movieId} closeModal={closeModal} movieInfo={movies} />
-      )}
+      {movieModalState && <MovieModal movieId={movieId} closeModal={closeModal} />}
     </>
   );
 };

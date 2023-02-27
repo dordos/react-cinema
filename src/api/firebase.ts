@@ -59,8 +59,13 @@ export async function addMovies(movieList: any) {
 export async function getMovies() {
   return get(ref(database, 'movies')).then((snapshot) => {
     if (snapshot.exists()) {
-      return Object.values(snapshot.val());
+      // return Object.values(snapshot.val());
+      // console.log(snapshot.val());
+
+      console.log([snapshot.val()]);
+      return Object.keys(snapshot.val());
     }
+    return [];
   });
 }
 
