@@ -15,3 +15,5 @@ export type movieType = {
   vote_average: number | undefined;
   vote_cunt: number | undefined;
 };
+
+export type movieDetailType = {};
