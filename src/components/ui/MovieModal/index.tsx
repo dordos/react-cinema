@@ -6,7 +6,7 @@ import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { addMovieDetail, getMovieDetail } from '../../../api/firebase';
 import MovieAverage from '../../MovieAverage';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { movieDetailType } from '../../../types/movieType';
 import { API_KEY } from '../../../api/theMovieAPI';
 

@@ -9,7 +9,6 @@ import PickList from './page/PickList';
 import Cart from './page/Cart';
 import OrderList from './page/OrderList';
 import Home from './page/Home';
-// import { QueryClient, QueryClientProvider } from 'react-query';
 const router = createBrowserRouter([
   {
     path: '/',

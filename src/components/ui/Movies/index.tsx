@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { addMovies, getMovies } from '../../../api/firebase';
 import { API_URL } from '../../../api/theMovieAPI';
 import MovieModal from '../MovieModal';
 import './style.scss';
 import { movieType } from '../../../types/movieType';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const Movies = () => {
   const [movieModalState, setMovieModalState] = useState(false);
