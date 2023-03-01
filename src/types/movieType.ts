@@ -42,4 +42,6 @@ export type movieDetailType = {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  //use Type
+  pick: boolean;
 };

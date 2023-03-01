@@ -4,22 +4,17 @@ import './style.scss';
 import { AiOutlineCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { setPickDB, getPickDB, getMovies } from '../../../api/firebase';
+import { addMovieDetail, getMovieDetail } from '../../../api/firebase';
 import MovieAverage from '../../MovieAverage';
 import { useQuery } from 'react-query';
-import { movieDetailType, movieType } from '../../../types/movieType';
+import { movieDetailType } from '../../../types/movieType';
 import { API_KEY } from '../../../api/theMovieAPI';
 
 const MovieModal = ({ movieId, closeModal }: any) => {
   const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`;
-
   const [movieDetailInfo, setMovieDetailInfo] = useState<movieDetailType>();
-  const [movieModalInfo, setMovieModalInfo] = useState<movieType>();
-
-  const { data } = useQuery(['movies'], getMovies);
 
   const modalRef = useRef<HTMLDivElement>(null);
-
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current == e.target) closeModal();
   };
@@ -27,18 +22,27 @@ const MovieModal = ({ movieId, closeModal }: any) => {
   //찜목록
   const [heartState, setHeartState] = useState(false);
   const [pickState, setPickState] = useState(false);
+  const [movieDetailData, setMovieDetailData] = useState<boolean>();
+  const { data } = useQuery([`admins/${movieId}`], () => {
+    getMovieDetail(movieId);
+  });
+
+  // console.log(data);
   const pickStateFn = (e: any) => {
-    setPickDB(movieId, !pickState);
+    // setMovieDetailData(!pickState);
+    console.log(data);
+    // setPickDB(movieId, !pickState);
   };
+
   useEffect(() => {
     async function movieData() {
       const response = await axios.get(MOVIE_DETAIL);
       setMovieDetailInfo(response.data);
+      addMovieDetail(movieId, response.data);
+      setMovieDetailData(response.data);
     }
     movieData();
-  }, [heartState, movieDetailInfo]);
-
-  console.log(movieDetailInfo);
+  }, [heartState]);
 
   return (
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>

@@ -2,7 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getDatabase, ref, get, set } from 'firebase/database';
-import { movieType } from '../types/movieType';
+import { movieDetailType, movieType } from '../types/movieType';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -58,7 +58,6 @@ export async function addMovies(movieList: any) {
 
 export async function getMovies() {
   return get(ref(database, 'movies')).then((snapshot) => {
-    const myObject: { [key: number]: movieType } = {};
     if (snapshot.exists()) {
       // return Object.values(snapshot.val());
       // console.log(snapshot.val());
@@ -69,27 +68,35 @@ export async function getMovies() {
   });
 }
 
-export async function setMovieDetail() {}
-
-// id: list,
-export async function getPickDB(user: any) {
-  return get(ref(database, `admins/${currentUser}`)) //
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        return Object.values(snapshot.val());
-        const admins = snapshot.val();
-        console.log(admins);
-        console.log(user);
-        const isAdmin = admins.includes(user);
-        console.log(isAdmin);
-        // console.log(admins);
-      }
-    });
-}
-
-//firebase set data
-export async function setPickDB(movieId: number, pickState: any) {
+export async function addMovieDetail(movieId: number, movieDetail: movieDetailType) {
   return set(ref(database, `admins/${currentUser}/${movieId}`), {
-    pick: pickState,
-  }); //
+    ...movieDetail,
+    pick: false,
+  });
 }
+
+export async function getMovieDetail(movieId: number) {
+  return get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log(snapshot.val());
+      return snapshot.val();
+    }
+    return [];
+  });
+}
+
+// export async function getPickDB(user: any) {
+//   return get(ref(database, `admins/${currentUser}`)) //
+//     .then((snapshot) => {
+//       if (snapshot.exists()) {
+//         return Object.values(snapshot.val());
+//       }
+//     });
+// }
+
+// //firebase set data
+// export async function setPickDB(movieId: number, pickState: any) {
+//   return set(ref(database, `admins/${currentUser}/${movieId}`), {
+//     pick: pickState,
+//   }); //
+// }
