@@ -7,13 +7,13 @@ import { Link } from 'react-router-dom';
 import { setPickDB, getPickDB, getMovies } from '../../../api/firebase';
 import MovieAverage from '../../MovieAverage';
 import { useQuery } from 'react-query';
-import { movieType } from '../../../types/movieType';
+import { movieDetailType, movieType } from '../../../types/movieType';
 import { API_KEY } from '../../../api/theMovieAPI';
 
 const MovieModal = ({ movieId, closeModal }: any) => {
   const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`;
 
-  const [movieDetailInfo, setMovieDetailInfo] = useState<any>();
+  const [movieDetailInfo, setMovieDetailInfo] = useState<movieDetailType>();
   const [movieModalInfo, setMovieModalInfo] = useState<movieType>();
 
   const { data } = useQuery(['movies'], getMovies);
@@ -33,12 +33,10 @@ const MovieModal = ({ movieId, closeModal }: any) => {
   useEffect(() => {
     async function movieData() {
       const response = await axios.get(MOVIE_DETAIL);
-      console.log(response.data);
       setMovieDetailInfo(response.data);
-      console.log(movieDetailInfo);
     }
     movieData();
-  }, [heartState]);
+  }, [heartState, movieDetailInfo]);
 
   console.log(movieDetailInfo);
 
