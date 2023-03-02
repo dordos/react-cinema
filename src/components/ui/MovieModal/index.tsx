@@ -6,13 +6,13 @@ import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { addMovieDetail, getMovieDetail } from '../../../api/firebase';
 import MovieAverage from '../../MovieAverage';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { movieDetailType } from '../../../types/movieType';
 import { API_KEY } from '../../../api/theMovieAPI';
 
 const MovieModal = ({ movieId, closeModal }: any) => {
   const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`;
-  const [movieDetailInfo, setMovieDetailInfo] = useState<movieDetailType>();
+  const [movieDetailInfo, setMovieDetailInfo] = useState<movieDetailType | undefined>();
 
   const modalRef = useRef<HTMLDivElement>(null);
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
@@ -21,28 +21,29 @@ const MovieModal = ({ movieId, closeModal }: any) => {
 
   //찜목록
   const [heartState, setHeartState] = useState(false);
-  const [pickState, setPickState] = useState(false);
-  const [movieDetailData, setMovieDetailData] = useState<boolean>();
-  const { data } = useQuery([`admins/${movieId}`], () => {
-    getMovieDetail(movieId);
+  // const [pickState, setPickState] = useState(false);
+  // const [movieDetailData, setMovieDetailData] = useState<boolean>();
+  const { data: pick } = useQuery([`admins/${movieId}`], async () => {
+    return getMovieDetail(movieId);
   });
+  // const { data } = useMutation([`admins/${movieId}`, movieId], () => {
+  //   return getMovieDetail(movieId);
+  // });
 
-  // console.log(data);
-  const pickStateFn = (e: any) => {
-    // setMovieDetailData(!pickState);
-    console.log(data);
-    // setPickDB(movieId, !pickState);
-  };
+  function pickStateFn(e: any) {
+    setHeartState(!heartState);
+    addMovieDetail(movieId, movieDetailInfo, !heartState);
+  }
 
   useEffect(() => {
     async function movieData() {
       const response = await axios.get(MOVIE_DETAIL);
       setMovieDetailInfo(response.data);
-      addMovieDetail(movieId, response.data);
-      setMovieDetailData(response.data);
+      addMovieDetail(movieId, response.data, heartState);
+      // setMovieDetailData(response.data);
     }
     movieData();
-  }, [heartState]);
+  }, []);
 
   return (
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
@@ -92,14 +93,8 @@ const MovieModal = ({ movieId, closeModal }: any) => {
               </div>
             </div>
             <div className='myPageInfo'>
-              <button
-                className='pickHeart'
-                onClick={() => {
-                  setHeartState(!heartState);
-                  pickStateFn(!pickState);
-                }}
-              >
-                {!heartState ? <AiOutlineHeart color='#e5e5e5' /> : <AiFillHeart color='#f91f1f' />}
+              <button className='pickHeart' onClick={pickStateFn}>
+                {!pick ? <AiOutlineHeart color='#e5e5e5' /> : <AiFillHeart color='#f91f1f' />}
               </button>
 
               <button>
