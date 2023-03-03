@@ -6,6 +6,7 @@ import { API_URL } from '../../../api/theMovieAPI';
 import MovieModal from '../MovieModal';
 import './style.scss';
 import { movieType } from '../../../types/movieType';
+import { MovieDetailFn } from '../../../hooks/MovieDetailFn';
 
 const Movies = () => {
   const [movieModalState, setMovieModalState] = useState(false);
@@ -17,6 +18,7 @@ const Movies = () => {
   const onMovieDetail = (selectId: undefined | number) => {
     setMovieModalState(!movieModalState);
     setMovieId(selectId);
+    MovieDetailFn(selectId);
   };
 
   return (
