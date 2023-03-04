@@ -59,16 +59,52 @@ export async function addMovies(movieList: any) {
 export async function getMovies() {
   return get(ref(database, 'movies')).then((snapshot) => {
     if (snapshot.exists()) {
-      // return Object.values(snapshot.val());
-      // console.log(snapshot.val());
-
       return Object.values(snapshot.val());
     }
     return [];
   });
 }
 
-export async function addMovieDetail(
+// export async function addMovieDetail(movieId: number, movieDetail: movieDetailType | undefined) {
+//   get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
+//     if (snapshot.exists()) {
+//       // return snapshot.val();
+//     }
+//   });
+
+//   // return set(ref(database, `admins/${currentUser}/${movieId}`), {
+//   //   ...movieDetail,
+//   // })
+// }
+
+// export async function getMovieDetail(
+//   movieId: number,
+//   movieDetail: movieDetailType | undefined,
+//   state: boolean
+// ) {
+//   return get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
+//     if (snapshot.exists()) {
+//       console.log(snapshot.val().pick);
+//       return snapshot.val().pick;
+//     }
+//     return set(ref(database, `admins/${currentUser}/${movieId}`), {
+//       ...movieDetail,
+//       pick: state,
+//     });
+//   });
+// }
+
+export async function getPickDB(movieId: number) {
+  return get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      return snapshot.val().pick;
+    }
+    return false;
+  });
+}
+
+// //firebase set data
+export async function setPickDB(
   movieId: number,
   movieDetail: movieDetailType | undefined,
   state: boolean
@@ -76,30 +112,5 @@ export async function addMovieDetail(
   return set(ref(database, `admins/${currentUser}/${movieId}`), {
     ...movieDetail,
     pick: state,
-  });
+  }); //
 }
-
-export async function getMovieDetail(movieId: number) {
-  return get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
-    if (snapshot.exists()) {
-      return snapshot.val().pick;
-    }
-    return [];
-  });
-}
-
-// export async function getPickDB(user: any) {
-//   return get(ref(database, `admins/${currentUser}`)) //
-//     .then((snapshot) => {
-//       if (snapshot.exists()) {
-//         return Object.values(snapshot.val());
-//       }
-//     });
-// }
-
-// //firebase set data
-// export async function setPickDB(movieId: number, pickState: any) {
-//   return set(ref(database, `admins/${currentUser}/${movieId}`), {
-//     pick: pickState,
-//   }); //
-// }

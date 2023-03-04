@@ -1,12 +1,9 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { addMovies, getMovies } from '../../../api/firebase';
-import { API_URL } from '../../../api/theMovieAPI';
+import { getMovies } from '../../../api/firebase';
 import MovieModal from '../MovieModal';
 import './style.scss';
-import { movieType } from '../../../types/movieType';
-import { MovieDetailFn } from '../../../hooks/MovieDetailFn';
 
 const Movies = () => {
   const [movieModalState, setMovieModalState] = useState(false);
@@ -18,7 +15,6 @@ const Movies = () => {
   const onMovieDetail = (selectId: undefined | number) => {
     setMovieModalState(!movieModalState);
     setMovieId(selectId);
-    MovieDetailFn(selectId);
   };
 
   return (

@@ -4,7 +4,7 @@ import './style.scss';
 import { AiOutlineCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { addMovieDetail, getMovieDetail } from '../../../api/firebase';
+import { getPickDB, setPickDB } from '../../../api/firebase';
 import MovieAverage from '../../MovieAverage';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { movieDetailType } from '../../../types/movieType';
@@ -20,30 +20,23 @@ const MovieModal = ({ movieId, closeModal }: any) => {
   };
 
   //찜목록
-  const [heartState, setHeartState] = useState(false);
-  // const [pickState, setPickState] = useState(false);
-  // const [movieDetailData, setMovieDetailData] = useState<boolean>();
   const { data: pick } = useQuery([`admins/${movieId}`], async () => {
-    return getMovieDetail(movieId);
+    return await getPickDB(movieId);
   });
-  // const { data } = useMutation([`admins/${movieId}`, movieId], () => {
-  //   return getMovieDetail(movieId);
-  // });
+  const [heartState, setHeartState] = useState(pick);
 
   function pickStateFn(e: any) {
     setHeartState(!heartState);
-    addMovieDetail(movieId, movieDetailInfo, !heartState);
+    setPickDB(movieId, movieDetailInfo, !heartState);
   }
 
   useEffect(() => {
     async function movieData() {
       const response = await axios.get(MOVIE_DETAIL);
       setMovieDetailInfo(response.data);
-      addMovieDetail(movieId, response.data, heartState);
-      // setMovieDetailData(response.data);
     }
     movieData();
-  }, []);
+  }, [heartState, pick]);
 
   return (
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
@@ -94,7 +87,7 @@ const MovieModal = ({ movieId, closeModal }: any) => {
             </div>
             <div className='myPageInfo'>
               <button className='pickHeart' onClick={pickStateFn}>
-                {!pick ? <AiOutlineHeart color='#e5e5e5' /> : <AiFillHeart color='#f91f1f' />}
+                {heartState ? <AiFillHeart color='#f91f1f' /> : <AiOutlineHeart color='#e5e5e5' />}
               </button>
 
               <button>
