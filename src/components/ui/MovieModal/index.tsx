@@ -20,12 +20,22 @@ const MovieModal = ({ movieId, closeModal }: any) => {
   };
 
   //찜목록
-  const { data: pick } = useQuery([`admins/${movieId}`], async () => {
-    return await getPickDB(movieId);
-  });
+  const { data: pick } = useQuery(
+    [`admins/${movieId}`],
+    async () => {
+      return await getPickDB(movieId);
+    },
+    {
+      enabled: !!movieDetailInfo,
+    }
+  );
   const [heartState, setHeartState] = useState(pick);
 
-  function pickStateFn(e: any) {
+  // const { data: pick } = useQuery([`admins/${movieId}`], async () => {
+  //   return await getPickDB(movieId);
+  // },);
+
+  function pickStateFn() {
     setHeartState(!heartState);
     setPickDB(movieId, movieDetailInfo, !heartState);
   }

@@ -66,15 +66,9 @@ export async function getMovies() {
 }
 
 // export async function addMovieDetail(movieId: number, movieDetail: movieDetailType | undefined) {
-//   get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
-//     if (snapshot.exists()) {
-//       // return snapshot.val();
-//     }
+//   return set(ref(database, `admins/${currentUser}/${movieId}`), {
+//     ...movieDetail,
 //   });
-
-//   // return set(ref(database, `admins/${currentUser}/${movieId}`), {
-//   //   ...movieDetail,
-//   // })
 // }
 
 // export async function getMovieDetail(
@@ -97,8 +91,10 @@ export async function getMovies() {
 export async function getPickDB(movieId: number) {
   return get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
     if (snapshot.exists()) {
+      console.log(snapshot.val().pick);
       return snapshot.val().pick;
     }
+    console.log(snapshot.val().pick);
     return false;
   });
 }
