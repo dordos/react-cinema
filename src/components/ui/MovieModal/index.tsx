@@ -6,47 +6,73 @@ import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { getPickDB, setPickDB } from '../../../api/firebase';
 import MovieAverage from '../../MovieAverage';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { movieDetailType } from '../../../types/movieType';
 import { API_KEY } from '../../../api/theMovieAPI';
+import { async } from '@firebase/util';
 
 const MovieModal = ({ movieId, closeModal }: any) => {
-  const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`;
-  const [movieDetailInfo, setMovieDetailInfo] = useState<movieDetailType | undefined>();
-
+  const queryClient = useQueryClient();
   const modalRef = useRef<HTMLDivElement>(null);
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current == e.target) closeModal();
   };
 
   //찜목록
-  const { data: pick } = useQuery(
-    [`admins/${movieId}`],
-    async () => {
-      return await getPickDB(movieId);
-    },
-    {
-      enabled: !!movieDetailInfo,
-    }
-  );
-  const [heartState, setHeartState] = useState(pick);
+  const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`;
+  // const [movieDetailInfo, setMovieDetailInfo] = useState<movieDetailType | undefined>();
+  const [heartState, setHeartState] = useState(false);
 
+  const detailDB = async () => {
+    const { data } = await axios.get(MOVIE_DETAIL);
+    return data;
+  };
+  const { data: movieDetailInfo } = useQuery<movieDetailType>([`admins/${movieId}`], detailDB);
+
+  const { mutate } = useMutation([`admins/${movieId}`], detailDB, {
+    onMutate: (variables: boolean) => {
+      console.log('onMutate', variables);
+    },
+    onError: (error, variables, context) => {
+      // error
+    },
+    //업데이트 되면 get요청을 자동으로 진행 할 수 있음
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries([`admins/${movieId}`]);
+      console.log('success', data, variables, context);
+    },
+    onSettled: (data, error, variables, context) => {
+      // end
+    },
+  });
+  // mutate
+  // console.log(movieDetailInfo);
+  // const movieDetailFn = async (): Promise<movieDetailType> => {
+  //   const { data } = await axios.get(MOVIE_DETAIL);
+  //   return data.data;
+  // };
+
+  // const pickData = useMutation(heartState);
+  // console.log(movieDetailInfo?.pick);
   // const { data: pick } = useQuery([`admins/${movieId}`], async () => {
   //   return await getPickDB(movieId);
   // },);
-
+  // mutate(variables);
   function pickStateFn() {
+    mutate(heartState);
     setHeartState(!heartState);
-    setPickDB(movieId, movieDetailInfo, !heartState);
+    // console.log(mutate());
+    // console.log(movieDetailInfo);
+    // console.log(!heartState);
+    // setPickDB(movieId, movieDetailInfo, !heartState);
   }
-
   useEffect(() => {
     async function movieData() {
-      const response = await axios.get(MOVIE_DETAIL);
-      setMovieDetailInfo(response.data);
+      // const response = await axios.get(MOVIE_DETAIL);
+      // setMovieDetailInfo(response.data);
     }
     movieData();
-  }, [heartState, pick]);
+  }, [heartState]);
 
   return (
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
