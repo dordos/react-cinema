@@ -30,19 +30,26 @@ const MovieModal = ({ movieId, closeModal }: any) => {
   const { data: movieDetailInfo } = useQuery<movieDetailType>([`admins/${movieId}`], detailDB);
 
   const { mutate } = useMutation([`admins/${movieId}`], detailDB, {
-    onMutate: (variables: boolean) => {
-      console.log('onMutate', variables);
+    onMutate: async (variables: boolean) => {
+      await queryClient.cancelQueries([`admins/${movieId}`]);
+      const previousValue: any = queryClient.getQueryData([`admins/${movieId}`]);
+      previousValue.pick = variables;
+
+      console.log(previousValue);
+      if (previousValue.pick !== undefined) {
+        queryClient.setQueryData([`admins/${movieId}`], () => []);
+      }
+      return { previousValue };
     },
-    onError: (error, variables, context) => {
-      // error
-    },
-    //업데이트 되면 get요청을 자동으로 진행 할 수 있음
     onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries([`admins/${movieId}`]);
+      setPickDB(movieId, data, variables);
       console.log('success', data, variables, context);
     },
-    onSettled: (data, error, variables, context) => {
-      // end
+    onSettled: (data, error, variables, context) => {},
+    onError: (error, variables, context) => {
+      if (context?.previousValue) {
+        queryClient.setQueryData([`admins/${movieId}`], context.previousValue);
+      }
     },
   });
   // mutate
@@ -59,7 +66,7 @@ const MovieModal = ({ movieId, closeModal }: any) => {
   // },);
   // mutate(variables);
   function pickStateFn() {
-    mutate(heartState);
+    mutate(!heartState);
     setHeartState(!heartState);
     // console.log(mutate());
     // console.log(movieDetailInfo);
