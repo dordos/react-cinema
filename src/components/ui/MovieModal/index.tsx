@@ -27,31 +27,81 @@ const MovieModal = ({ movieId, closeModal }: any) => {
     const { data } = await axios.get(MOVIE_DETAIL);
     return data;
   };
-  const { data: movieDetailInfo } = useQuery<movieDetailType>([`admins/${movieId}`], detailDB);
+  const { data: movieDetailInfo } = useQuery<movieDetailType>({
+    queryKey: [`admins/${movieId}`],
+    queryFn: detailDB,
+    // enabled:
+  });
 
-  const { mutate } = useMutation([`admins/${movieId}`], detailDB, {
-    onMutate: async (variables: boolean) => {
-      await queryClient.cancelQueries([`admins/${movieId}`]);
-      const previousValue: any = queryClient.getQueryData([`admins/${movieId}`]);
-      previousValue.pick = variables;
-
-      console.log(previousValue);
-      if (previousValue.pick !== undefined) {
-        queryClient.setQueryData([`admins/${movieId}`], () => []);
-      }
-      return { previousValue };
+  const { mutate: setPick } = useMutation({
+    mutationFn: detailDB,
+    onMutate: (variables: boolean) => {
+      // queryClient.setQueryData([`admins/${movieId}`], (oldData: any) => {
+      //   oldData.userMovieState = {
+      //     pick: variables,
+      //   };
+      // });
     },
-    onSuccess: (data, variables, context) => {
-      setPickDB(movieId, data, variables);
-      console.log('success', data, variables, context);
-    },
-    onSettled: (data, error, variables, context) => {},
-    onError: (error, variables, context) => {
-      if (context?.previousValue) {
-        queryClient.setQueryData([`admins/${movieId}`], context.previousValue);
-      }
+    onSuccess: (data, context) => {
+      console.log(context);
+      queryClient.setQueryData([`admins/${movieId}`], (oldData: any) => {
+        oldData.userMovieState = {
+          pick: context,
+        };
+      });
     },
   });
+
+  // oldData
+  // ? {
+  //     ...oldData,
+  //     pick: variables,
+  //   }
+  // : console.log(oldData)
+
+  // const { mutate: pickState } = useMutation({
+  // mutationFn: detailDB,
+  // onMutate: async (variables: boolean) => {
+  //query 취소
+  // await queryClient.cancelQueries([`admins/${movieId}`]);
+  //기존 쿼리 반환
+  // const previousValue: movieDetailType | undefined = queryClient.getQueryData([
+  //   `admins/${movieId}`,
+  // ]);
+
+  // queryClient.setQueryData([`admins/${movieId}`], (oldData: any) =>
+  //   oldData
+  //     ? {
+  //         ...oldData,
+  //         wefwef: 'weifiwjef',
+  //         pick: variables,
+  //       }
+  //     : oldData
+  // );
+  // console.log(previousValue);
+  // return { previousValue };
+  // },
+
+  //에러시 롤백
+  // onError: (error, variables, context) => {
+  //   console.log(error);
+  //   if (context?.previousValue) {
+  //     queryClient.setQueryData([`admins/${movieId}`], context.previousValue);
+  //   }
+  // },
+  // onSuccess: (data, variables, context) => {
+  // console.log(data);
+  // console.log(context);
+  // queryClient.invalidateQueries([`admins/${movieId}`], context?.previousValue);
+  // queryClient.invalidateQueries(context);
+  // setPickDB(movieId, data, variables);
+  // },
+  //mutaion이 완료되면 성공 유무 상관없이 쿼리를 무효화 시키고 새로 갱신
+  // onSettled: (data, error, variables, context) => {
+  //   console.log(data);
+  //   queryClient.invalidateQueries([`admins/${movieId}`]);
+  // },
+  // });
   // mutate
   // console.log(movieDetailInfo);
   // const movieDetailFn = async (): Promise<movieDetailType> => {
@@ -66,7 +116,10 @@ const MovieModal = ({ movieId, closeModal }: any) => {
   // },);
   // mutate(variables);
   function pickStateFn() {
-    mutate(!heartState);
+    // pickMutate.
+    //  (!heartState);
+    console.log(!heartState);
+    setPick(!heartState);
     setHeartState(!heartState);
     // console.log(mutate());
     // console.log(movieDetailInfo);
@@ -74,11 +127,11 @@ const MovieModal = ({ movieId, closeModal }: any) => {
     // setPickDB(movieId, movieDetailInfo, !heartState);
   }
   useEffect(() => {
-    async function movieData() {
-      // const response = await axios.get(MOVIE_DETAIL);
-      // setMovieDetailInfo(response.data);
-    }
-    movieData();
+    // async function movieData() {
+    // const response = await axios.get(MOVIE_DETAIL);
+    // setMovieDetailInfo(response.data);
+    // }
+    // movieData();
   }, [heartState]);
 
   return (
