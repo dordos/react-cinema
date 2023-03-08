@@ -43,5 +43,7 @@ export type movieDetailType = {
   vote_average: number;
   vote_count: number;
   //use Type
-  pick: boolean;
+  userMovieState: {
+    pick: boolean;
+  };
 };

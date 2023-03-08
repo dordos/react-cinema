@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { getDatabase, ref, get, set } from 'firebase/database';
+import { getDatabase, ref, get, set, onValue } from 'firebase/database';
 import { movieDetailType, movieType } from '../types/movieType';
 
 const firebaseConfig = {
@@ -13,9 +13,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-const database = getDatabase(app);
+export const database = getDatabase(app);
 //현재 로그인한 유저
-let currentUser: string | undefined = auth.currentUser?.uid;
+export let currentUser: string | undefined = auth.currentUser?.uid;
 
 //로그인
 export async function logIn(email: string, password: string) {
@@ -89,13 +89,20 @@ export async function getMovies() {
 // }
 
 export async function getPickDB(movieId: number) {
-  return get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
-    if (snapshot.exists()) {
-      return snapshot.val().pick;
-    }
-    return false;
-  });
+  ref(database, `admins/${currentUser}/${movieId}`);
 }
+
+// export async function getPickDB(movieId: number) {
+//   return get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
+//     if (snapshot.exists()) {
+//       console.log('11');
+//       console.log(snapshot.val());
+//       return snapshot.val();
+//     }
+//     console.log('22');
+//     return false;
+//   });
+// }
 
 // //firebase set data
 export async function setPickDB(
@@ -105,6 +112,8 @@ export async function setPickDB(
 ) {
   return set(ref(database, `admins/${currentUser}/${movieId}`), {
     ...movieDetail,
-    pick: state,
-  }); //
+    userMovieState: {
+      pick: state,
+    },
+  });
 }
