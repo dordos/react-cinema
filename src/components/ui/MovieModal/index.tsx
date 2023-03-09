@@ -5,38 +5,47 @@ import { AiOutlineCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/a
 import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import MovieAverage from '../../MovieAverage';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { movieDetailType } from '../../../types/movieType';
 import { API_KEY } from '../../../api/theMovieAPI';
+import { get, ref } from 'firebase/database';
+import { currentUser, database, setPickDB } from '../../../api/firebase';
 
-const MovieModal = ({ movieId, closeModal }: any) => {
-  const queryClient = useQueryClient();
+const MovieModal = ({ movieId, closeModal, movieInfo }: movieDetailType | any) => {
+  const [detailData, setDetailData] = useState<movieDetailType>();
+  const [heart, setHeart] = useState<boolean | undefined>();
+  if (detailData != movieInfo) {
+    setDetailData(movieInfo);
+    setHeart(movieInfo.userMovieState.pick);
+  }
   const modalRef = useRef<HTMLDivElement>(null);
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current == e.target) closeModal();
   };
 
   //찜목록
+  const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`;
+
   // const [movieDetailInfo, setMovieDetailInfo] = useState<movieDetailType | undefined>();
-  const [movieDetail, setMovieDetail] = useState<movieDetailType | undefined>();
-  const [heart, setHeart] = useState();
   // console.log(movieDetail);
 
   useEffect(() => {
-    // const movieRef = ref(database, `admins/${currentUser}/${movieId}`);
-    // get(movieRef).then((snapshot) => {
-    //   if (snapshot.exists()) {
-    //     setMovieDetail({ ...snapshot.val(), userMovieState: { pick: false } });
-    //     console.log(snapshot.val());
-    //   } else {
-    //     axios.get(MOVIE_DETAIL).then((response) => {
-    //       console.log(response.data);
-    //       setPickDB(movieId, response.data, false);
-    //     });
-    //     // setMovieDetail({ ...snapshot.val(), userMovieState: { pick: false } });
-    //   }
-    // });
-    // onValue(movieRef, (snapshot) => {
+    const fetchMovieInfo = async () => {
+      const newData = await axios.get(MOVIE_DETAIL);
+      const movieRef = ref(database, `admins/${currentUser}/${movieId}`);
+      // get(movieRef).then((snapshot) => {
+      //   if (!snapshot.exists()) {
+      //     axios.get(MOVIE_DETAIL).then((response) => {
+      //       console.log(response.data);
+      //       setPickDB(movieId, response.data, false);
+      //     });
+      //     setMovieDetail({ ...snapshot.val(), userMovieState: { pick: false } });
+      //     console.log(snapshot.val());
+      //   }
+      // });
+      fetchMovieInfo();
+    };
+
+    // // onValue(movieRef, (snapshot) => {
     //   const data = snapshot.val();
     //   if (data) {
     //     setMovieDetail({ ...data, userMovieState: { pick: false } });
@@ -60,7 +69,7 @@ const MovieModal = ({ movieId, closeModal }: any) => {
     // });
     // };
     // fetchMovieDetail();
-  }, [movieId]);
+  }, [movieId, heart]);
 
   // const detailDB = async () => {
   //   const { data } = await axios.get(MOVIE_DETAIL);
@@ -157,7 +166,11 @@ const MovieModal = ({ movieId, closeModal }: any) => {
   // },);
   // mutate(variables);
   function pickStateFn() {
-    console.log(heart);
+    console.log(!heart);
+    setPickDB(movieId, detailData, !heart);
+    // console.log(!heart);
+    // console.log(!detailData?.userMovieState.pick);
+    // setPickDB()
     // console.log(movieDetail?.userMovieState.pick);
     // setPickDB();
     // pickMutate.
@@ -171,13 +184,13 @@ const MovieModal = ({ movieId, closeModal }: any) => {
     // console.log(!heartState);
     // setPickDB(movieId, movieDetailInfo, !heartState);
   }
-
-  return movieDetail ? (
+  // movieDetail ?
+  return (
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
       <div className='previewContent'>
         <div className='previewLeft'>
           <Link to='/MovieDetail'>
-            <img src={`https://image.tmdb.org/t/p/w500/${movieDetail?.poster_path}`} alt='' />
+            <img src={`https://image.tmdb.org/t/p/w500/${detailData?.poster_path}`} alt='' />
           </Link>
         </div>
         <div className='previewRight'>
@@ -185,32 +198,32 @@ const MovieModal = ({ movieId, closeModal }: any) => {
             <AiOutlineCloseCircle size='36' color='#a3a3a3' onClick={closeModal} />
           </div>
           <div className='previeTitle'>
-            <Link to='/MovieDetail' state={{ movieDetail }}>
-              <h1>{movieDetail?.title}</h1>
+            <Link to='/MovieDetail' state={{}}>
+              <h1>{detailData?.title}</h1>
             </Link>
           </div>
           <div className='previewInfo'>
             <div className='metaData'>
-              <span>{movieDetail?.release_date}</span>
+              <span>{detailData?.release_date}</span>
               <div>
-                <MovieAverage movieAverage={movieDetail?.vote_average} key={movieDetail?.id} />
+                <MovieAverage movieAverage={detailData?.vote_average} key={detailData?.id} />
               </div>
             </div>
 
             <div className='overview'>
-              <p>{movieDetail?.overview}</p>
+              <p>{detailData?.overview}</p>
             </div>
             <div className='metaDataDetail'>
               <div>
                 <p className='language'>
                   지원 언어 :
-                  {movieDetail?.spoken_languages.map((language, idx) => (
+                  {detailData?.spoken_languages.map((language, idx) => (
                     <span key={idx}>{language.iso_639_1}</span>
                   ))}
                 </p>
                 <p className='genres'>
                   장르 :
-                  {movieDetail?.genres.map((item, idx) => (
+                  {detailData?.genres.map((item, idx) => (
                     <span key={idx}>{item.name}</span>
                   ))}
                 </p>
@@ -218,11 +231,7 @@ const MovieModal = ({ movieId, closeModal }: any) => {
             </div>
             <div className='myPageInfo'>
               <button className='pickHeart' onClick={pickStateFn}>
-                {movieDetail?.userMovieState.pick ? (
-                  <AiFillHeart color='#f91f1f' />
-                ) : (
-                  <AiOutlineHeart color='#e5e5e5' />
-                )}
+                {heart ? <AiFillHeart color='#f91f1f' /> : <AiOutlineHeart color='#e5e5e5' />}
               </button>
 
               <button>
@@ -233,8 +242,6 @@ const MovieModal = ({ movieId, closeModal }: any) => {
         </div>
       </div>
     </div>
-  ) : (
-    <p>Loading...</p>
   );
 };
 
