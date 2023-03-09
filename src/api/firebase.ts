@@ -88,8 +88,12 @@ export async function getMovies() {
 //   });
 // }
 
-export async function getPickDB(movieId: number) {
-  ref(database, `admins/${currentUser}/${movieId}`);
+export async function getPickDB(movieId: number | undefined) {
+  return await get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      snapshot.val();
+    }
+  });
 }
 
 // export async function getPickDB(movieId: number) {

@@ -15,25 +15,21 @@ const Movies = () => {
 
   const [movieId, setMovieId] = useState<number | undefined>();
   const { data: movies } = useQuery(['movies'], getMovies);
-  //디테일 url
-
   const [movieInfo, setMovieInfo] = useState<movieDetailType | undefined>();
-  const [temporary, setTemporary] = useState();
+  const [switchPickData, setSwitchPickData] = useState();
 
   const onMovieDetail = (selectId: number) => {
     const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectId}?api_key=${API_KEY}&language=ko-KR`;
     setMovieModalState(!movieModalState);
     setMovieId(selectId);
 
-    const movieRef = ref(database, `admins/${currentUser}/${movieId}`);
+    const movieRef = ref(database, `admins/${currentUser}/${selectId}`);
     get(movieRef).then((snapshot) => {
       if (snapshot.exists()) {
         //데이터가 있으면
         setMovieInfo(snapshot.val());
-        console.log('데이터가 있다');
-        console.log(snapshot.val());
       } else {
-        //데이터가 없으면
+        //없으면
         axios.get(MOVIE_DETAIL).then((response) => {
           const obj = {
             ...response.data,
@@ -42,19 +38,9 @@ const Movies = () => {
           setMovieInfo(obj);
         });
       }
-      // setMovieDetail({ ...snapshot.val(), userMovieState: { pick: false } });
     });
   };
-
-  // useEffect(() => {
-  //   // const prepareMovieInfo = async () => {
-  //   //   const response = await axios.get(MOVIE_DETAIL);
-  //   //   console.log(response);
-  //   //   // setPickDB(movieId, response.data, false);
-  //   // };
-  //   // prepareMovieInfo();
-  // }, [movieInfo, temporary]);
-
+  useEffect(() => {}, [switchPickData]);
   return (
     <>
       <ul className='moviesContainer'>
@@ -70,7 +56,12 @@ const Movies = () => {
         ))}
       </ul>
       {movieModalState && (
-        <MovieModal movieId={movieId} movieInfo={movieInfo} closeModal={closeModal} />
+        <MovieModal
+          movieId={movieId}
+          movieInfo={movieInfo}
+          switchPickData={setSwitchPickData}
+          closeModal={closeModal}
+        />
       )}
     </>
   );
