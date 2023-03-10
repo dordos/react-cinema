@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getMovies } from '../../../api/firebase';
 import MovieModal from '../MovieModal';
 import './style.scss';
-import { getDatabase, ref, get, onValue } from 'firebase/database';
-import { currentUser, database, getPickDB, setPickDB } from '../../../api/firebase';
+import { ref, get } from 'firebase/database';
+import { currentUser, database } from '../../../api/firebase';
 import { movieDetailType } from '../../../types/movieType';
 import axios from 'axios';
 import { API_KEY } from '../../../api/theMovieAPI';
@@ -16,7 +16,6 @@ const Movies = () => {
   const [movieId, setMovieId] = useState<number | undefined>();
   const { data: movies } = useQuery(['movies'], getMovies);
   const [movieInfo, setMovieInfo] = useState<movieDetailType | undefined>();
-  const [switchPickData, setSwitchPickData] = useState();
 
   const onMovieDetail = (selectId: number) => {
     const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectId}?api_key=${API_KEY}&language=ko-KR`;
@@ -40,7 +39,6 @@ const Movies = () => {
       }
     });
   };
-  useEffect(() => {}, [switchPickData]);
   return (
     <>
       <ul className='moviesContainer'>
@@ -56,12 +54,7 @@ const Movies = () => {
         ))}
       </ul>
       {movieModalState && (
-        <MovieModal
-          movieId={movieId}
-          movieInfo={movieInfo}
-          switchPickData={setSwitchPickData}
-          closeModal={closeModal}
-        />
+        <MovieModal movieId={movieId} movieInfo={movieInfo} closeModal={closeModal} />
       )}
     </>
   );

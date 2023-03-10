@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import './style.scss';
 import { AiOutlineCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -6,11 +5,9 @@ import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import MovieAverage from '../../MovieAverage';
 import { movieDetailType } from '../../../types/movieType';
-import { API_KEY } from '../../../api/theMovieAPI';
-import { get, ref } from 'firebase/database';
-import { currentUser, database, setPickDB } from '../../../api/firebase';
+import { setPickDB } from '../../../api/firebase';
 
-const MovieModal = ({ movieId, closeModal, movieInfo, switchPickData }: movieDetailType | any) => {
+const MovieModal = ({ movieId, closeModal, movieInfo }: movieDetailType | any) => {
   const [detailData, setDetailData] = useState<movieDetailType>();
   const [heart, setHeart] = useState<boolean | undefined>();
   if (detailData != movieInfo) {
@@ -26,8 +23,6 @@ const MovieModal = ({ movieId, closeModal, movieInfo, switchPickData }: movieDet
   function pickStateFn() {
     setHeart(!heart);
     setPickDB(movieId, detailData, !heart);
-
-    switchPickData(!detailData?.userMovieState.pick);
   }
   useEffect(() => {}, [heart]);
   return (

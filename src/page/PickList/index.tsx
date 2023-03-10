@@ -5,6 +5,9 @@ import MovieModal from '../../components/ui/MovieModal';
 import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
+import { auth, currentUser, database } from '../../api/firebase';
+import { get, ref } from 'firebase/database';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const PickList = () => {
   const [movieModalState, setMovieModalState] = useState(false);
@@ -32,7 +35,6 @@ const PickList = () => {
   ]);
 
   const star = (average: number) => {
-    // console.log(average);
     const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
     const averageCopy = [...starAverage];
 
@@ -46,12 +48,35 @@ const PickList = () => {
   };
 
   useEffect(() => {
-    async function movieData() {
-      const response = await axios.get(API_URL);
-      setMovieInfo(response.data.results);
-      star(response.data.results);
-    }
-    movieData();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const pickMovieData = ref(database, `admins/${user.uid}`);
+        get(pickMovieData).then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = Object.keys(snapshot.val());
+            const selectPickObj = data.reduce((result: any, key: any) => {
+              if (snapshot.val()[key].userMovieState.pick === true) {
+                result[key] = data[key];
+              }
+              return result;
+            }, {});
+            console.log(selectPickObj);
+          }
+        });
+      }
+    });
+
+    // const keys = Object.keys(data);
+    // const foundKey = keys.find((key) => data[key].useState.pick === true);
+    // console.log(foundKey);
+
+    // get(userId).then((snapshot) => {
+    //   console.log(snapshot.exists());
+    //   if (snapshot.exists()) {
+    //     //데이터가 있으면
+    //     setMovieInfo(snapshot.val());
+    //   }
+    // });
   }, []);
 
   return (
