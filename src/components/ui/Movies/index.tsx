@@ -15,7 +15,7 @@ const Movies = () => {
 
   const [movieId, setMovieId] = useState<number | undefined>();
   const { data: movies } = useQuery(['movies'], getMovies);
-  const [movieInfo, setMovieInfo] = useState<movieDetailType | undefined>();
+  const [modalDetail, setModalDetail] = useState<movieDetailType | undefined>();
 
   const onMovieDetail = (selectId: number) => {
     const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectId}?api_key=${API_KEY}&language=ko-KR`;
@@ -26,7 +26,7 @@ const Movies = () => {
     get(movieRef).then((snapshot) => {
       if (snapshot.exists()) {
         //데이터가 있으면
-        setMovieInfo(snapshot.val());
+        setModalDetail(snapshot.val());
       } else {
         //없으면
         axios.get(MOVIE_DETAIL).then((response) => {
@@ -34,7 +34,7 @@ const Movies = () => {
             ...response.data,
             userMovieState: { pick: false },
           };
-          setMovieInfo(obj);
+          setModalDetail(obj);
         });
       }
     });
@@ -54,7 +54,7 @@ const Movies = () => {
         ))}
       </ul>
       {movieModalState && (
-        <MovieModal movieId={movieId} movieInfo={movieInfo} closeModal={closeModal} />
+        <MovieModal movieId={movieId} modalDetail={modalDetail} closeModal={closeModal} />
       )}
     </>
   );

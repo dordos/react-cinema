@@ -6,13 +6,16 @@ import { Link } from 'react-router-dom';
 import MovieAverage from '../../MovieAverage';
 import { movieDetailType } from '../../../types/movieType';
 import { setPickDB } from '../../../api/firebase';
+import ModalCartAlert from '../../ModalCartAlert';
 
-const MovieModal = ({ movieId, closeModal, movieInfo }: movieDetailType | any) => {
+const MovieModal = ({ movieId, closeModal, modalDetail }: movieDetailType | any) => {
   const [detailData, setDetailData] = useState<movieDetailType>();
   const [heart, setHeart] = useState<boolean | undefined>();
-  if (detailData != movieInfo) {
-    setDetailData(movieInfo);
-    setHeart(movieInfo.userMovieState.pick);
+  const [cartAlert, setCartAlert] = useState(false);
+
+  if (detailData != modalDetail) {
+    setDetailData(modalDetail);
+    setHeart(modalDetail.userMovieState.pick);
   }
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -24,6 +27,14 @@ const MovieModal = ({ movieId, closeModal, movieInfo }: movieDetailType | any) =
     setHeart(!heart);
     setPickDB(movieId, detailData, !heart);
   }
+
+  function addCart() {
+    setCartAlert(true);
+    setTimeout(() => {
+      setCartAlert(false);
+    }, 2000);
+  }
+
   useEffect(() => {}, [heart]);
   return (
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
@@ -73,9 +84,9 @@ const MovieModal = ({ movieId, closeModal, movieInfo }: movieDetailType | any) =
               <button className='pickHeart' onClick={pickStateFn}>
                 {heart ? <AiFillHeart color='#f91f1f' /> : <AiOutlineHeart color='#e5e5e5' />}
               </button>
-
-              <button>
-                <BsCartPlus className='addcart' color='#e5e5e5' />
+              {cartAlert && <ModalCartAlert />}
+              <button className='cartBtn' onClick={addCart}>
+                <BsCartPlus className='addcart' />
               </button>
             </div>
           </div>
