@@ -78,6 +78,15 @@ export async function setPickDB(
   });
 }
 
+export async function setCart(movieId: number, movieDetail: movieDetailType | undefined) {
+  return set(ref(database, `admins/${currentUser}/${movieId}`), {
+    ...movieDetail,
+    userMovieState: {
+      cartState: true,
+    },
+  });
+}
+
 // export async function pickList(params: type) {
 //   return get(ref(database, `admins/${currentUser}/${movieId}`), {});
 // }

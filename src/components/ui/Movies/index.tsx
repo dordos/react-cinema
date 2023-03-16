@@ -32,7 +32,7 @@ const Movies = () => {
         axios.get(MOVIE_DETAIL).then((response) => {
           const obj = {
             ...response.data,
-            userMovieState: { pick: false },
+            userMovieState: { pick: false, cartState: false },
           };
           setModalDetail(obj);
         });

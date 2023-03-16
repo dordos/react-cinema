@@ -5,7 +5,7 @@ import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import MovieAverage from '../../MovieAverage';
 import { movieDetailType } from '../../../types/movieType';
-import { setPickDB } from '../../../api/firebase';
+import { setCart, setPickDB } from '../../../api/firebase';
 import ModalCartAlert from '../../ModalCartAlert';
 
 const MovieModal = ({ movieId, closeModal, modalDetail }: movieDetailType | any) => {
@@ -33,6 +33,7 @@ const MovieModal = ({ movieId, closeModal, modalDetail }: movieDetailType | any)
     setTimeout(() => {
       setCartAlert(false);
     }, 2000);
+    setCart(movieId, detailData);
   }
 
   useEffect(() => {}, [heart]);
