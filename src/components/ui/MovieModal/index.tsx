@@ -5,8 +5,9 @@ import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import MovieAverage from '../../MovieAverage';
 import { movieDetailType } from '../../../types/movieType';
-import { setCart, setPickDB } from '../../../api/firebase';
+import { currentUser, database, setCart, setPickDB } from '../../../api/firebase';
 import ModalCartAlert from '../../ModalCartAlert';
+import { get, ref } from 'firebase/database';
 
 const MovieModal = ({ movieId, closeModal, modalDetail }: movieDetailType | any) => {
   const [detailData, setDetailData] = useState<movieDetailType>();
@@ -33,7 +34,15 @@ const MovieModal = ({ movieId, closeModal, modalDetail }: movieDetailType | any)
     setTimeout(() => {
       setCartAlert(false);
     }, 2000);
-    setCart(movieId, detailData);
+
+    get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        setCart(movieId, detailData, snapshot.val().userMovieState);
+      } else {
+        // setCart(movieId, detailData, userMovieState.pick);
+      }
+      console.log(snapshot.val().userMovieState);
+    });
   }
 
   useEffect(() => {}, [heart]);

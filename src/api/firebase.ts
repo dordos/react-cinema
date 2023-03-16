@@ -79,11 +79,15 @@ export async function setPickDB(
   });
 }
 
-export async function setCart(movieId: number, movieDetail: movieDetailType | undefined) {
+export async function setCart(
+  movieId: number,
+  movieDetail: movieDetailType | undefined,
+  getUserState: any
+) {
   return set(ref(database, `admins/${currentUser}/${movieId}`), {
     ...movieDetail,
     userMovieState: {
-      ...movieDetail?.userMovieState,
+      ...getUserState,
       cartState: true,
     },
   });

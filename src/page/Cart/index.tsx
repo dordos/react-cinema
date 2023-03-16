@@ -46,6 +46,7 @@ const Cart = () => {
 
   const [movieDetail, setMovieDetail] = useState<movieType>();
   const [images, setImages] = useState<movieImgType>();
+  const [cartData, setCartData] = useState<movieType | any>();
   // const [detailData, setDetailData] = useState<movieDetail>();
 
   const [starAverage, setStarAverage] = useState([
@@ -74,10 +75,10 @@ const Cart = () => {
       if (user) {
         const cartData = ref(database, `admins/${user.uid}`);
         get(cartData).then((snapshot) => {
-          const data = Object.entries(snapshot.val()).filter(
-            ([key, vlaue]: any) => vlaue.userMovieState.cartState
-          );
-          console.log(data);
+          if (snapshot.exists()) {
+            const data = Object.values(snapshot.val());
+            setCartData(data);
+          }
         });
       }
     });
@@ -99,129 +100,69 @@ const Cart = () => {
         </div>
 
         <ul className='cart'>
-          <li className='cartItemList'>
-            <div className='orderCheck'>
-              <input type='checkbox' id='check1' />
-              <label htmlFor='check1'></label>
-            </div>
-            <div className='cartItem__img'>
-              <img src={`https://image.tmdb.org/t/p/w500/${movieDetail?.poster_path}`} alt='' />
-            </div>
+          {cartData?.map((cartItem) => (
+            <li className='cartItemList'>
+              <div className='orderCheck'>
+                <input type='checkbox' id='check1' />
+                <label htmlFor='check1'></label>
+              </div>
+              <div className='cartItem__img'>
+                <img src={`https://image.tmdb.org/t/p/w500/${cartItem?.poster_path}`} alt='' />
+              </div>
 
-            <div className='cartInfo'>
-              <h1>{movieDetail?.title}</h1>
-              <div className='cartAverage'>
-                <div className='averageImg'>{starAverage}</div>
-                <div className='avaerageNum'>{movieDetail?.vote_average}</div>
-              </div>
-              <div className='cartInfo__metaData'>
-                <div className='moviedDte'>{movieDetail?.release_date}</div>
-                <div className='movieTime'>•{movieDetail?.runtime}분</div>
-              </div>
-              <p className='genres'>
-                장르 :
-                {movieDetail?.genres.map((item, idx) => (
-                  <span key={idx}>{item.name}</span>
-                ))}
-              </p>
-              <p className='language'>
-                지원 언어 :
-                {movieDetail?.spoken_languages.map((language, idx) => (
-                  <span key={idx}>{language.iso_639_1}</span>
-                ))}
-              </p>
-            </div>
-
-            <div className='rentalTime'>
-              <h2>대여시간</h2>
-              <div className='addRentalTime'>
-                <AiOutlineMinusCircle />
-                <p>23일</p>
-                <AiOutlinePlusCircle />
-              </div>
-              <div className='retalDate'>
-                <p>
-                  <span>시작일 : </span>2022.02.12
+              <div className='cartInfo'>
+                <h1>{cartItem?.title}</h1>
+                <div className='cartAverage'>
+                  <div className='averageImg'>{starAverage}</div>
+                  <div className='avaerageNum'>{cartItem?.vote_average}</div>
+                </div>
+                <div className='cartInfo__metaData'>
+                  <div className='moviedDte'>{cartItem?.release_date}</div>
+                  <div className='movieTime'>•{cartItem?.runtime}분</div>
+                </div>
+                <p className='genres'>
+                  장르 :
+                  {cartItem?.genres.map((item, idx) => (
+                    <span key={idx}>{item.name}</span>
+                  ))}
                 </p>
-                <p>
-                  <span>종료일 : </span> 2022.02.13
+                <p className='language'>
+                  지원 언어 :
+                  {cartItem?.spoken_languages.map((language, idx) => (
+                    <span key={idx}>{language.iso_639_1}</span>
+                  ))}
                 </p>
               </div>
-            </div>
 
-            <div className='rentalPrice'>
-              <h2>대여 금액</h2>
-              <div>
-                <p>10,000</p>
-                <span>원</span>
+              <div className='rentalTime'>
+                <h2>대여시간</h2>
+                <div className='addRentalTime'>
+                  <AiOutlineMinusCircle />
+                  <p>23일</p>
+                  <AiOutlinePlusCircle />
+                </div>
+                <div className='retalDate'>
+                  <p>
+                    <span>시작일 : </span>2022.02.12
+                  </p>
+                  <p>
+                    <span>종료일 : </span> 2022.02.13
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className='listClose'>
-              <AiOutlineClose />
-            </div>
-          </li>
 
-          <li className='cartItemList'>
-            <div className='orderCheck'>
-              <input type='checkbox' id='check1' />
-              <label htmlFor='check1'></label>
-            </div>
-            <div className='cartItem__img'>
-              <img src={`https://image.tmdb.org/t/p/w500/${movieDetail?.poster_path}`} alt='' />
-            </div>
-
-            <div className='cartInfo'>
-              <h1>{movieDetail?.title}</h1>
-              <div className='cartAverage'>
-                <div className='averageImg'>{starAverage}</div>
-                <div className='avaerageNum'>{movieDetail?.vote_average}</div>
+              <div className='rentalPrice'>
+                <h2>대여 금액</h2>
+                <div>
+                  <p>10,000</p>
+                  <span>원</span>
+                </div>
               </div>
-              <div className='cartInfo__metaData'>
-                <div className='moviedDte'>{movieDetail?.release_date}</div>
-                <div className='movieTime'>•{movieDetail?.runtime}분</div>
+              <div className='listClose'>
+                <AiOutlineClose />
               </div>
-              <p className='genres'>
-                장르 :
-                {movieDetail?.genres.map((item, idx) => (
-                  <span key={idx}>{item.name}</span>
-                ))}
-              </p>
-              <p className='language'>
-                지원 언어 :
-                {movieDetail?.spoken_languages.map((language, idx) => (
-                  <span key={idx}>{language.iso_639_1}</span>
-                ))}
-              </p>
-            </div>
-
-            <div className='rentalTime'>
-              <h2>대여시간</h2>
-              <div className='addRentalTime'>
-                <AiOutlineMinusCircle />
-                <p>23일</p>
-                <AiOutlinePlusCircle />
-              </div>
-              <div className='retalDate'>
-                <p>
-                  <span>시작일 : </span>2022.02.12
-                </p>
-                <p>
-                  <span>종료일 : </span> 2022.02.13
-                </p>
-              </div>
-            </div>
-
-            <div className='rentalPrice'>
-              <h2>대여 금액</h2>
-              <div>
-                <p>10,000</p>
-                <span>원</span>
-              </div>
-            </div>
-            <div className='listClose'>
-              <AiOutlineClose />
-            </div>
-          </li>
+            </li>
+          ))}
 
           <li className='cartItemList'>
             <div className='orderCheck'>
