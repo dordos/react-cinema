@@ -73,6 +73,7 @@ export async function setPickDB(
   return set(ref(database, `admins/${currentUser}/${movieId}`), {
     ...movieDetail,
     userMovieState: {
+      ...movieDetail?.userMovieState,
       pick: state,
     },
   });
@@ -82,6 +83,7 @@ export async function setCart(movieId: number, movieDetail: movieDetailType | un
   return set(ref(database, `admins/${currentUser}/${movieId}`), {
     ...movieDetail,
     userMovieState: {
+      ...movieDetail?.userMovieState,
       cartState: true,
     },
   });

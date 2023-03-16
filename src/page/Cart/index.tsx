@@ -6,6 +6,9 @@ import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineClose } from 'react-icons/ai';
 
 import { FaEquals, FaPlus } from 'react-icons/fa';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, database } from '../../api/firebase';
+import { get, ref } from 'firebase/database';
 
 const Cart = () => {
   const API_URL = `https://api.themoviedb.org/3/movie/${505642}?api_key=${
@@ -67,16 +70,17 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    async function movieData() {
-      const response = await axios.get(API_URL);
-      const results = response.data;
-      setMovieDetail(results);
-
-      const response_img = await axios.get(MOIVE_IMG);
-      setImages(response_img.data);
-      star(response.data.vote_average);
-    }
-    movieData();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const cartData = ref(database, `admins/${user.uid}`);
+        get(cartData).then((snapshot) => {
+          const data = Object.entries(snapshot.val()).filter(
+            ([key, vlaue]: any) => vlaue.userMovieState.cartState
+          );
+          console.log(data);
+        });
+      }
+    });
   }, []);
 
   return (
