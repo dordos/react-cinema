@@ -9,45 +9,10 @@ import { FaEquals, FaPlus } from 'react-icons/fa';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, database } from '../../api/firebase';
 import { get, ref } from 'firebase/database';
+import { movieDetailType, movieType } from '../../types/movieType';
 
 const Cart = () => {
-  const API_URL = `https://api.themoviedb.org/3/movie/${505642}?api_key=${
-    process.env.REACT_APP_TMDB_API_KEY
-  }&language=ko-KR`;
-
-  const MOIVE_IMG = `https://api.themoviedb.org/3/movie/${505642}/images?api_key=${
-    process.env.REACT_APP_TMDB_API_KEY
-  }`;
-
-  type movieType = {
-    title: string;
-    release_date: string;
-    runtime: number;
-    overview: string;
-    genres: Array<{ id: number; name: string }>;
-    poster_path: string | undefined;
-    spoken_languages: Array<{ iso_639_1: string }>;
-    vote_average: number;
-  };
-
-  type movieImgType = {
-    backdrops: Array<{
-      aspect_ratio: number;
-      file_path: string;
-      height: number;
-      width: number;
-    }>;
-    posters: Array<{
-      file_path: string;
-      height: number;
-      width: number;
-    }>;
-  };
-
-  const [movieDetail, setMovieDetail] = useState<movieType>();
-  const [images, setImages] = useState<movieImgType>();
-  const [cartData, setCartData] = useState<movieType | any>();
-  // const [detailData, setDetailData] = useState<movieDetail>();
+  const [cartData, setCartData] = useState<movieDetailType[] | undefined>();
 
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
@@ -70,13 +35,18 @@ const Cart = () => {
     setStarAverage(averageCopy);
   };
 
+  const allSelect = () => {
+    console.log('ad');
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const cartData = ref(database, `admins/${user.uid}`);
         get(cartData).then((snapshot) => {
           if (snapshot.exists()) {
-            const data = Object.values(snapshot.val());
+            const data = Object.values<movieDetailType>(snapshot.val());
+            console.log(data);
             setCartData(data);
           }
         });
@@ -89,7 +59,7 @@ const Cart = () => {
       <MenuBar />
       <div className='cartWrap'>
         <div className='boxControl'>
-          <div className='box-all-select'>
+          <div className='box-all-select' onClick={allSelect}>
             <input type='checkbox' />
             <p>전체선택</p>
           </div>
@@ -98,7 +68,7 @@ const Cart = () => {
             <p>선택삭제</p>
           </button>
         </div>
-
+        {/* list */}
         <ul className='cart'>
           {cartData?.map((cartItem) => (
             <li className='cartItemList'>
@@ -164,6 +134,7 @@ const Cart = () => {
             </li>
           ))}
 
+          {/* payment */}
           <div className='totalPrice'>
             <div>
               <div className='selectAllMovieWrap'>
