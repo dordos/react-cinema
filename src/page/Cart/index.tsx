@@ -35,8 +35,8 @@ const Cart = () => {
     setStarAverage(averageCopy);
   };
 
-  const allSelect = () => {
-    console.log('ad');
+  const allSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.checked);
   };
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Cart = () => {
       <MenuBar />
       <div className='cartWrap'>
         <div className='boxControl'>
-          <div className='box-all-select' onClick={allSelect}>
+          <div className='box-all-select' onChange={allSelect}>
             <input type='checkbox' />
             <p>전체선택</p>
           </div>
@@ -70,11 +70,11 @@ const Cart = () => {
         </div>
         {/* list */}
         <ul className='cart'>
-          {cartData?.map((cartItem) => (
-            <li className='cartItemList'>
+          {cartData?.map((cartItem, idx) => (
+            <li className='cartItemList' key={idx}>
               <div className='orderCheck'>
-                <input type='checkbox' id='check1' />
-                <label htmlFor='check1'></label>
+                <input type='checkbox' className='cartCheckBox' />
+                <label htmlFor='cartCheckBox'></label>
               </div>
               <div className='cartItem__img'>
                 <img src={`https://image.tmdb.org/t/p/w500/${cartItem?.poster_path}`} alt='' />
