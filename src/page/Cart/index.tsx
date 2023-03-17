@@ -13,6 +13,7 @@ import { movieDetailType, movieType } from '../../types/movieType';
 
 const Cart = () => {
   const [cartData, setCartData] = useState<movieDetailType[] | undefined>();
+  const [cartCheckList, setCartCheckList] = useState([]);
 
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
@@ -35,8 +36,14 @@ const Cart = () => {
     setStarAverage(averageCopy);
   };
 
-  const allSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.checked);
+  const singleSelect = (checked, id) => {
+    console.log(id);
+  };
+
+  const allSelect = (checked: React.ChangeEvent<HTMLInputElement>) => {
+    if (checked) {
+      const newArray = [];
+    }
   };
 
   useEffect(() => {
@@ -73,7 +80,14 @@ const Cart = () => {
           {cartData?.map((cartItem, idx) => (
             <li className='cartItemList' key={idx}>
               <div className='orderCheck'>
-                <input type='checkbox' className='cartCheckBox' />
+                <input
+                  type='checkbox'
+                  className='cartCheckBox'
+                  name={`cartItemCheck${idx}`}
+                  onChange={(e) => {
+                    singleSelect(e.target.checked, `cartItemCheck${idx}`);
+                  }}
+                />
                 <label htmlFor='cartCheckBox'></label>
               </div>
               <div className='cartItem__img'>
