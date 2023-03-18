@@ -13,7 +13,7 @@ import { movieDetailType, movieType } from '../../types/movieType';
 
 const Cart = () => {
   const [cartData, setCartData] = useState<movieDetailType[] | undefined>();
-  const [cartCheckList, setCartCheckList] = useState([]);
+  const [cartCheckList, setCartCheckList] = useState<string[]>([]);
 
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
@@ -36,13 +36,18 @@ const Cart = () => {
     setStarAverage(averageCopy);
   };
 
-  const singleSelect = (checked, id) => {
-    console.log(id);
+  const singleSelect = (checked: boolean, id: string) => {
+    if (checked) {
+      setCartCheckList((prev) => [...prev, id]);
+    } else {
+      setCartCheckList(cartCheckList.filter((el) => el !== id));
+    }
   };
+  console.log(cartCheckList);
 
   const allSelect = (checked: React.ChangeEvent<HTMLInputElement>) => {
     if (checked) {
-      const newArray = [];
+      const idArray = [];
     }
   };
 
