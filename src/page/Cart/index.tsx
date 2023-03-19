@@ -13,7 +13,7 @@ import { movieDetailType, movieType } from '../../types/movieType';
 
 const Cart = () => {
   const [cartData, setCartData] = useState<movieDetailType[] | undefined>();
-  const [cartCheckList, setCartCheckList] = useState<string[]>([]);
+  const [cartCheckList, setCartCheckList] = useState<movieDetailType[]>([]);
 
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
@@ -36,18 +36,22 @@ const Cart = () => {
     setStarAverage(averageCopy);
   };
 
-  const singleSelect = (checked: boolean, id: string) => {
+  const singleSelect = (checked: boolean, id: number) => {
+    console.log(id);
     if (checked) {
       setCartCheckList((prev) => [...prev, id]);
     } else {
       setCartCheckList(cartCheckList.filter((el) => el !== id));
     }
   };
-  console.log(cartCheckList);
 
   const allSelect = (checked: React.ChangeEvent<HTMLInputElement>) => {
     if (checked) {
-      const idArray = [];
+      const idArray: any[] = [];
+      cartData?.forEach((el) => idArray.push(el.id));
+      setCartCheckList(idArray);
+    } else {
+      setCartCheckList([]);
     }
   };
 
@@ -58,7 +62,6 @@ const Cart = () => {
         get(cartData).then((snapshot) => {
           if (snapshot.exists()) {
             const data = Object.values<movieDetailType>(snapshot.val());
-            console.log(data);
             setCartData(data);
           }
         });
@@ -72,7 +75,10 @@ const Cart = () => {
       <div className='cartWrap'>
         <div className='boxControl'>
           <div className='box-all-select' onChange={allSelect}>
-            <input type='checkbox' />
+            <input
+              type='checkbox'
+              checked={cartCheckList?.length === cartData?.length ? true : false}
+            />
             <p>전체선택</p>
           </div>
           <button>
@@ -90,7 +96,7 @@ const Cart = () => {
                   className='cartCheckBox'
                   name={`cartItemCheck${idx}`}
                   onChange={(e) => {
-                    singleSelect(e.target.checked, `cartItemCheck${idx}`);
+                    singleSelect(e.target.checked, cartItem.id);
                   }}
                 />
                 <label htmlFor='cartCheckBox'></label>
