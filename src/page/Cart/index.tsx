@@ -14,6 +14,20 @@ import { movieDetailType } from '../../types/movieType';
 const Cart = () => {
   const [cartData, setCartData] = useState<movieDetailType[] | undefined>();
   const [cartCheckList, setCartCheckList] = useState<movieDetailType[]>([]);
+  const [cartPrice, setCartPrice] = useState([]);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const cartData = ref(database, `admins/${user.uid}`);
+      get(cartData).then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = Object.values<movieDetailType>(snapshot.val());
+          const getCartData = data.filter((el) => el.userMovieState.cartState === true);
+          setCartData(getCartData);
+        }
+      });
+    }
+  });
 
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
@@ -55,20 +69,7 @@ const Cart = () => {
     });
   };
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const cartData = ref(database, `admins/${user.uid}`);
-        get(cartData).then((snapshot) => {
-          if (snapshot.exists()) {
-            const data = Object.values<movieDetailType>(snapshot.val());
-            const getCartData = data.filter((el) => el.userMovieState.cartState === true);
-            setCartData(getCartData);
-          }
-        });
-      }
-    });
-  }, [removeCart]);
+  useEffect(() => {}, [cartData]);
 
   return (
     <>
