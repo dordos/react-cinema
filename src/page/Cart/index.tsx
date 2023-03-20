@@ -7,8 +7,8 @@ import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineClose } from 'react
 
 import { FaEquals, FaPlus } from 'react-icons/fa';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, database } from '../../api/firebase';
-import { get, ref } from 'firebase/database';
+import { auth, currentUser, database } from '../../api/firebase';
+import { get, ref, set } from 'firebase/database';
 import { movieDetailType } from '../../types/movieType';
 
 const Cart = () => {
@@ -44,8 +44,15 @@ const Cart = () => {
     }
   };
 
-  const removeCart = (b: any) => {
-    console.log(b);
+  const removeCart = (movieId: number) => {
+    const [removeTarget]: any = cartData?.filter((el) => el.id === movieId);
+    set(ref(database, `admins/${currentUser}/${movieId}`), {
+      ...removeTarget,
+      userMovieState: {
+        ...removeTarget?.userMovieState,
+        cartState: false,
+      },
+    });
   };
 
   useEffect(() => {
@@ -61,7 +68,7 @@ const Cart = () => {
         });
       }
     });
-  }, []);
+  }, [removeCart]);
 
   return (
     <>
