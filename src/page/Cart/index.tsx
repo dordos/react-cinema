@@ -69,8 +69,9 @@ const Cart = () => {
     });
   };
 
-  useEffect(() => {}, [cartData]);
-
+  useEffect(() => {
+    console.log('d');
+  }, [cartCheckList]);
   return (
     <>
       <MenuBar />
@@ -158,7 +159,7 @@ const Cart = () => {
               <div className='selectAllMovieWrap'>
                 <h2>총 선택 영화</h2>
                 <div>
-                  <p>2</p>
+                  <p>{cartCheckList.length}</p>
                   <span>편</span>
                 </div>
               </div>
