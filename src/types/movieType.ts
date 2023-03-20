@@ -45,5 +45,6 @@ export type movieDetailType = {
   //use Type
   userMovieState: {
     pick: boolean;
+    cartState: boolean;
   };
 };

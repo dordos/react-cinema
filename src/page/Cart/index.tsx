@@ -9,7 +9,7 @@ import { FaEquals, FaPlus } from 'react-icons/fa';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, database } from '../../api/firebase';
 import { get, ref } from 'firebase/database';
-import { movieDetailType, movieType } from '../../types/movieType';
+import { movieDetailType } from '../../types/movieType';
 
 const Cart = () => {
   const [cartData, setCartData] = useState<movieDetailType[] | undefined>();
@@ -36,8 +36,7 @@ const Cart = () => {
     setStarAverage(averageCopy);
   };
 
-  const singleSelect = (checked: boolean, id: number) => {
-    console.log(id);
+  const cartSelect = (checked: boolean, id: any) => {
     if (checked) {
       setCartCheckList((prev) => [...prev, id]);
     } else {
@@ -45,14 +44,8 @@ const Cart = () => {
     }
   };
 
-  const allSelect = (checked: React.ChangeEvent<HTMLInputElement>) => {
-    if (checked) {
-      const idArray: any[] = [];
-      cartData?.forEach((el) => idArray.push(el.id));
-      setCartCheckList(idArray);
-    } else {
-      setCartCheckList([]);
-    }
+  const removeCart = (b: any) => {
+    console.log(b);
   };
 
   useEffect(() => {
@@ -62,7 +55,8 @@ const Cart = () => {
         get(cartData).then((snapshot) => {
           if (snapshot.exists()) {
             const data = Object.values<movieDetailType>(snapshot.val());
-            setCartData(data);
+            const getCartData = data.filter((el) => el.userMovieState.cartState === true);
+            setCartData(getCartData);
           }
         });
       }
@@ -73,20 +67,6 @@ const Cart = () => {
     <>
       <MenuBar />
       <div className='cartWrap'>
-        <div className='boxControl'>
-          <div className='box-all-select' onChange={allSelect}>
-            <input
-              type='checkbox'
-              checked={cartCheckList?.length === cartData?.length ? true : false}
-            />
-            <p>전체선택</p>
-          </div>
-          <button>
-            <AiOutlineClose />
-            <p>선택삭제</p>
-          </button>
-        </div>
-        {/* list */}
         <ul className='cart'>
           {cartData?.map((cartItem, idx) => (
             <li className='cartItemList' key={idx}>
@@ -96,7 +76,7 @@ const Cart = () => {
                   className='cartCheckBox'
                   name={`cartItemCheck${idx}`}
                   onChange={(e) => {
-                    singleSelect(e.target.checked, cartItem.id);
+                    cartSelect(e.target.checked, cartItem.id);
                   }}
                 />
                 <label htmlFor='cartCheckBox'></label>
@@ -149,11 +129,16 @@ const Cart = () => {
               <div className='rentalPrice'>
                 <h2>대여 금액</h2>
                 <div>
-                  <p>10,000</p>
+                  <p>1,000</p>
                   <span>원</span>
                 </div>
               </div>
-              <div className='listClose'>
+              <div
+                className='listClose'
+                onClick={(e) => {
+                  removeCart(cartItem.id);
+                }}
+              >
                 <AiOutlineClose />
               </div>
             </li>
