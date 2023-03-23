@@ -7,27 +7,16 @@ import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineClose } from 'react
 
 import { FaEquals, FaPlus } from 'react-icons/fa';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, currentUser, database } from '../../api/firebase';
+import { auth, currentUser, database, getCart } from '../../api/firebase';
 import { get, ref, set } from 'firebase/database';
 import { movieDetailType } from '../../types/movieType';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 const Cart = () => {
-  const [cartData, setCartData] = useState<movieDetailType[] | undefined>();
+  const { data: cartData } = useQuery(['cart'], getCart);
+  const { mutate } = useMutation<movieDetailType[]>(getCart);
   const [cartCheckList, setCartCheckList] = useState<movieDetailType[]>([]);
   const [cartPrice, setCartPrice] = useState([]);
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const cartData = ref(database, `admins/${user.uid}`);
-      get(cartData).then((snapshot) => {
-        if (snapshot.exists()) {
-          const data = Object.values<movieDetailType>(snapshot.val());
-          const getCartData = data.filter((el) => el.userMovieState.cartState === true);
-          setCartData(getCartData);
-        }
-      });
-    }
-  });
 
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
@@ -50,6 +39,22 @@ const Cart = () => {
     setStarAverage(averageCopy);
   };
 
+  const nowTime = () => {
+    let now = new Date();
+    let todayYear = now.getFullYear();
+    let todayMonth = now.getMonth() + 1 > 9 ? now.getMonth() + 1 : '0' + (now.getMonth() + 1);
+    let todayDate = now.getDate() > 9 ? now.getDate() : '0' + now.getDate();
+    return `${todayYear}.${todayMonth}.${todayDate}`;
+  };
+
+  const plusDate = (target: movieDetailType, increase: number) => {
+    const item = { ...target };
+    item.userMovieState.dayCount += increase;
+  };
+  const minusDate = (target: any) => {
+    console.log(target);
+  };
+
   const cartSelect = (checked: boolean, id: any) => {
     if (checked) {
       setCartCheckList((prev) => [...prev, id]);
@@ -58,6 +63,7 @@ const Cart = () => {
     }
   };
 
+  //리스트 삭제 / 파이어베이스 삭제
   const removeCart = (movieId: number) => {
     const [removeTarget]: any = cartData?.filter((el) => el.id === movieId);
     set(ref(database, `admins/${currentUser}/${movieId}`), {
@@ -65,13 +71,29 @@ const Cart = () => {
       userMovieState: {
         ...removeTarget?.userMovieState,
         cartState: false,
+        dayCount: 0,
+        dayStart: nowTime(),
+        dayEnd: nowTime(),
+        price: '1',
       },
     });
   };
 
   useEffect(() => {
-    console.log('d');
-  }, [cartCheckList]);
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     const cartData = ref(database, `admins/${user.uid}`);
+    //     get(cartData).then((snapshot) => {
+    //       if (snapshot.exists()) {
+    //         const data = Object.values<movieDetailType>(snapshot.val());
+    //         const cartDB = data.filter((el) => el.userMovieState.cartState === true);
+    //         setCartData(cartDB);
+    //       }
+    //     });
+    //   }
+    // });
+  }, [cartData]);
+
   return (
     <>
       <MenuBar />
@@ -121,13 +143,22 @@ const Cart = () => {
               <div className='rentalTime'>
                 <h2>대여시간</h2>
                 <div className='addRentalTime'>
-                  <AiOutlineMinusCircle />
-                  <p>23일</p>
-                  <AiOutlinePlusCircle />
+                  <AiOutlineMinusCircle
+                    onClick={(e) => {
+                      minusDate(cartItem);
+                    }}
+                  />
+                  <p>{cartItem.userMovieState.dayCount}일</p>
+                  <AiOutlinePlusCircle
+                    onClick={(e) => {
+                      plusDate(cartItem, +1);
+                    }}
+                  />
                 </div>
                 <div className='retalDate'>
                   <p>
-                    <span>시작일 : </span>2022.02.12
+                    <span>시작일 : </span>
+                    {nowTime()}
                   </p>
                   <p>
                     <span>종료일 : </span> 2022.02.13
@@ -138,7 +169,7 @@ const Cart = () => {
               <div className='rentalPrice'>
                 <h2>대여 금액</h2>
                 <div>
-                  <p>1,000</p>
+                  <p>{cartItem?.userMovieState.price},000</p>
                   <span>원</span>
                 </div>
               </div>

@@ -64,6 +64,24 @@ export async function getMovies() {
   });
 }
 
+export async function getCart() {
+  return get(ref(database, `admins/${currentUser}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      const data = Object.values<movieDetailType>(snapshot.val());
+      const cartDB = data.filter((el) => el.userMovieState.cartState === true);
+      return cartDB;
+    }
+    return [];
+  });
+}
+
+// add movieDetail Default
+export async function addMovieDetailDefault(movieId: number, movieDetail: movieDetailType) {
+  return set(ref(database, `admins/${currentUser}/${movieId}`), {
+    ...movieDetail,
+  });
+}
+
 // //firebase set data
 export async function setPickDB(
   movieId: number,

@@ -38,10 +38,7 @@ const MovieModal = ({ movieId, closeModal, modalDetail }: movieDetailType | any)
     get(ref(database, `admins/${currentUser}/${movieId}`)).then((snapshot) => {
       if (snapshot.exists()) {
         setCart(movieId, detailData, snapshot.val().userMovieState);
-      } else {
-        // setCart(movieId, detailData, userMovieState.pick);
       }
-      console.log(snapshot.val().userMovieState);
     });
   }
 

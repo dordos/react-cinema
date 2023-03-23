@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getMovies } from '../../../api/firebase';
+import { addMovieDetailDefault, getMovies } from '../../../api/firebase';
 import MovieModal from '../MovieModal';
 import './style.scss';
 import { ref, get } from 'firebase/database';
@@ -17,6 +17,14 @@ const Movies = () => {
   const { data: movies } = useQuery(['movies'], getMovies);
   const [modalDetail, setModalDetail] = useState<movieDetailType | undefined>();
 
+  const nowTime = () => {
+    let now = new Date();
+    let todayYear = now.getFullYear();
+    let todayMonth = now.getMonth() + 1 > 9 ? now.getMonth() + 1 : '0' + (now.getMonth() + 1);
+    let todayDate = now.getDate() > 9 ? now.getDate() : '0' + now.getDate();
+    return `${todayYear}.${todayMonth}.${todayDate}`;
+  };
+
   const onMovieDetail = (selectId: number) => {
     const MOVIE_DETAIL = `https://api.themoviedb.org/3/movie/${selectId}?api_key=${API_KEY}&language=ko-KR`;
     setMovieModalState(!movieModalState);
@@ -29,12 +37,21 @@ const Movies = () => {
         setModalDetail(snapshot.val());
       } else {
         //없으면
+
         axios.get(MOVIE_DETAIL).then((response) => {
           const obj = {
             ...response.data,
-            userMovieState: { pick: false, cartState: false },
+            userMovieState: {
+              pick: false,
+              cartState: false,
+              dayCount: 0,
+              dayStart: nowTime(),
+              dayEnd: nowTime(),
+              price: '1',
+            },
           };
           setModalDetail(obj);
+          addMovieDetailDefault(selectId, obj);
         });
       }
     });
