@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
 import axios from 'axios';
@@ -13,8 +13,8 @@ import { movieDetailType } from '../../types/movieType';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 const Cart = () => {
-  // const { data: cartData } = useQuery(['cart'], getCart);
   const [cartData, setCartData] = useState<movieDetailType[]>();
+  const prevCartData = useRef<movieDetailType[]>();
   const [cartCheckList, setCartCheckList] = useState<movieDetailType[]>([]);
   const [controlData, setControlData] = useState<movieDetailType>();
 
@@ -71,21 +71,23 @@ const Cart = () => {
       setCartCheckList(cartCheckList.filter((el) => el !== id));
     }
   };
-
+  const [itemRemove, setItemRemove] = useState<any>();
   //리스트 삭제 / 파이어베이스 삭제
   const removeCart = (movieId: number) => {
     const [removeTarget]: any = cartData?.filter((el) => el.id === movieId);
-    set(ref(database, `admins/${currentUser}/${movieId}`), {
-      ...removeTarget,
-      userMovieState: {
-        ...removeTarget?.userMovieState,
-        cartState: false,
-        dayCount: 0,
-        dayStart: nowTime(),
-        dayEnd: nowTime(),
-        price: 0,
-      },
-    });
+    setItemRemove(
+      set(ref(database, `admins/${currentUser}/${movieId}`), {
+        ...removeTarget,
+        userMovieState: {
+          ...removeTarget?.userMovieState,
+          cartState: false,
+          dayCount: 0,
+          dayStart: nowTime(),
+          dayEnd: nowTime(),
+          price: 0,
+        },
+      })
+    );
   };
 
   useEffect(() => {
@@ -96,14 +98,16 @@ const Cart = () => {
           if (snapshot.exists()) {
             const data = Object.values<movieDetailType>(snapshot.val());
             const cartDB = data.filter((el) => el.userMovieState.cartState === true);
-            setCartData(cartDB);
+
+            if (JSON.stringify(cartDB) !== JSON.stringify(prevCartData.current)) {
+              setCartData(cartDB);
+              prevCartData.current = cartDB;
+            }
           }
         });
       }
     });
-  }, []);
-
-  console.log(cartData);
+  }, [itemRemove]);
 
   return (
     <>
