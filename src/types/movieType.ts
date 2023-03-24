@@ -49,6 +49,6 @@ export type movieDetailType = {
     dayCount: number;
     dayStart: string;
     dayEnd: string;
-    price: string;
+    price: number;
   };
 };

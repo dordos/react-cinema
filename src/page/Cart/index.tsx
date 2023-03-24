@@ -13,10 +13,10 @@ import { movieDetailType } from '../../types/movieType';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 const Cart = () => {
-  const { data: cartData } = useQuery(['cart'], getCart);
-  const { mutate } = useMutation<movieDetailType[]>(getCart);
+  // const { data: cartData } = useQuery(['cart'], getCart);
+  const [cartData, setCartData] = useState<movieDetailType[]>();
   const [cartCheckList, setCartCheckList] = useState<movieDetailType[]>([]);
-  const [cartPrice, setCartPrice] = useState([]);
+  const [controlData, setControlData] = useState<movieDetailType>();
 
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
@@ -49,10 +49,19 @@ const Cart = () => {
 
   const plusDate = (target: movieDetailType, increase: number) => {
     const item = { ...target };
-    item.userMovieState.dayCount += increase;
+    if (item.userMovieState.dayCount < 99) {
+      item.userMovieState.dayCount += increase;
+      item.userMovieState.price += increase;
+      setControlData(item);
+    }
   };
-  const minusDate = (target: any) => {
-    console.log(target);
+  const minusDate = (target: movieDetailType, decrease: number) => {
+    const item = { ...target };
+    if (item.userMovieState.dayCount < 99 && item.userMovieState.dayCount > 0) {
+      item.userMovieState.dayCount += decrease;
+      item.userMovieState.price += decrease;
+      setControlData(item);
+    }
   };
 
   const cartSelect = (checked: boolean, id: any) => {
@@ -74,25 +83,27 @@ const Cart = () => {
         dayCount: 0,
         dayStart: nowTime(),
         dayEnd: nowTime(),
-        price: '1',
+        price: 0,
       },
     });
   };
 
   useEffect(() => {
-    // onAuthStateChanged(auth, (user) => {
-    //   if (user) {
-    //     const cartData = ref(database, `admins/${user.uid}`);
-    //     get(cartData).then((snapshot) => {
-    //       if (snapshot.exists()) {
-    //         const data = Object.values<movieDetailType>(snapshot.val());
-    //         const cartDB = data.filter((el) => el.userMovieState.cartState === true);
-    //         setCartData(cartDB);
-    //       }
-    //     });
-    //   }
-    // });
-  }, [cartData]);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const cartData = ref(database, `admins/${user.uid}`);
+        get(cartData).then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = Object.values<movieDetailType>(snapshot.val());
+            const cartDB = data.filter((el) => el.userMovieState.cartState === true);
+            setCartData(cartDB);
+          }
+        });
+      }
+    });
+  }, []);
+
+  console.log(cartData);
 
   return (
     <>
@@ -145,7 +156,7 @@ const Cart = () => {
                 <div className='addRentalTime'>
                   <AiOutlineMinusCircle
                     onClick={(e) => {
-                      minusDate(cartItem);
+                      minusDate(cartItem, -1);
                     }}
                   />
                   <p>{cartItem.userMovieState.dayCount}일</p>
@@ -169,7 +180,8 @@ const Cart = () => {
               <div className='rentalPrice'>
                 <h2>대여 금액</h2>
                 <div>
-                  <p>{cartItem?.userMovieState.price},000</p>
+                  <p>{cartItem?.userMovieState.price}</p>
+                  <span>{cartItem.userMovieState.dayCount > 0 ? ',000' : ''}</span>
                   <span>원</span>
                 </div>
               </div>

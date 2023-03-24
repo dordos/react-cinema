@@ -47,7 +47,7 @@ const Movies = () => {
               dayCount: 0,
               dayStart: nowTime(),
               dayEnd: nowTime(),
-              price: '1',
+              price: 0,
             },
           };
           setModalDetail(obj);
