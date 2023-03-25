@@ -1,23 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
-import axios from 'axios';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineClose } from 'react-icons/ai';
 
 import { FaEquals, FaPlus } from 'react-icons/fa';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, currentUser, database, getCart } from '../../api/firebase';
+import { auth, currentUser, database } from '../../api/firebase';
 import { get, ref, set } from 'firebase/database';
 import { movieDetailType } from '../../types/movieType';
-import { useMutation, useQuery } from '@tanstack/react-query';
 
 const Cart = () => {
   const [cartData, setCartData] = useState<movieDetailType[]>();
   const prevCartData = useRef<movieDetailType[]>();
   const [cartCheckList, setCartCheckList] = useState<movieDetailType[]>([]);
   const [controlData, setControlData] = useState<movieDetailType>();
-
+  const [countData, setCountData] = useState(0);
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
     <BsStar size='20' color='#888888' />,
@@ -53,6 +51,7 @@ const Cart = () => {
       item.userMovieState.dayCount += increase;
       item.userMovieState.price += increase;
       setControlData(item);
+      totalData();
     }
   };
   const minusDate = (target: movieDetailType, decrease: number) => {
@@ -61,7 +60,15 @@ const Cart = () => {
       item.userMovieState.dayCount += decrease;
       item.userMovieState.price += decrease;
       setControlData(item);
+      totalData();
     }
+  };
+
+  const totalData = () => {
+    let totalDayCount = cartData?.reduce((el: any, item: any) => {
+      return el + item.userMovieState.dayCount;
+    }, 0);
+    setCountData(totalDayCount);
   };
 
   const cartSelect = (checked: boolean, id: any) => {
@@ -70,6 +77,7 @@ const Cart = () => {
     } else {
       setCartCheckList(cartCheckList.filter((el) => el !== id));
     }
+    console.log(cartCheckList);
   };
   const [itemRemove, setItemRemove] = useState<any>();
   //리스트 삭제 / 파이어베이스 삭제
@@ -199,8 +207,6 @@ const Cart = () => {
               </div>
             </li>
           ))}
-
-          {/* payment */}
           <div className='totalPrice'>
             <div>
               <div className='selectAllMovieWrap'>
@@ -216,7 +222,7 @@ const Cart = () => {
               <div className='selectAllTimeWrap'>
                 <h2>총 대여 시간</h2>
                 <div>
-                  <p>292</p>
+                  <p>{countData}</p>
                   <span>일</span>
                 </div>
               </div>
@@ -226,7 +232,8 @@ const Cart = () => {
               <div className='selectAllPriceWrap'>
                 <h2>총 결제 금액</h2>
                 <div>
-                  <p>24,000</p>
+                  <p>{countData}</p>
+                  <p>{countData > 0 ? ',000' : ''}</p>
                   <span>원</span>
                 </div>
               </div>
@@ -235,6 +242,7 @@ const Cart = () => {
               </div>
             </div>
           </div>
+          ;
         </ul>
       </div>
     </>
