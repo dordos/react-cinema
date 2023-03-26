@@ -10,6 +10,7 @@ import MovieRec from '../../components/ui/MovieRec';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 import { AiFillHeart, AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai';
 import Social from '../../components/ui/MovieReviews';
+import { useLocation } from 'react-router-dom';
 
 const MovieDetail = () => {
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
@@ -21,33 +22,12 @@ const MovieDetail = () => {
     process.env.REACT_APP_TMDB_API_KEY
   }`;
 
-  type movieType = {
-    title: string;
-    release_date: string;
-    runtime: number;
-    overview: string;
-    genres: Array<{ id: number; name: string }>;
-    poster_path: string | undefined;
-  };
+  let state = useLocation();
 
-  type movieImgType = {
-    backdrops: Array<{
-      aspect_ratio: number;
-      file_path: string;
-      height: number;
-      width: number;
-    }>;
-    posters: Array<{
-      file_path: string;
-      height: number;
-      width: number;
-    }>;
-  };
-
-  const [movieDetail, setMovieDetail] = useState<movieType>();
+  // const [movieDetail, setMovieDetail] = useState<movieType>();
   const [heartState, setHeartState] = useState(false);
 
-  const [images, setImages] = useState<movieImgType>();
+  // const [images, setImages] = useState<movieImgType>();
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
     <BsStar size='20' color='#888888' />,
@@ -73,13 +53,14 @@ const MovieDetail = () => {
     async function movieData() {
       const response = await axios.get(API_URL);
       const results = response.data;
-      setMovieDetail(results);
+      // setMovieDetail(results);
 
       const response_img = await axios.get(MOIVE_IMG);
-      setImages(response_img.data);
+      // setImages(response_img.data);
       star(response.data.vote_average);
     }
     movieData();
+    console.log(state.state);
   }, []);
   const [onPhoto, setOnPhoto] = useState(true);
   const [onVideo, setOnVideo] = useState(false);
@@ -95,15 +76,15 @@ const MovieDetail = () => {
       <div className='movieDetail'>
         <div className='mainDetailContainer'>
           <img
-            src={`https://image.tmdb.org/t/p/original/${images?.backdrops[0].file_path}`}
+            // src={`https://image.tmdb.org/t/p/original/${images?.backdrops[0].file_path}`}
             alt=''
           />
 
           <div className='detail__wrap'>
             <div className='detail__poster'>
-              <img src={`https://image.tmdb.org/t/p/w500/${movieDetail?.poster_path}`} alt='' />
+              {/* <img src={`https://image.tmdb.org/t/p/w500/${movieDetail?.poster_path}`} alt='' /> */}
             </div>
-            <div className='detail__info'>
+            {/* <div className='detail__info'>
               <h1>{movieDetail?.title}</h1>
               <div className='detail__subInfo'>
                 <span className='releaseData'>{movieDetail?.release_date}</span>
@@ -136,7 +117,7 @@ const MovieDetail = () => {
                 )}
                 <AiOutlineShoppingCart className='addcart' color='#e5e5e5' />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <Social />
