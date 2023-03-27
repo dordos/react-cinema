@@ -13,17 +13,22 @@ import Social from '../../components/ui/MovieReviews';
 import { useLocation } from 'react-router-dom';
 import { movieImg, movieType } from '../../types/movieType';
 import { BsCartPlus } from 'react-icons/bs';
+import { currentUser, database, setCart, setPickDB } from '../../api/firebase';
+import { get, ref } from 'firebase/database';
+import ModalCartAlert from '../../components/ModalCartAlert';
 
 const MovieDetail = () => {
-  let { state: movieId } = useLocation();
+  let { state } = useLocation();
 
-  const API_URL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=ko-KR`;
+  const API_URL = `https://api.themoviedb.org/3/movie/${state.movieId}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=ko-KR`;
 
-  const MOIVE_IMG = `https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${process.env.REACT_APP_TMDB_API_KEY}`;
+  const MOIVE_IMG = `https://api.themoviedb.org/3/movie/${state.movieId}/images?api_key=${process.env.REACT_APP_TMDB_API_KEY}`;
 
   const [movieDetail, setMovieDetail] = useState<movieType>();
   const [heartState, setHeartState] = useState(false);
   const [images, setImages] = useState<movieImg>();
+  const [cartAlert, setCartAlert] = useState(false);
+
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
     <BsStar size='20' color='#888888' />,
@@ -31,6 +36,24 @@ const MovieDetail = () => {
     <BsStar size='20' color='#888888' />,
     <BsStar size='20' color='#888888' />,
   ]);
+
+  function pickStateFn() {
+    setHeartState(!heartState);
+    setPickDB(state.movieId, state.modalDetail, !heartState);
+  }
+
+  function addCart() {
+    setCartAlert(true);
+    setTimeout(() => {
+      setCartAlert(false);
+    }, 2000);
+
+    get(ref(database, `admins/${currentUser}/${state.movieId}`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        setCart(state.movieId, state.setMovieDB, snapshot.val().userMovieState);
+      }
+    });
+  }
 
   const star = (average: number) => {
     const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
@@ -56,8 +79,8 @@ const MovieDetail = () => {
       star(response.data.vote_average);
     }
     movieData();
+    setHeartState(state.modalDetail.userMovieState.pick);
   }, []);
-
   const [onPhoto, setOnPhoto] = useState(true);
   const [onVideo, setOnVideo] = useState(false);
 
@@ -98,16 +121,17 @@ const MovieDetail = () => {
                   <p>{movieDetail?.overview}</p>
                 </div>
               </div>
+              {cartAlert && <ModalCartAlert />}
 
               <div className='detailclickInfo'>
-                <button>
+                <button onClick={pickStateFn}>
                   {heartState ? (
                     <AiFillHeart color='#f91f1f' />
                   ) : (
                     <AiOutlineHeart color='#e5e5e5' />
                   )}
                 </button>
-                <button>
+                <button onClick={addCart}>
                   <BsCartPlus className='addcart' color='#e5e5e5' />
                 </button>
               </div>
@@ -115,15 +139,15 @@ const MovieDetail = () => {
           </div>
         </div>
         {/* <Social /> */}
-        <MovieCast movieId={movieId} />
+        <MovieCast movieId={state.movieId} />
         <div className='detailMediaContainer'>
           <div className='selectMedia'>
             <h2>미디어</h2>
             <button onClick={onMedia}>포토</button>
             <button onClick={onMedia}>동영상</button>
           </div>
-          {onPhoto && <ImagePreview movieId={movieId} />}
-          {onVideo && <VideoPreview movieId={movieId} />}
+          {onPhoto && <ImagePreview movieId={state.movieId} />}
+          {onVideo && <VideoPreview movieId={state.movieId} />}
         </div>
         <MovieRec />
       </div>

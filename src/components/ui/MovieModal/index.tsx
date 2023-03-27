@@ -47,7 +47,7 @@ const MovieModal = ({ movieId, closeModal, modalDetail }: movieDetailType | any)
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
       <div className='previewContent'>
         <div className='previewLeft'>
-          <Link to='/MovieDetail' state={movieId}>
+          <Link to='/MovieDetail' state={{ movieId, modalDetail, setMovieDB: detailData }}>
             <img src={`https://image.tmdb.org/t/p/w500/${detailData?.poster_path}`} alt='' />
           </Link>
         </div>
