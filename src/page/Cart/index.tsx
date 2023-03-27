@@ -65,10 +65,31 @@ const Cart = () => {
   };
 
   const totalData = () => {
-    let totalDayCount = cartData?.reduce((el: any, item: any) => {
-      return el + item.userMovieState.dayCount;
-    }, 0);
-    setCountData(totalDayCount);
+    // let totalDayCount = cartData?.reduce((el: any, item: any) => {
+    //   return el + item.userMovieState.dayCount;
+    // }, 0);
+
+    const sumCounts = cartData?.reduce((el: any, item: any | movieDetailType) => {
+      if (cartCheckList.includes(item.id)) {
+        const existing = el.find((target: any) => {
+          // target.id === item.id;
+
+          console.log(target.id);
+          console.log(item.id);
+        });
+        if (existing) {
+          existing.userMovieState.dayCount += item.userMovieState.dayCount;
+          console.log(existing.userMovieState.dayCount);
+        } else {
+          el.push(item);
+        }
+      }
+      // console.log(el.userMovieState.dayCount);
+      return el;
+    }, []);
+
+    // console.log(sumCounts);
+    // setCountData(sumCounts);
   };
 
   const cartSelect = (checked: boolean, id: any) => {
@@ -77,7 +98,6 @@ const Cart = () => {
     } else {
       setCartCheckList(cartCheckList.filter((el) => el !== id));
     }
-    console.log(cartCheckList);
   };
   const [itemRemove, setItemRemove] = useState<any>();
   //리스트 삭제 / 파이어베이스 삭제
@@ -222,7 +242,7 @@ const Cart = () => {
               <div className='selectAllTimeWrap'>
                 <h2>총 대여 시간</h2>
                 <div>
-                  <p>{countData}</p>
+                  <p>{}</p>
                   <span>일</span>
                 </div>
               </div>
