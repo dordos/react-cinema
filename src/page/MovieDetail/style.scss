@@ -30,6 +30,7 @@
 .detail__wrap {
   display: flex;
   justify-content: center;
+  width: 1250px;
   & .detail__poster {
     width: 250px;
     height: 100%;
@@ -43,6 +44,9 @@
   & .detail__info {
     width: 50%;
     margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     & h1 {
       color: #e5e5e5;
     }

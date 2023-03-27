@@ -81,21 +81,24 @@ const MovieDetail = () => {
               <img src={`https://image.tmdb.org/t/p/w500/${movieDetail?.poster_path}`} alt='' />
             </div>
             <div className='detail__info'>
-              <h1>{movieDetail?.title}</h1>
-              <div className='detail__subInfo'>
-                <span className='releaseData'>{movieDetail?.release_date}</span>
-                <ul>
-                  {movieDetail?.genres.map((item) => (
-                    <li key={item.id}>{item.name}</li>
-                  ))}
-                </ul>
-                <span className='movieTime'>•{movieDetail?.runtime}분</span>
-                <div>{starAverage}</div>
+              <div>
+                <h1>{movieDetail?.title}</h1>
+                <div className='detail__subInfo'>
+                  <span className='releaseData'>{movieDetail?.release_date}</span>
+                  <ul>
+                    {movieDetail?.genres.map((item) => (
+                      <li key={item.id}>{item.name}</li>
+                    ))}
+                  </ul>
+                  <span className='movieTime'>•{movieDetail?.runtime}분</span>
+                  <div>{starAverage}</div>
+                </div>
+                <div className='detail__overview'>
+                  <h3>개요</h3>
+                  <p>{movieDetail?.overview}</p>
+                </div>
               </div>
-              <div className='detail__overview'>
-                <h3>개요</h3>
-                <p>{movieDetail?.overview}</p>
-              </div>
+
               <div className='detailclickInfo'>
                 <button>
                   {heartState ? (
