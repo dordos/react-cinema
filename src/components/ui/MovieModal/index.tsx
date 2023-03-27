@@ -47,7 +47,7 @@ const MovieModal = ({ movieId, closeModal, modalDetail }: movieDetailType | any)
     <div className='moviePreviewContainer' onClick={closeBtn} ref={modalRef}>
       <div className='previewContent'>
         <div className='previewLeft'>
-          <Link to='/MovieDetail' state={'ddd'}>
+          <Link to='/MovieDetail' state={movieId}>
             <img src={`https://image.tmdb.org/t/p/w500/${detailData?.poster_path}`} alt='' />
           </Link>
         </div>
@@ -56,7 +56,7 @@ const MovieModal = ({ movieId, closeModal, modalDetail }: movieDetailType | any)
             <AiOutlineCloseCircle size='36' color='#a3a3a3' onClick={closeModal} />
           </div>
           <div className='previeTitle'>
-            <Link to='/MovieDetail' state={{}}>
+            <Link to='/MovieDetail' state={movieId}>
               <h1>{detailData?.title}</h1>
             </Link>
           </div>

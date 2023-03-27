@@ -156,10 +156,10 @@
   display: flex;
   justify-content: end;
   button {
-    background-color: red;
-    background-color: #00000000;
     border: 0;
     cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+    outline: none;
   }
   button svg {
     width: 35px;

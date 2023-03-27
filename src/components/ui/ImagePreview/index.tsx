@@ -2,27 +2,12 @@ import { async } from '@firebase/util';
 import axios from 'axios';
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { movieImg } from '../../../types/movieType';
 
-const ImagePreview = () => {
-  type movieImgType = {
-    backdrops: Array<{
-      aspect_ratio: number;
-      file_path: string;
-      height: number;
-      width: number;
-    }>;
-    posters: Array<{
-      file_path: string;
-      height: number;
-      width: number;
-    }>;
-  };
+const ImagePreview = ({ movieId }: any) => {
+  const MOVIE_IMG = `https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${process.env.REACT_APP_TMDB_API_KEY}`;
 
-  const MOVIE_IMG = `https://api.themoviedb.org/3/movie/${505642}/images?api_key=${
-    process.env.REACT_APP_TMDB_API_KEY
-  }`;
-
-  const [images, setImages] = useState<movieImgType>();
+  const [images, setImages] = useState<movieImg>();
 
   useEffect(() => {
     async function movieImage() {

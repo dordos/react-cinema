@@ -14,6 +14,7 @@ export type movieType = {
   video: boolean | undefined;
   vote_average: number | undefined;
   vote_cunt: number | undefined;
+  runtime: number;
 };
 
 export type movieDetailType = {
@@ -51,4 +52,12 @@ export type movieDetailType = {
     dayEnd: string;
     price: number;
   };
+};
+
+export type movieImg = {
+  backdrops: [
+    {
+      file_path: string;
+    }
+  ];
 };

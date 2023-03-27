@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './style.scss';
 import axios from 'axios';
 
-const MovieCast = () => {
-  const MOVIE_CAST = `https://api.themoviedb.org/3/movie/${505642}/credits?api_key=${
-    process.env.REACT_APP_TMDB_API_KEY
-  }`;
+const MovieCast = ({ movieId }: any) => {
+  const MOVIE_CAST = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process.env.REACT_APP_TMDB_API_KEY}`;
 
   type movieCastType = {
     cast: Array<{

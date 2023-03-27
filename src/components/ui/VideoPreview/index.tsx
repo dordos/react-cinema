@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './style.scss';
 import axios from 'axios';
 
-const VideoPreview = () => {
-  const MOIVE_VIDEO = `https://api.themoviedb.org/3/movie/${505642}/videos?api_key=${
-    process.env.REACT_APP_TMDB_API_KEY
-  }&language=en-US`;
+const VideoPreview = ({ movieId }: any) => {
+  const MOIVE_VIDEO = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`;
 
   type movieVideoType = {
     results: Array<{ key: string | undefined }>;
   };
 
-  const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
   const [videos, setVideos] = useState<movieVideoType | undefined>();
 
   useEffect(() => {
