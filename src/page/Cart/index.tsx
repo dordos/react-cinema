@@ -224,7 +224,7 @@ const Cart = () => {
               <div className='selectAllTimeWrap'>
                 <h2>총 대여 시간</h2>
                 <div>
-                  <p>{}</p>
+                  <p>{countData}</p>
                   <span>일</span>
                 </div>
               </div>
