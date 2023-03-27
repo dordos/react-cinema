@@ -65,31 +65,13 @@ const Cart = () => {
   };
 
   const totalData = () => {
-    // let totalDayCount = cartData?.reduce((el: any, item: any) => {
-    //   return el + item.userMovieState.dayCount;
-    // }, 0);
-
-    const sumCounts = cartData?.reduce((el: any, item: any | movieDetailType) => {
-      if (cartCheckList.includes(item.id)) {
-        const existing = el.find((target: any) => {
-          // target.id === item.id;
-
-          console.log(target.id);
-          console.log(item.id);
-        });
-        if (existing) {
-          existing.userMovieState.dayCount += item.userMovieState.dayCount;
-          console.log(existing.userMovieState.dayCount);
-        } else {
-          el.push(item);
-        }
-      }
-      // console.log(el.userMovieState.dayCount);
-      return el;
-    }, []);
-
-    // console.log(sumCounts);
-    // setCountData(sumCounts);
+    const filteredCartData = cartData?.filter((item: any) => cartCheckList.includes(item.id));
+    const totalCount: any = filteredCartData?.reduce(
+      (acc, item) => acc + item.userMovieState.dayCount,
+      0
+    );
+    // console.log(totalCount);
+    setCountData(totalCount);
   };
 
   const cartSelect = (checked: boolean, id: any) => {
