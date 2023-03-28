@@ -21,6 +21,7 @@ const Cart = () => {
   const [endDate, setEndDate] = useState<string>();
   const [itemRemove, setItemRemove] = useState<any>();
   const [paymentAlert, setPaymentAlert] = useState(false);
+  const closeModal = () => setPaymentAlert(false);
 
   const nowDateFn = (days: number) => {
     const today = new Date();
@@ -249,7 +250,7 @@ const Cart = () => {
               </div>
               <div>
                 <button onClick={openPayment}>결제하기</button>
-                {paymentAlert && <PaymentWindow />}
+                {paymentAlert && <PaymentWindow closeModal={closeModal} />}
               </div>
             </div>
           </div>

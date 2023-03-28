@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './style.scss';
 
-const PaymentWindow = () => {
+const PaymentWindow = ({ closeModal }: any) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
+    if (modalRef.current == e.target) closeModal();
+  };
   return (
-    <div className='paymentContainer'>
+    <div className='paymentContainer' onClick={closeBtn} ref={modalRef}>
       <div className='paymentWrap'>
         <div className='payment__text'>
           <h2>결제하시겠습니까?</h2>
