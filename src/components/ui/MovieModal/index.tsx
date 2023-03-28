@@ -56,7 +56,7 @@ const MovieModal = ({ movieId, closeModal, modalDetail }: movieDetailType | any)
             <AiOutlineCloseCircle size='36' color='#a3a3a3' onClick={closeModal} />
           </div>
           <div className='previeTitle'>
-            <Link to='/MovieDetail' state={movieId}>
+            <Link to='/MovieDetail' state={{ movieId, modalDetail, setMovieDB: detailData }}>
               <h1>{detailData?.title}</h1>
             </Link>
           </div>

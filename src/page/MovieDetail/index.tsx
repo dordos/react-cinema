@@ -149,7 +149,7 @@ const MovieDetail = () => {
           {onPhoto && <ImagePreview movieId={state.movieId} />}
           {onVideo && <VideoPreview movieId={state.movieId} />}
         </div>
-        <MovieRec />
+        <MovieRec movieId={state.movieId} />
       </div>
     </>
   );

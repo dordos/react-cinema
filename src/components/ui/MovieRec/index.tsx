@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './style.scss';
 import axios from 'axios';
 
-const MovieRec = () => {
-  const MOVIE_RECOMMENDATIONS = `https://api.themoviedb.org/3/movie/${505642}/recommendations?api_key=${
-    process.env.REACT_APP_TMDB_API_KEY
-  }`;
+const MovieRec = ({ movieId }: any) => {
+  const MOVIE_RECOMMENDATIONS = `https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=${process.env.REACT_APP_TMDB_API_KEY}`;
 
   type movieRecType = {
     results: Array<{
@@ -13,11 +11,6 @@ const MovieRec = () => {
       backdrop_path: string;
       release_date: string;
     }>;
-    // cast: Array<{
-    //   profile_path: string;
-    //   character: string;
-    //   original_name: string;
-    // }>;
   };
 
   const [movieRec, setMovieRec] = useState<movieRecType>();
@@ -30,9 +23,7 @@ const MovieRec = () => {
     recData();
   }, []);
 
-  const mouseOverEven = () => {
-    console.log('dd');
-  };
+  const mouseOverEven = () => {};
 
   return (
     <div className='movieRec'>

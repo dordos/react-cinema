@@ -11,7 +11,6 @@ const MovieAverage = ({ movieAverage }: any): JSX.Element => {
   ]);
 
   const star = (average: number) => {
-    // console.log(average);
     const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
     const averageCopy = [...starAverage];
     for (let i = 0; i < Number(first); i++) {
