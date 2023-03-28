@@ -248,7 +248,7 @@ const Cart = () => {
                   <span>원</span>
                 </div>
               </div>
-              <div>
+              <div className='cart-payment-button'>
                 <button onClick={openPayment}>결제하기</button>
                 {paymentAlert && <PaymentWindow closeModal={closeModal} />}
               </div>
