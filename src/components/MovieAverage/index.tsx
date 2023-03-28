@@ -3,11 +3,11 @@ import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 
 const MovieAverage = ({ movieAverage }: any): JSX.Element => {
   const [starAverage, setStarAverage] = useState([
-    <BsStar />,
-    <BsStar />,
-    <BsStar />,
-    <BsStar />,
-    <BsStar />,
+    <BsStar size='20' color='#888888' />,
+    <BsStar size='20' color='#888888' />,
+    <BsStar size='20' color='#888888' />,
+    <BsStar size='20' color='#888888' />,
+    <BsStar size='20' color='#888888' />,
   ]);
 
   const star = (average: number) => {

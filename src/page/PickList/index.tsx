@@ -9,6 +9,7 @@ import { auth, currentUser, database } from '../../api/firebase';
 import { get, ref } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
 import { movieDetailType, movieType } from '../../types/movieType';
+import MovieAverage from '../../components/MovieAverage';
 
 const PickList = () => {
   const [movieModalState, setMovieModalState] = useState(false);
@@ -62,6 +63,7 @@ const PickList = () => {
             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='' />
             <div className='pickListInfo'>
               <h3>{movie.title}</h3>
+              <MovieAverage movieAverage={movie?.vote_average} key={movie?.id} />
             </div>
           </li>
         ))}
