@@ -9,36 +9,16 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth, currentUser, database } from '../../api/firebase';
 import { get, ref, set } from 'firebase/database';
 import { movieDetailType } from '../../types/movieType';
+import MovieAverage from '../../components/MovieAverage';
 
 const Cart = () => {
   const [cartData, setCartData] = useState<movieDetailType[]>();
   const prevCartData = useRef<movieDetailType[]>();
   const [cartCheckList, setCartCheckList] = useState<movieDetailType[]>([]);
   const [controlData, setControlData] = useState<movieDetailType>();
-  const [countData, setCountData] = useState(0);
-
+  const [countData, setCountData] = useState<number>(0);
   const [endDate, setEndDate] = useState<string>();
-
-  // const [starAverage, setStarAverage] = useState([
-  //   <BsStar size='20' color='#888888' />,
-  //   <BsStar size='20' color='#888888' />,
-  //   <BsStar size='20' color='#888888' />,
-  //   <BsStar size='20' color='#888888' />,
-  //   <BsStar size='20' color='#888888' />,
-  // ]);
-
-  // const star = (average: number) => {
-  //   const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
-  //   const averageCopy = [...starAverage];
-
-  //   for (let i = 0; i < Number(first); i++) {
-  //     averageCopy[i] = <BsStarFill size='20' color='#e22232' />;
-  //   }
-  //   if (Number(second) >= 5) {
-  //     averageCopy[Number(first)] = <BsStarHalf size='20' color='#e22232' />;
-  //   }
-  //   setStarAverage(averageCopy);
-  // };
+  const [itemRemove, setItemRemove] = useState<any>();
 
   const nowDateFn = (days: number) => {
     const today = new Date();
@@ -84,7 +64,6 @@ const Cart = () => {
       (acc, item) => acc + item.userMovieState.count,
       0
     );
-    // console.log(totalCount);
     setCountData(totalCount);
   };
 
@@ -95,7 +74,13 @@ const Cart = () => {
       setCartCheckList(cartCheckList.filter((el) => el !== id));
     }
   };
-  const [itemRemove, setItemRemove] = useState<any>();
+
+  const averageNumber = (average: number): string => {
+    const num = average;
+    const formattedNum = num.toFixed(1);
+    return formattedNum;
+  };
+
   //리스트 삭제 / 파이어베이스 삭제
   const removeCart = (movieId: number) => {
     const [removeTarget]: any = cartData?.filter((el) => el.id === movieId);
@@ -159,8 +144,8 @@ const Cart = () => {
               <div className='cartInfo'>
                 <h1>{cartItem?.title}</h1>
                 <div className='cartAverage'>
-                  {/* <div className='averageImg'>{starAverage}</div> */}
-                  <div className='avaerageNum'>{cartItem?.vote_average}</div>
+                  <MovieAverage movieAverage={cartItem?.vote_average} key={cartItem?.id} />
+                  <div className='avaerageNum'>{averageNumber(cartItem?.vote_average)}</div>
                 </div>
                 <div className='cartInfo__metaData'>
                   <div className='moviedDte'>{cartItem?.release_date}</div>
