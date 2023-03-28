@@ -47,9 +47,9 @@ export type movieDetailType = {
   userMovieState: {
     pick: boolean;
     cartState: boolean;
-    dayCount: number;
-    dayStart: string;
-    dayEnd: string;
+    count: number;
+    startDate: string;
+    endDate: string;
     price: number;
   };
 };

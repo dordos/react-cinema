@@ -16,58 +16,72 @@ const Cart = () => {
   const [cartCheckList, setCartCheckList] = useState<movieDetailType[]>([]);
   const [controlData, setControlData] = useState<movieDetailType>();
   const [countData, setCountData] = useState(0);
-  const [starAverage, setStarAverage] = useState([
-    <BsStar size='20' color='#888888' />,
-    <BsStar size='20' color='#888888' />,
-    <BsStar size='20' color='#888888' />,
-    <BsStar size='20' color='#888888' />,
-    <BsStar size='20' color='#888888' />,
-  ]);
 
-  const star = (average: number) => {
-    const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
-    const averageCopy = [...starAverage];
+  const [endDate, setEndDate] = useState<string>();
 
-    for (let i = 0; i < Number(first); i++) {
-      averageCopy[i] = <BsStarFill size='20' color='#e22232' />;
-    }
-    if (Number(second) >= 5) {
-      averageCopy[Number(first)] = <BsStarHalf size='20' color='#e22232' />;
-    }
-    setStarAverage(averageCopy);
+  // const [starAverage, setStarAverage] = useState([
+  //   <BsStar size='20' color='#888888' />,
+  //   <BsStar size='20' color='#888888' />,
+  //   <BsStar size='20' color='#888888' />,
+  //   <BsStar size='20' color='#888888' />,
+  //   <BsStar size='20' color='#888888' />,
+  // ]);
+
+  // const star = (average: number) => {
+  //   const [first, second] = ((average / 10) * 5).toFixed(1).split('.');
+  //   const averageCopy = [...starAverage];
+
+  //   for (let i = 0; i < Number(first); i++) {
+  //     averageCopy[i] = <BsStarFill size='20' color='#e22232' />;
+  //   }
+  //   if (Number(second) >= 5) {
+  //     averageCopy[Number(first)] = <BsStarHalf size='20' color='#e22232' />;
+  //   }
+  //   setStarAverage(averageCopy);
+  // };
+
+  const nowDateFn = (days: number) => {
+    const today = new Date();
+    const calculateDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + days);
+    let digitDate = `${calculateDate.getFullYear()}.${(calculateDate.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}.${calculateDate.getDate().toString().padStart(2, '0')}`;
+    return digitDate;
   };
 
-  const nowTime = () => {
-    let now = new Date();
-    let todayYear = now.getFullYear();
-    let todayMonth = now.getMonth() + 1 > 9 ? now.getMonth() + 1 : '0' + (now.getMonth() + 1);
-    let todayDate = now.getDate() > 9 ? now.getDate() : '0' + now.getDate();
-    return `${todayYear}.${todayMonth}.${todayDate}`;
+  const endDateFn = (days: movieDetailType) => {
+    const calculateDate: any = nowDateFn(days.userMovieState.count);
+    const filterDate = cartData?.filter((el) => el.id === days.id);
+    const filterEndDate = filterDate?.reduce(
+      (acc, item) => (item.userMovieState.endDate = calculateDate),
+      '0000.00.00'
+    );
+    setEndDate(filterEndDate);
   };
 
   const plusDate = (target: movieDetailType, increase: number) => {
     const item = { ...target };
-    if (item.userMovieState.dayCount < 99) {
-      item.userMovieState.dayCount += increase;
-      item.userMovieState.price += increase;
+    if (item.userMovieState.count < 99) {
+      item.userMovieState.count += increase;
       setControlData(item);
       totalData();
+      endDateFn(item);
     }
   };
   const minusDate = (target: movieDetailType, decrease: number) => {
     const item = { ...target };
-    if (item.userMovieState.dayCount < 99 && item.userMovieState.dayCount > 0) {
-      item.userMovieState.dayCount += decrease;
-      item.userMovieState.price += decrease;
+    if (item.userMovieState.count < 99 && item.userMovieState.count > 0) {
+      item.userMovieState.count += decrease;
       setControlData(item);
       totalData();
+      endDateFn(item);
     }
   };
 
   const totalData = () => {
     const filteredCartData = cartData?.filter((item: any) => cartCheckList.includes(item.id));
     const totalCount: any = filteredCartData?.reduce(
-      (acc, item) => acc + item.userMovieState.dayCount,
+      (acc, item) => acc + item.userMovieState.count,
       0
     );
     // console.log(totalCount);
@@ -91,10 +105,9 @@ const Cart = () => {
         userMovieState: {
           ...removeTarget?.userMovieState,
           cartState: false,
-          dayCount: 0,
-          dayStart: nowTime(),
-          dayEnd: nowTime(),
-          price: 0,
+          count: 0,
+          startDate: nowDateFn(0),
+          endDate: nowDateFn(0),
         },
       })
     );
@@ -117,6 +130,8 @@ const Cart = () => {
         });
       }
     });
+    const endDate = nowDateFn(0);
+    setEndDate(endDate);
   }, [itemRemove]);
 
   return (
@@ -144,7 +159,7 @@ const Cart = () => {
               <div className='cartInfo'>
                 <h1>{cartItem?.title}</h1>
                 <div className='cartAverage'>
-                  <div className='averageImg'>{starAverage}</div>
+                  {/* <div className='averageImg'>{starAverage}</div> */}
                   <div className='avaerageNum'>{cartItem?.vote_average}</div>
                 </div>
                 <div className='cartInfo__metaData'>
@@ -173,20 +188,22 @@ const Cart = () => {
                       minusDate(cartItem, -1);
                     }}
                   />
-                  <p>{cartItem.userMovieState.dayCount}일</p>
+                  <p>{cartItem.userMovieState.count}일</p>
                   <AiOutlinePlusCircle
                     onClick={(e) => {
                       plusDate(cartItem, +1);
+                      // nowDateFn(1);
                     }}
                   />
                 </div>
                 <div className='retalDate'>
                   <p>
                     <span>시작일 : </span>
-                    {nowTime()}
+                    {nowDateFn(0)}
                   </p>
                   <p>
-                    <span>종료일 : </span> 2022.02.13
+                    <span>종료일 : </span>
+                    {cartItem.userMovieState.endDate}
                   </p>
                 </div>
               </div>
@@ -194,8 +211,8 @@ const Cart = () => {
               <div className='rentalPrice'>
                 <h2>대여 금액</h2>
                 <div>
-                  <p>{cartItem?.userMovieState.price}</p>
-                  <span>{cartItem.userMovieState.dayCount > 0 ? ',000' : ''}</span>
+                  <p>{cartItem?.userMovieState.count}</p>
+                  <span>{cartItem.userMovieState.count > 0 ? ',000' : ''}</span>
                   <span>원</span>
                 </div>
               </div>

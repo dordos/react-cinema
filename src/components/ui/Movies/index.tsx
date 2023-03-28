@@ -17,7 +17,7 @@ const Movies = () => {
   const { data: movies } = useQuery(['movies'], getMovies);
   const [modalDetail, setModalDetail] = useState<movieDetailType | undefined>();
 
-  const nowTime = () => {
+  const nowDateFn = () => {
     let now = new Date();
     let todayYear = now.getFullYear();
     let todayMonth = now.getMonth() + 1 > 9 ? now.getMonth() + 1 : '0' + (now.getMonth() + 1);
@@ -44,10 +44,9 @@ const Movies = () => {
             userMovieState: {
               pick: false,
               cartState: false,
-              dayCount: 0,
-              dayStart: nowTime(),
-              dayEnd: nowTime(),
-              price: 0,
+              count: 0,
+              startDate: nowDateFn(),
+              endDate: nowDateFn(),
             },
           };
           setModalDetail(obj);
