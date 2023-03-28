@@ -10,6 +10,7 @@ import { auth, currentUser, database } from '../../api/firebase';
 import { get, ref, set } from 'firebase/database';
 import { movieDetailType } from '../../types/movieType';
 import MovieAverage from '../../components/MovieAverage';
+import PaymentWindow from '../../components/PaymentWindow';
 
 const Cart = () => {
   const [cartData, setCartData] = useState<movieDetailType[]>();
@@ -19,6 +20,7 @@ const Cart = () => {
   const [countData, setCountData] = useState<number>(0);
   const [endDate, setEndDate] = useState<string>();
   const [itemRemove, setItemRemove] = useState<any>();
+  const [paymentAlert, setPaymentAlert] = useState(false);
 
   const nowDateFn = (days: number) => {
     const today = new Date();
@@ -96,6 +98,10 @@ const Cart = () => {
         },
       })
     );
+  };
+
+  const openPayment = () => {
+    setPaymentAlert(!paymentAlert);
   };
 
   useEffect(() => {
@@ -242,7 +248,8 @@ const Cart = () => {
                 </div>
               </div>
               <div>
-                <button>결제하기</button>
+                <button onClick={openPayment}>결제하기</button>
+                {paymentAlert && <PaymentWindow />}
               </div>
             </div>
           </div>
