@@ -72,9 +72,13 @@ const Cart = () => {
 
   const cartSelect = (checked: boolean, id: any) => {
     if (checked) {
-      setCartCheckList((prev) => [...prev, id]);
+      cartData?.filter((item) => {
+        if (item.id === id) {
+          setCartCheckList((prev) => [...prev, item]);
+        }
+      });
     } else {
-      setCartCheckList(cartCheckList.filter((el) => el !== id));
+      setCartCheckList(cartCheckList.filter((el) => el.id !== id));
     }
   };
 
@@ -100,11 +104,6 @@ const Cart = () => {
       })
     );
   };
-
-  // 언어 5개
-  const languageLength = cartData?.map((el) => {
-    return el.spoken_languages.slice(0, 5).map((obj) => obj.iso_639_1);
-  });
 
   const openPayment = () => {
     setPaymentAlert(!paymentAlert);
@@ -189,7 +188,6 @@ const Cart = () => {
                   <AiOutlinePlusCircle
                     onClick={(e) => {
                       plusDate(cartItem, +1);
-                      // nowDateFn(1);
                     }}
                   />
                 </div>
@@ -238,7 +236,7 @@ const Cart = () => {
               <div className='selectAllTimeWrap'>
                 <h2>총 대여 시간</h2>
                 <div>
-                  <p>{countData}</p>
+                  <p>{cartCheckList.reduce((acc, item) => acc + item.userMovieState.count, 0)}</p>
                   <span>일</span>
                 </div>
               </div>
@@ -248,8 +246,12 @@ const Cart = () => {
               <div className='selectAllPriceWrap'>
                 <h2>총 결제 금액</h2>
                 <div>
-                  <p>{countData}</p>
-                  <p>{countData > 0 ? ',000' : ''}</p>
+                  <p>{cartCheckList.reduce((acc, item) => acc + item.userMovieState.count, 0)}</p>
+                  <p>
+                    {cartCheckList.reduce((acc, item) => acc + item.userMovieState.count, 0) > 0
+                      ? ',000'
+                      : ''}
+                  </p>
                   <span>원</span>
                 </div>
               </div>
