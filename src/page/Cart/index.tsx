@@ -101,6 +101,11 @@ const Cart = () => {
     );
   };
 
+  // 언어 5개
+  const languageLength = cartData?.map((el) => {
+    return el.spoken_languages.slice(0, 5).map((obj) => obj.iso_639_1);
+  });
+
   const openPayment = () => {
     setPaymentAlert(!paymentAlert);
   };
@@ -166,7 +171,7 @@ const Cart = () => {
                 </p>
                 <p className='language'>
                   지원 언어 :
-                  {cartItem?.spoken_languages.map((language, idx) => (
+                  {cartItem?.spoken_languages.slice(0, 5).map((language, idx) => (
                     <span key={idx}>{language.iso_639_1}</span>
                   ))}
                 </p>
