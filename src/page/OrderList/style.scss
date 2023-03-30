@@ -27,7 +27,7 @@
       li {
         padding: 10px 0px;
         padding-bottom: 20px;
-        border-bottom: 2px solid #666666;
+        border-bottom: 1px solid #666666;
         display: flex;
         justify-content: space-around;
         list-style: none;
@@ -38,8 +38,10 @@
           justify-content: space-around;
           margin-right: 200px;
           .orderLIst__imgBox {
+            width: 150px;
             height: 100%;
             img {
+              width: 100%;
               height: 100%;
             }
           }
@@ -48,6 +50,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-around;
+            width: 500px;
+
             padding: 20px;
             div {
               height: 40px;
@@ -72,9 +76,12 @@
             font-size: 22px;
             font-weight: 600;
             color: #3ce21e;
-            span {
-              color: #e5e5e5;
+            span:nth-child(1) {
+              color: #3ce21e;
+            }
+            span:nth-child(2) {
               margin-left: 10px;
+              color: #e5e5e5;
             }
           }
         }

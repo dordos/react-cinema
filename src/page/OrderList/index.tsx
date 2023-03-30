@@ -86,7 +86,9 @@ const OrderList = () => {
                   <div className='orderList__rentalPriceWrap'>
                     <h2>총 결제 금액</h2>
                     <p>
-                      10,000<span>원</span>
+                      {item.userMovieState.count}
+                      <span>,000</span>
+                      <span>원</span>
                     </p>
                   </div>
                 </li>
