@@ -117,15 +117,9 @@ export async function setOrderList(movieDetail: movieDetailType[]) {
       ...item,
       userMovieState: {
         ...item?.userMovieState,
+        ordered: true,
         cartState: false,
       },
     });
   });
-  // return set(ref(database, `admins/${currentUser}/${movieId}`), {
-  //   ...movieDetail,
-  //   userMovieState: {
-  //     ...movieDetail.userMovieState,
-  //     cartState: false,
-  // });
-  // });
 }

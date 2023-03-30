@@ -51,6 +51,7 @@ export type movieDetailType = {
     startDate: string;
     endDate: string;
     price: number;
+    ordered: boolean;
   };
 };
 
