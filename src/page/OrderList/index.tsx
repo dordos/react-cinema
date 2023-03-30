@@ -2,34 +2,47 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
-import { BiDownArrow } from 'react-icons/bi';
+import { BiDownArrow, BiRightArrow } from 'react-icons/bi';
+import { useLocation } from 'react-router-dom';
+import { setOrderList } from '../../api/firebase';
+import { movieDetailType } from '../../types/movieType';
 
 const OrderList = () => {
-  const API_URL = `https://api.themoviedb.org/3/movie/${505642}?api_key=${
-    process.env.REACT_APP_TMDB_API_KEY
-  }&language=ko-KR`;
+  let {
+    state: { paymentData },
+  } = useLocation();
 
-  type movieType = {
-    title: string;
-    release_date: string;
-    runtime: number;
-    overview: string;
-    genres: Array<{ id: number; name: string }>;
-    poster_path: string | undefined;
-    spoken_languages: Array<{ iso_639_1: string }>;
-    vote_average: number;
+  const [onRental, setOnRental] = useState(true);
+  const [onExpiry, setOnExpiry] = useState(true);
+  const [rentalData, setRentalData] = useState<movieDetailType[] | undefined>([]);
+  const [expiryData, setExpiryData] = useState<movieDetailType[] | undefined>([]);
+
+  const showRental = () => {
+    setOnRental(!onRental);
   };
 
-  const [movieDetail, setMovieDetail] = useState<movieType>();
+  const showExpiry = () => {
+    setOnExpiry(!onExpiry);
+  };
 
   useEffect(() => {
-    async function movieData() {
-      const response = await axios.get(API_URL);
-      const results = response.data;
-      setMovieDetail(results);
-    }
-    movieData();
+    const movieId = paymentData.map((el: any) => el.id);
+    // console.log(movieId);
+    setOrderList(paymentData);
+    const today = new Date().toISOString().slice(0, 10);
+    // paymentData.map((item: any) => {
+    //   if (item.userMovieState.endDate < today) {
+    //     setRentalData((item) => [item]);
+    //   } else {
+    //     console.log(item);
+    //     setExpiryData((item) => [item]);
+    //   }
+    // });
+    paymentData?.map((item: any) => {
+      setRentalData([item.userMovieState.endDate]);
+    });
   }, []);
+  console.log(rentalData);
 
   return (
     <>
@@ -38,86 +51,74 @@ const OrderList = () => {
         <div className='orderList__rentalListWrap'>
           <div>
             <h1>대여중인 목록</h1>
-            <BiDownArrow />
+            {onRental ? (
+              <BiRightArrow onClick={showRental} />
+            ) : (
+              <BiDownArrow onClick={showRental} />
+            )}
           </div>
           <ul className='onRentalList'>
-            <li>
-              <div className='orderList__rentalInfoWrap'>
-                <div className='orderLIst__imgBox'>
-                  <img src={`https://image.tmdb.org/t/p/w500/${movieDetail?.poster_path}`} alt='' />
-                </div>
-                <div className='orderList__rentalInfo'>
-                  <h2>{movieDetail?.title}</h2>
-                  <div>
-                    <p>
-                      대여 날짜 : <span>2022.02.02</span>
-                    </p>
-                    <p>
-                      만료 날짜 : <span>2022.03.02</span>
-                    </p>
+            {rentalData?.map((item, idx) => (
+              <li key={idx}>
+                <div className='orderList__rentalInfoWrap'>
+                  <div className='orderLIst__imgBox'>
+                    <img src={`https://image.tmdb.org/t/p/w500/${item?.poster_path}`} alt='' />
+                  </div>
+                  <div className='orderList__rentalInfo'>
+                    <h2>{item?.title}</h2>
+                    <div>
+                      <p>
+                        대여 날짜 : <span>{item.userMovieState.startDate}</span>
+                      </p>
+                      <p>
+                        만료 날짜 : <span>{item.userMovieState.endDate}</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className='orderList__rentalPriceWrap'>
-                <h2>총 결제 금액</h2>
-                <p>
-                  10,000<span>원</span>
-                </p>
-              </div>
-            </li>
-            <li>
-              <div className='orderList__rentalInfoWrap'>
-                <div className='orderLIst__imgBox'>
-                  <img src={`https://image.tmdb.org/t/p/w500/${movieDetail?.poster_path}`} alt='' />
+                <div className='orderList__rentalPriceWrap'>
+                  <h2>총 결제 금액</h2>
+                  <p>
+                    10,000<span>원</span>
+                  </p>
                 </div>
-                <div className='orderList__rentalInfo'>
-                  <h2>{movieDetail?.title}</h2>
-                  <div>
-                    <p>
-                      대여 날짜 : <span>2022.02.02</span>
-                    </p>
-                    <p>
-                      만료 날짜 : <span>2022.03.02</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className='orderList__rentalPriceWrap'>
-                <h2>총 결제 금액</h2>
-                <p>
-                  10,000<span>원</span>
-                </p>
-              </div>
-            </li>
+              </li>
+            ))}
           </ul>
         </div>
         <div className='orderList__rentalListWrap'>
           <div>
             <h1>대여만료 목록</h1>
-            <BiDownArrow />
+            {onExpiry ? (
+              <BiRightArrow onClick={showExpiry} />
+            ) : (
+              <BiDownArrow onClick={showExpiry} />
+            )}
           </div>
           <ul className='outRentalList'>
-            <li>
-              <div className='orderList__rentalInfoWrap'>
-                <div className='orderLIst__imgBox'>
-                  <img src={`https://image.tmdb.org/t/p/w500/${movieDetail?.poster_path}`} alt='' />
-                </div>
-                <div className='orderList__rentalInfo'>
-                  <h2>{movieDetail?.title}</h2>
-                  <div>
-                    <p>
-                      대여 날짜 : <span>2022.02.02</span>
-                    </p>
-                    <p>
-                      만료 날짜 : <span>2022.03.02</span>
-                    </p>
+            {expiryData?.map((item) => (
+              <li>
+                <div className='orderList__rentalInfoWrap'>
+                  <div className='orderLIst__imgBox'>
+                    <img src={`https://image.tmdb.org/t/p/w500/${item?.poster_path}`} alt='' />
+                  </div>
+                  <div className='orderList__rentalInfo'>
+                    <h2>{item?.title}</h2>
+                    <div>
+                      <p>
+                        대여 날짜 : <span>{item.userMovieState.startDate}</span>
+                      </p>
+                      <p>
+                        만료 날짜 : <span>{item.userMovieState.endDate}</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className='orderList__rentalExpire'>
-                <h2>만료</h2>
-              </div>
-            </li>
+                <div className='orderList__rentalExpire'>
+                  <h2>만료</h2>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

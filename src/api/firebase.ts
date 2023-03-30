@@ -111,6 +111,21 @@ export async function setCart(
   });
 }
 
-// export async function pickList(params: type) {
-//   return get(ref(database, `admins/${currentUser}/${movieId}`), {});
-// }
+export async function setOrderList(movieDetail: movieDetailType[]) {
+  movieDetail.map((item) => {
+    return set(ref(database, `admins/${currentUser}/${item.id}`), {
+      ...item,
+      userMovieState: {
+        ...item?.userMovieState,
+        cartState: false,
+      },
+    });
+  });
+  // return set(ref(database, `admins/${currentUser}/${movieId}`), {
+  //   ...movieDetail,
+  //   userMovieState: {
+  //     ...movieDetail.userMovieState,
+  //     cartState: false,
+  // });
+  // });
+}

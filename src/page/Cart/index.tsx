@@ -26,9 +26,9 @@ const Cart = () => {
   const nowDateFn = (days: number) => {
     const today = new Date();
     const calculateDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + days);
-    let digitDate = `${calculateDate.getFullYear()}.${(calculateDate.getMonth() + 1)
+    let digitDate = `${calculateDate.getFullYear()}-${(calculateDate.getMonth() + 1)
       .toString()
-      .padStart(2, '0')}.${calculateDate.getDate().toString().padStart(2, '0')}`;
+      .padStart(2, '0')}-${calculateDate.getDate().toString().padStart(2, '0')}`;
     return digitDate;
   };
 
@@ -37,7 +37,7 @@ const Cart = () => {
     const filterDate = cartData?.filter((el) => el.id === days.id);
     const filterEndDate = filterDate?.reduce(
       (acc, item) => (item.userMovieState.endDate = calculateDate),
-      '0000.00.00'
+      '0000-00-00'
     );
     setEndDate(filterEndDate);
   };
@@ -257,7 +257,9 @@ const Cart = () => {
               </div>
               <div className='cart-payment-button'>
                 <button onClick={openPayment}>결제하기</button>
-                {paymentAlert && <PaymentWindow closeModal={closeModal} />}
+                {paymentAlert && (
+                  <PaymentWindow closeModal={closeModal} paymentData={cartCheckList} />
+                )}
               </div>
             </div>
           </div>

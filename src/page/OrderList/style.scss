@@ -8,15 +8,16 @@
     width: 100%;
     padding-top: 40px;
     margin-bottom: 100px;
+
     & > div {
       display: flex;
       justify-content: space-between;
-      // align-items: center;
       svg {
         width: 40px;
         height: 40px;
         cursor: pointer;
       }
+
       h1 {
         margin-bottom: 40px;
       }

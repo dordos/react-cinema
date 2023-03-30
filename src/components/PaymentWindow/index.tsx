@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './style.scss';
 
-const PaymentWindow = ({ closeModal }: any) => {
+const PaymentWindow = ({ closeModal, paymentData }: any) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeBtn = (e: React.MouseEvent<HTMLElement> | any) => {
     if (modalRef.current == e.target) {
@@ -18,7 +19,9 @@ const PaymentWindow = ({ closeModal }: any) => {
           <h2>결제하시겠습니까?</h2>
         </div>
         <div className='payment__button'>
-          <button>결제</button>
+          <Link to='/OrderList' state={{ paymentData }}>
+            <button>결제</button>
+          </Link>
           <button onClick={closeBtn}>취소</button>
         </div>
       </div>
