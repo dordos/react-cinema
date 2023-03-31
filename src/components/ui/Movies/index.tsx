@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { addMovieDetailDefault, addMovies } from '../../../api/firebase';
+import { addMovieDetailDefault } from '../../../api/firebase';
 import MovieModal from '../MovieModal';
 import './style.scss';
 import { ref, get } from 'firebase/database';
@@ -62,7 +61,7 @@ const Movies = () => {
   };
 
   const getMovies = async (page: number) => {
-    let API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&include_adult=false&include_video=false&${page}=30&with_watch_monetization_types=flatrate`;
+    let API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_watch_monetization_types=flatrate`;
 
     const getData = await axios.get(API_URL);
     setMovies((prev) => [...prev, ...getData.data.results]);

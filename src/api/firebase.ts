@@ -45,25 +45,6 @@ export function onUserStateChange(callback: any) {
   });
 }
 
-export async function addMovies(movieList: any) {
-  const myObject: { [key: number]: movieType } = {};
-  movieList.forEach((item: any) => {
-    myObject[item.id] = item;
-  });
-  return set(ref(database, `movies/`), {
-    ...myObject,
-  });
-}
-
-// export async function getMovies() {
-//   return get(ref(database, 'movies')).then((snapshot) => {
-//     if (snapshot.exists()) {
-//       return Object.values(snapshot.val());
-//     }
-//     return [];
-//   });
-// }
-
 export async function getCart() {
   return get(ref(database, `admins/${currentUser}`)).then((snapshot) => {
     if (snapshot.exists()) {
