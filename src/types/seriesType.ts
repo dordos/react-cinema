@@ -14,9 +14,11 @@ export type seriesType = {
   vote_count: number | undefined;
 };
 
-export type movieDetailType = {
+export type seriesDetailType = {
+  backdrop_path: string | null;
+  created_by: [{ id: number; credit_id: string; name: string; gender: number }];
+
   adult: boolean;
-  backdrop_path: string;
   belongs_to_collection: null | string;
   budget: number;
   genres: [{ id: number; name: string }];

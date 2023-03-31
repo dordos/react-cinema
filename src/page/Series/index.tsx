@@ -3,8 +3,7 @@ import { get, ref } from 'firebase/database';
 import React, { useEffect, useRef, useState } from 'react';
 import { addSeriesDetailDefault, currentUser, database } from '../../api/firebase';
 import MenuBar from '../../components/ui/MenuBar';
-import MovieModal from '../../components/ui/MovieModal';
-import { movieType } from '../../types/movieType';
+import SeriesModal from '../../components/ui/SeriesModal';
 import { seriesType } from '../../types/seriesType';
 import './style.scss';
 
@@ -113,7 +112,7 @@ const Series = () => {
         ))}
       </ul>
       {seriesModalState && (
-        <MovieModal movieId={seriesId} modalDetail={modalDetail} closeModal={closeModal} />
+        <SeriesModal movieId={seriesId} modalDetail={modalDetail} closeModal={closeModal} />
       )}
       <div id='pageLoading'></div>
     </>
