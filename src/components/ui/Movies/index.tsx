@@ -1,21 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { addMovieDetailDefault, getMovies } from '../../../api/firebase';
+import { addMovieDetailDefault, addMovies } from '../../../api/firebase';
 import MovieModal from '../MovieModal';
 import './style.scss';
 import { ref, get } from 'firebase/database';
 import { currentUser, database } from '../../../api/firebase';
-import { movieDetailType } from '../../../types/movieType';
+import { movieDetailType, movieType } from '../../../types/movieType';
 import axios from 'axios';
-import { API_KEY } from '../../../api/theMovieAPI';
 
 const Movies = () => {
+  const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+
   const [movieModalState, setMovieModalState] = useState(false);
   const closeModal = () => setMovieModalState(false);
 
   const [movieId, setMovieId] = useState<number | undefined>();
-  const { data: movies } = useQuery(['movies'], getMovies);
   const [modalDetail, setModalDetail] = useState<movieDetailType | undefined>();
+
+  //page reload
+  const [page, setPage] = useState(1);
+  const [movies, setMovies] = useState<movieType[]>([]);
+  const observer = useRef<IntersectionObserver>();
 
   const nowDateFn = () => {
     let now = new Date();
@@ -55,6 +60,43 @@ const Movies = () => {
       }
     });
   };
+
+  const getMovies = async (page: number) => {
+    let API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&include_adult=false&include_video=false&${page}=30&with_watch_monetization_types=flatrate`;
+
+    const getData = await axios.get(API_URL);
+    setMovies((prev) => [...prev, ...getData.data.results]);
+  };
+
+  const pageCallback = (entries: IntersectionObserverEntry[]) => {
+    const [entry] = entries;
+    if (entry.isIntersecting) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  useEffect(() => {
+    getMovies(page);
+  }, [page]);
+
+  useEffect(() => {
+    observer.current = new IntersectionObserver(pageCallback, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+    return () => {
+      observer.current?.disconnect();
+    };
+  });
+
+  useEffect(() => {
+    if (observer.current) {
+      const pageRef = document.querySelector('#pageLoading');
+      pageRef && observer.current.observe(pageRef);
+    }
+  }, [movies]);
+
   return (
     <>
       <ul className='moviesContainer'>
@@ -72,6 +114,7 @@ const Movies = () => {
       {movieModalState && (
         <MovieModal movieId={movieId} modalDetail={modalDetail} closeModal={closeModal} />
       )}
+      <div id='pageLoading'></div>
     </>
   );
 };
