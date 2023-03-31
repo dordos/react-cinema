@@ -29,9 +29,12 @@ const MenuBar = () => {
             <img src={logo} alt='' />
           </Link>
           <div className='menuBar__Lists'>
-            <p>홈</p>
-            <p>시리즈</p>
-            <p>영화</p>
+            <Link to='/'>
+              <p>영화</p>
+            </Link>
+            <Link to='/series'>
+              <p>시리즈</p>
+            </Link>
             <p>NEW! 요즘 대세 콘텐츠</p>
           </div>
         </li>

@@ -63,6 +63,12 @@ export async function addMovieDetailDefault(movieId: number, movieDetail: movieD
   });
 }
 
+export async function addSeriesDetailDefault(movieId: number, seriesDetail: movieDetailType) {
+  return set(ref(database, `admins/${currentUser}/${movieId}`), {
+    ...seriesDetail,
+  });
+}
+
 // //firebase set data
 export async function setPickDB(
   movieId: number,
