@@ -28,7 +28,6 @@ const PickList = () => {
         setModalDetail(item);
       }
     });
-    // star();
   };
 
   useEffect(() => {

@@ -1,12 +1,30 @@
-import React from 'react';
-import { movieType } from '../../types/movieType';
-import './style.scss'
+import React, { useState } from 'react';
+import { movieDetailType, movieType } from '../../types/movieType';
+import MovieAverage from '../MovieAverage';
+import MovieModal from '../ui/MovieModal';
+import './style.scss';
 
 const SearchItems = ({ searchData }: any) => {
   console.log(searchData);
+
+  const [movieModalState, setMovieModalState] = useState(false);
+  const [movieId, setMovieId] = useState<number | undefined>();
+  const [modalDetail, setModalDetail] = useState<movieDetailType | undefined>();
+  const closeModal = () => setMovieModalState(false);
+
+  const onMovieDetail = (selectId: number) => {
+    setMovieModalState(!movieModalState);
+    setMovieId(selectId);
+    searchData?.filter((item: any) => {
+      if (item.id == selectId) {
+        setModalDetail(item);
+      }
+    });
+  };
   return (
-    <ul className='pickList'>
-        {movieInfo?.map((movie: any, idx) => (
+    <>
+      <ul className='searchItems'>
+        {searchData?.map((movie: any, idx: number) => (
           <li
             key={idx}
             onClick={() => {
@@ -24,6 +42,7 @@ const SearchItems = ({ searchData }: any) => {
       {movieModalState && (
         <MovieModal movieId={movieId} modalDetail={modalDetail} closeModal={closeModal} />
       )}
+    </>
   );
 };
 

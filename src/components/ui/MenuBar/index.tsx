@@ -50,14 +50,16 @@ const MenuBar = () => {
               <Link to='/'>
                 <p>영화</p>
               </Link>
-              <Link to='/series'>
+              <Link to='/Series'>
                 <p>시리즈</p>
               </Link>
             </div>
           </li>
           <form onSubmit={handleSubmit}>
             <li className='search'>
-              <BiSearchAlt2 />
+              <Link to='/SearchItems'>
+                <BiSearchAlt2 />
+              </Link>
               <input
                 type='text'
                 placeholder='찾고싶은 영화를 입력해주세요.'
@@ -79,7 +81,7 @@ const MenuBar = () => {
           </li>
         </ul>
       </nav>
-      <SearchItems searchData={searchData} />
+      {searchData.length > 0 ? <SearchItems searchData={searchData} /> : ''}
     </>
   );
 };
