@@ -1,7 +1,6 @@
 import React, { Dispatch, useEffect, useState } from 'react';
 import './style.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faBell } from '@fortawesome/free-solid-svg-icons';
+import { BiSearchAlt2 } from 'react-icons/bi';
 import LogInModal from '../LogInModal';
 import { Link } from 'react-router-dom';
 import LogOutModal from '../LogOutModal';
@@ -37,9 +36,11 @@ const MenuBar = () => {
             </Link>
           </div>
         </li>
+        <li className='search'>
+          <BiSearchAlt2 />
+          <input type='text' placeholder='찾고싶은 영화를 입력해주세요.' />
+        </li>
         <li className='menuBar__Icon' onMouseOut={offMouseOut}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-          <FontAwesomeIcon icon={faBell} />
           <div
             onMouseOver={() => {
               onMouseOver();
