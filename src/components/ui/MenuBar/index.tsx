@@ -26,7 +26,8 @@ const MenuBar = () => {
     const response = await axios.get(search_URL);
 
     const results = await response.data.results;
-    setSearchData(results);
+    const onlyGetPosterData = results.filter((el: any) => el.poster_path !== null);
+    setSearchData(onlyGetPosterData);
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {

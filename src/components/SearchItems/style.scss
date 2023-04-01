@@ -1,8 +1,9 @@
 .searchItemContainer {
   position: fixed;
   padding-top: 20px;
-  height: 50%;
+  height: 550px;
   width: 100%;
+  overflow-y: auto;
   // background-color: blue;
   background-color: #101010;
 }
