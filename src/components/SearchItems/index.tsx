@@ -6,7 +6,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 import './style.scss';
 
-const SearchItems = ({ searchData }: any) => {
+const SearchItems = ({ searchData, closeState }: any) => {
   const [movieModalState, setMovieModalState] = useState(false);
   const [movieId, setMovieId] = useState<number | undefined>();
   const [modalDetail, setModalDetail] = useState<movieDetailType | undefined>();
@@ -21,6 +21,7 @@ const SearchItems = ({ searchData }: any) => {
       }
     });
   };
+
   return (
     <div className='searchItemContainer'>
       <ul className='searchItems'>
@@ -39,7 +40,7 @@ const SearchItems = ({ searchData }: any) => {
           </li>
         ))}
       </ul>
-      <button className='searchClose'>
+      <button className='searchClose' onClick={closeState}>
         <AiOutlineClose />
       </button>
       {movieModalState && (

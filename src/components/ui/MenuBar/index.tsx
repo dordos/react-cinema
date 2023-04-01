@@ -19,6 +19,9 @@ const MenuBar = () => {
   const onMouseOver = () => setModalOnOff(true);
   const offMouseOut = () => setModalOnOff(false);
 
+  const [searchClose, setSearchClose] = useState(false);
+  const closeState = () => setSearchClose(false);
+
   const [query, setQuery] = useState('');
   const [searchData, setSearchData] = useState<movieType[]>([]);
   async function searchItem() {
@@ -32,6 +35,7 @@ const MenuBar = () => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSearchClose(true);
     searchItem();
   }
 
@@ -82,7 +86,11 @@ const MenuBar = () => {
           </li>
         </ul>
       </nav>
-      {searchData.length > 0 ? <SearchItems searchData={searchData} /> : ''}
+      {searchClose && searchData.length > 0 ? (
+        <SearchItems searchData={searchData} closeState={closeState} />
+      ) : (
+        ''
+      )}
     </>
   );
 };
