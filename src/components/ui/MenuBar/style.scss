@@ -47,6 +47,9 @@
   display: flex;
   margin-left: 40px;
   align-items: center;
+  & a {
+    text-decoration: none;
+  }
   & p {
     color: #e5e5e5;
     font-family: sans-serif;

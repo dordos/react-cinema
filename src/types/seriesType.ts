@@ -42,7 +42,6 @@ export type seriesDetailType = {
   };
   name: string;
   networks: [{ id: number; logo_path: string; name: string; origin_country: string }];
-
   belongs_to_collection: null | string;
   next_episode_to_air: {
     air_date: string;
@@ -103,6 +102,15 @@ export type seriesDetailType = {
   type: string;
   vote_average: number;
   vote_count: number;
+  userSeriesState: {
+    pick: boolean;
+    cartState: boolean;
+    count: number;
+    startDate: string;
+    endDate: string;
+    price: number;
+    ordered: boolean;
+  };
 };
 
 export type movieImg = {
