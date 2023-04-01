@@ -5,6 +5,7 @@ import MovieModal from '../ui/MovieModal';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import './style.scss';
+import SeriesModal from '../ui/SeriesModal';
 
 const SearchItems = ({ searchData, closeState }: any) => {
   const [movieModalState, setMovieModalState] = useState(false);
@@ -44,7 +45,7 @@ const SearchItems = ({ searchData, closeState }: any) => {
         <AiOutlineClose />
       </button>
       {movieModalState && (
-        <MovieModal movieId={movieId} modalDetail={modalDetail} closeModal={closeModal} />
+        <SeriesModal movieId={movieId} modalDetail={modalDetail} closeModal={closeModal} />
       )}
     </div>
   );

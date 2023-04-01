@@ -47,7 +47,6 @@ const PickList = () => {
       }
     });
   }, [movieModalState]);
-
   return (
     <>
       <MenuBar />

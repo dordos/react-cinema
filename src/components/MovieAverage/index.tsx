@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 
-const MovieAverage = ({ movieAverage }: any): JSX.Element => {
+const MovieAverage = ({ movieAverage, seriesVerage }: any): JSX.Element => {
   const [starAverage, setStarAverage] = useState([
     <BsStar size='20' color='#888888' />,
     <BsStar size='20' color='#888888' />,
@@ -23,7 +23,7 @@ const MovieAverage = ({ movieAverage }: any): JSX.Element => {
   };
 
   useEffect(() => {
-    star(movieAverage);
+    star(movieAverage | seriesVerage);
   }, [movieAverage]);
 
   return (

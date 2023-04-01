@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getDatabase, ref, get, set } from 'firebase/database';
 import { movieDetailType, movieType } from '../types/movieType';
+import { seriesDetailType } from '../types/seriesType';
 
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -63,12 +64,6 @@ export async function addMovieDetailDefault(movieId: number, movieDetail: movieD
   });
 }
 
-export async function addSeriesDetailDefault(movieId: number, seriesDetail: movieDetailType) {
-  return set(ref(database, `admins/${currentUser}/${movieId}`), {
-    ...seriesDetail,
-  });
-}
-
 // //firebase set data
 export async function setPickDB(
   movieId: number,
@@ -108,5 +103,66 @@ export async function setOrderList(movieDetail: movieDetailType[]) {
         cartState: false,
       },
     });
+  });
+}
+
+// ---------------------------------------------------------
+// Series
+
+export async function addSeriesDetailDefault(movieId: number, seriesDetail: seriesDetailType) {
+  return set(ref(database, `admins/${currentUser}/${movieId}`), {
+    ...seriesDetail,
+  });
+}
+
+export async function getSeriesCart() {
+  return get(ref(database, `admins/${currentUser}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      const data = Object.values<seriesDetailType>(snapshot.val());
+      const cartDB = data.filter((el) => el.userSeriesState.cartState === true);
+      return cartDB;
+    }
+    return [];
+  });
+}
+
+export async function setSeriesCart(
+  movieId: number,
+  seriesDetail: movieDetailType | undefined,
+  getUserState: any
+) {
+  return set(ref(database, `admins/${currentUser}/${movieId}`), {
+    ...seriesDetail,
+    userMovieState: {
+      ...getUserState,
+      cartState: true,
+    },
+  });
+}
+
+export async function setSeriesOrderList(seriesDetail: seriesDetailType[]) {
+  seriesDetail.map((item) => {
+    return set(ref(database, `admins/${currentUser}/${item.id}`), {
+      ...item,
+      userSeriesState: {
+        ...item?.userSeriesState,
+        ordered: true,
+        cartState: false,
+      },
+    });
+  });
+}
+
+export async function setSeriesPickDB(
+  movieId: number,
+  seriesDetail: seriesDetailType | undefined,
+  state: boolean
+) {
+  return set(ref(database, `admins/${currentUser}/${movieId}`), {
+    ...seriesDetail,
+    userSeriesState: {
+      ...seriesDetail?.userSeriesState,
+      pick: state,
+    },
   });
 }

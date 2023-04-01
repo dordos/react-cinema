@@ -5,7 +5,7 @@ import { BsCartPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import MovieAverage from '../../MovieAverage';
 import { seriesDetailType } from '../../../types/seriesType';
-import { currentUser, database, setCart, setPickDB } from '../../../api/firebase';
+import { currentUser, database, setSeriesCart, setSeriesPickDB } from '../../../api/firebase';
 import ModalCartAlert from '../../ModalCartAlert';
 import { get, ref } from 'firebase/database';
 
@@ -25,7 +25,7 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
 
   function pickStateFn() {
     setHeart(!heart);
-    setPickDB(seriesId, detailData, !heart);
+    setSeriesPickDB(seriesId, detailData, !heart);
   }
 
   function addCart() {
@@ -36,7 +36,7 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
 
     get(ref(database, `admins/${currentUser}/${seriesId}`)).then((snapshot) => {
       if (snapshot.exists()) {
-        setCart(seriesId, detailData, snapshot.val().userSeriesState);
+        setSeriesCart(seriesId, detailData, snapshot.val().userSeriesState);
       }
     });
   }
@@ -46,24 +46,24 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
     <div className='seriesPreviewContainer' onClick={closeBtn} ref={modalRef}>
       <div className='previewContent'>
         <div className='previewLeft'>
-          <Link to='/seriesDetail' state={{ seriesId, modalDetail, setseriesDB: detailData }}>
-            <img src={`https://image.tmdb.org/t/p/w500/${detailData?.poster_path}`} alt='' />
-          </Link>
+          {/* <Link to='/seriesDetail' state={{ seriesId, modalDetail, setseriesDB: detailData }}> */}
+          <img src={`https://image.tmdb.org/t/p/w500/${detailData?.poster_path}`} alt='' />
+          {/* </Link> */}
         </div>
         <div className='previewRight'>
           <div className='closeBtn'>
             <AiOutlineCloseCircle size='36' color='#a3a3a3' onClick={closeModal} />
           </div>
           <div className='previeTitle'>
-            <Link to='/seriesDetail' state={{ seriesId, modalDetail, setseriesDB: detailData }}>
-              <h1>{detailData?.original_name}</h1>
-            </Link>
+            {/* <Link to='/seriesDetail' state={{ seriesId, modalDetail, setseriesDB: detailData }}> */}
+            <h1>{detailData?.original_name}</h1>
+            {/* </Link> */}
           </div>
           <div className='previewInfo'>
             <div className='metaData'>
               <span>{detailData?.first_air_date}</span>
               <div>
-                <MovieAverage MovieAverage={detailData?.vote_average} key={detailData?.id} />
+                <MovieAverage seriesVerage={detailData?.vote_average} key={detailData?.id} />
               </div>
             </div>
 
