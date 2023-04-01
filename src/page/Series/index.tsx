@@ -33,7 +33,7 @@ const Series = () => {
     const MOVIE_DETAIL = `https://api.themoviedb.org/3/tv/${selectId}?api_key=${API_KEY}&language=ko-KR`;
     setSeriesModalState(!seriesModalState);
     setSeriesId(selectId);
-
+    console.log(modalDetail);
     const movieRef = ref(database, `admins/${currentUser}/${selectId}`);
     get(movieRef).then((snapshot) => {
       if (snapshot.exists()) {
@@ -45,7 +45,7 @@ const Series = () => {
         axios.get(MOVIE_DETAIL).then((response) => {
           const obj = {
             ...response.data,
-            userMovieState: {
+            userSeriesState: {
               pick: false,
               cartState: false,
               count: 0,
@@ -64,7 +64,6 @@ const Series = () => {
     const SERIES_URL = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_watch_monetization_types=flatrate`;
 
     const getData = await axios.get(SERIES_URL);
-    console.log(getData);
     setSeries((prev) => [...prev, ...getData.data.results]);
   };
 

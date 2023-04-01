@@ -10,13 +10,13 @@ import ModalCartAlert from '../../ModalCartAlert';
 import { get, ref } from 'firebase/database';
 
 const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | any) => {
-  const [detailData, setDetailData] = useState<seriesDetailType>();
+  const [detailData, setDetailData] = useState<seriesDetailType | any>();
   const [heart, setHeart] = useState<boolean | undefined>();
   const [cartAlert, setCartAlert] = useState(false);
 
   if (detailData != modalDetail) {
     setDetailData(modalDetail);
-    setHeart(modalDetail.userseriesState.pick);
+    setHeart(modalDetail.userMovieState.pick);
   }
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
 
     get(ref(database, `admins/${currentUser}/${seriesId}`)).then((snapshot) => {
       if (snapshot.exists()) {
-        setCart(seriesId, detailData, snapshot.val().userseriesState);
+        setCart(seriesId, detailData, snapshot.val().userMovieState);
       }
     });
   }
@@ -73,10 +73,10 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
             </div>
             <div className='metaDataDetail'>
               <div>
-                <p className='language'>
+                {/* <p className='language'>
                   지원 언어 :
-                  {detailData?.spoken_languages.map((language, idx) => (
-                    <span key={idx}>{language.iso_639_1}</span>
+                  {detailData?.languages.map((language, idx) => (
+                    <span key={idx}>{language}</span>
                   ))}
                 </p>
                 <p className='genres'>
@@ -84,7 +84,7 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
                   {detailData?.genres.map((item, idx) => (
                     <span key={idx}>{item.name}</span>
                   ))}
-                </p>
+                </p> */}
               </div>
             </div>
             <div className='myPageInfo'>
