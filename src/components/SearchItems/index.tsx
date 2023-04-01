@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { movieDetailType, movieType } from '../../types/movieType';
 import MovieAverage from '../MovieAverage';
 import MovieModal from '../ui/MovieModal';
+import { AiOutlineClose } from 'react-icons/ai';
+
 import './style.scss';
 
 const SearchItems = ({ searchData }: any) => {
@@ -37,6 +39,9 @@ const SearchItems = ({ searchData }: any) => {
           </li>
         ))}
       </ul>
+      <button className='searchClose'>
+        <AiOutlineClose />
+      </button>
       {movieModalState && (
         <MovieModal movieId={movieId} modalDetail={modalDetail} closeModal={closeModal} />
       )}
