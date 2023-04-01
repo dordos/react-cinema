@@ -5,10 +5,13 @@ import LogInModal from '../LogInModal';
 import { Link } from 'react-router-dom';
 import LogOutModal from '../LogOutModal';
 import { onUserStateChange } from '../../../api/firebase';
+import { API_KEY } from '../../../api/theMovieAPI';
+import axios from 'axios';
+import { movieType } from '../../../types/movieType';
+import SearchItems from '../../SearchItems';
 
 const logo = require('../../../img/logo.png');
 const smile_icon1 = require('../../../img/smile_icon1.png');
-// const smile_icon2 = require("../../img/smile_icon2.png");
 
 const MenuBar = () => {
   const [modalOnOff, setModalOnOff] = useState(false);
@@ -16,43 +19,68 @@ const MenuBar = () => {
   const onMouseOver = () => setModalOnOff(true);
   const offMouseOut = () => setModalOnOff(false);
 
+  const [query, setQuery] = useState('');
+  const [searchData, setSearchData] = useState<movieType[]>([]);
+  async function searchItem() {
+    const search_URL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`;
+    const response = await axios.get(search_URL);
+
+    const results = await response.data.results;
+    setSearchData(results);
+  }
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    searchItem();
+  }
+
   useEffect(() => {
     onUserStateChange(setUser);
   }, []);
 
   return (
-    <nav className='menuBarContainer'>
-      <ul>
-        <li className='menuBar__logo'>
-          <Link to='/'>
-            <img src={logo} alt='' />
-          </Link>
-          <div className='menuBar__Lists'>
+    <>
+      <nav className='menuBarContainer'>
+        <ul>
+          <li className='menuBar__logo'>
             <Link to='/'>
-              <p>영화</p>
+              <img src={logo} alt='' />
             </Link>
-            <Link to='/series'>
-              <p>시리즈</p>
-            </Link>
-          </div>
-        </li>
-        <li className='search'>
-          <BiSearchAlt2 />
-          <input type='text' placeholder='찾고싶은 영화를 입력해주세요.' />
-        </li>
-        <li className='menuBar__Icon' onMouseOut={offMouseOut}>
-          <div
-            onMouseOver={() => {
-              onMouseOver();
-            }}
-          >
-            <img src={smile_icon1} alt='' />
-            {modalOnOff && !user && <LogInModal userState={setUser} />}
-            {modalOnOff && user && <LogOutModal userState={setUser} />}
-          </div>
-        </li>
-      </ul>
-    </nav>
+            <div className='menuBar__Lists'>
+              <Link to='/'>
+                <p>영화</p>
+              </Link>
+              <Link to='/series'>
+                <p>시리즈</p>
+              </Link>
+            </div>
+          </li>
+          <form onSubmit={handleSubmit}>
+            <li className='search'>
+              <BiSearchAlt2 />
+              <input
+                type='text'
+                placeholder='찾고싶은 영화를 입력해주세요.'
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </li>
+          </form>
+          <li className='menuBar__Icon' onMouseOut={offMouseOut}>
+            <div
+              onMouseOver={() => {
+                onMouseOver();
+              }}
+            >
+              <img src={smile_icon1} alt='' />
+              {modalOnOff && !user && <LogInModal userState={setUser} />}
+              {modalOnOff && user && <LogOutModal userState={setUser} />}
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <SearchItems />
+    </>
   );
 };
 
