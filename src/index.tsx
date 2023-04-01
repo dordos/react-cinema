@@ -10,6 +10,7 @@ import Cart from './page/Cart';
 import OrderList from './page/OrderList';
 import Home from './page/Home';
 import Series from './page/Series';
+import SearchItems from './components/SearchItems';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
       { path: 'PickList', element: <PickList /> },
       { path: 'Cart', element: <Cart /> },
       { path: 'OrderList', element: <OrderList /> },
-      { path: 'series', element: <Series /> },
+      { path: 'Series', element: <Series /> },
     ],
   },
 ]);
