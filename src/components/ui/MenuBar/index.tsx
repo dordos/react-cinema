@@ -79,7 +79,7 @@ const MenuBar = () => {
           </li>
         </ul>
       </nav>
-      <SearchItems />
+      <SearchItems searchData={searchData} />
     </>
   );
 };
