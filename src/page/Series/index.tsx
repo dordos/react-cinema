@@ -20,7 +20,6 @@ const Series = () => {
   const [page, setPage] = useState(1);
   const [series, setSeries] = useState<seriesType[]>([]);
   const observer = useRef<IntersectionObserver>();
-
   const nowDateFn = () => {
     let now = new Date();
     let todayYear = now.getFullYear();
@@ -33,7 +32,7 @@ const Series = () => {
     const MOVIE_DETAIL = `https://api.themoviedb.org/3/tv/${selectId}?api_key=${API_KEY}&language=ko-KR`;
     setSeriesModalState(!seriesModalState);
     setSeriesId(selectId);
-    console.log(modalDetail);
+
     const movieRef = ref(database, `admins/${currentUser}/${selectId}`);
     get(movieRef).then((snapshot) => {
       if (snapshot.exists()) {

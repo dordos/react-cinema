@@ -35,7 +35,6 @@ const MenuBar = () => {
             <Link to='/series'>
               <p>시리즈</p>
             </Link>
-            <p>NEW! 요즘 대세 콘텐츠</p>
           </div>
         </li>
         <li className='menuBar__Icon' onMouseOut={offMouseOut}>

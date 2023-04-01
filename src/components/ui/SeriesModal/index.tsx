@@ -13,10 +13,9 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
   const [detailData, setDetailData] = useState<seriesDetailType | any>();
   const [heart, setHeart] = useState<boolean | undefined>();
   const [cartAlert, setCartAlert] = useState(false);
-
   if (detailData != modalDetail) {
     setDetailData(modalDetail);
-    setHeart(modalDetail.userMovieState.pick);
+    setHeart(modalDetail.userSeriesState.pick);
   }
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -37,7 +36,7 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
 
     get(ref(database, `admins/${currentUser}/${seriesId}`)).then((snapshot) => {
       if (snapshot.exists()) {
-        setCart(seriesId, detailData, snapshot.val().userMovieState);
+        setCart(seriesId, detailData, snapshot.val().userSeriesState);
       }
     });
   }
@@ -57,12 +56,12 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
           </div>
           <div className='previeTitle'>
             <Link to='/seriesDetail' state={{ seriesId, modalDetail, setseriesDB: detailData }}>
-              <h1>{detailData?.title}</h1>
+              <h1>{detailData?.original_name}</h1>
             </Link>
           </div>
           <div className='previewInfo'>
             <div className='metaData'>
-              <span>{detailData?.release_date}</span>
+              <span>{detailData?.first_air_date}</span>
               <div>
                 <MovieAverage MovieAverage={detailData?.vote_average} key={detailData?.id} />
               </div>
@@ -75,14 +74,14 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
               <div>
                 {/* <p className='language'>
                   지원 언어 :
-                  {detailData?.languages.map((language, idx) => (
-                    <span key={idx}>{language}</span>
+                  {detailData?.spoken_languages.map((language: any, idx: number) => (
+                    <span key={idx}>{language.iso_639_1}</span>
                   ))}
-                </p>
-                <p className='genres'>
+                </p> */}
+                {/* <p className='genres'>
                   장르 :
-                  {detailData?.genres.map((item, idx) => (
-                    <span key={idx}>{item.name}</span>
+                  {detailData?.type.map((item: any, idx: number) => (
+                    <span>{item.type}</span>
                   ))}
                 </p> */}
               </div>
