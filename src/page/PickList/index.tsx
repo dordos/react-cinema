@@ -10,25 +10,36 @@ import { get, ref } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
 import { movieDetailType, movieType } from '../../types/movieType';
 import MovieAverage from '../../components/MovieAverage';
-import { seriesType } from '../../types/seriesType';
+import { seriesDetailType, seriesType } from '../../types/seriesType';
 
 const PickList = () => {
-  const [movieModalState, setMovieModalState] = useState(false);
+  type dd = {
+    movie: boolean;
+    series: boolean;
+    closeBtn: boolean;
+  };
+
+  const [deliveryModalState, setDeliveryModalState] = useState({
+    movie: false,
+    series: false,
+    closeBtn: false,
+  });
   const [movieId, setMovieId] = useState<number | undefined>();
 
   const [movieInfo, setMovieInfo] = useState<movieType[] | seriesType[] | any[]>();
-  const [modalDetail, setModalDetail] = useState<movieDetailType | undefined>();
+  const [movieModalDetail, setMovieModalDetail] = useState<movieDetailType | undefined>();
+  const [seriesModalDetail, setSeriesModalDetail] = useState<seriesDetailType | undefined>();
 
-  const closeModal = () => setMovieModalState(false);
+  const closeModal = () => setDeliveryModalState({ ...deliveryModalState, closeBtn: false });
 
-  console.log(movieInfo);
-
-  const onMovieDetail = (selectId: number) => {
-    setMovieModalState(!movieModalState);
+  const deliveryDetail = (selectId: number) => {
+    // setDeliveryModalState(!deliveryModalState.movie);
     setMovieId(selectId);
     movieInfo?.filter((item: any) => {
-      if (item.id == selectId) {
-        setModalDetail(item);
+      if (item.id === selectId && item.userMovieState) {
+        setMovieModalDetail(item);
+      } else {
+        setSeriesModalDetail(item);
       }
     });
   };
@@ -53,7 +64,7 @@ const PickList = () => {
         });
       }
     });
-  }, [movieModalState]);
+  }, [deliveryModalState]);
   return (
     <>
       <MenuBar />
@@ -62,19 +73,19 @@ const PickList = () => {
           <li
             key={idx}
             onClick={() => {
-              onMovieDetail(movie.id);
+              deliveryDetail(movie.id);
             }}
           >
             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='' />
             <div className='pickListInfo'>
-              <h3>{movie.title}</h3>
+              <h3>{movie.title || movie.name}</h3>
               <MovieAverage movieAverage={movie?.vote_average} key={movie?.id} />
             </div>
           </li>
         ))}
       </ul>
-      {movieModalState && (
-        <MovieModal movieId={movieId} modalDetail={modalDetail} closeModal={closeModal} />
+      {deliveryModalState && (
+        <MovieModal movieId={movieId} modalDetail={movieModalDetail} closeModal={closeModal} />
       )}
     </>
   );

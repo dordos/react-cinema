@@ -42,7 +42,6 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
       }
     });
   }
-  const a = 'aaa';
   const seasons =
     detailData?.seasons?.length > 4
       ? [
