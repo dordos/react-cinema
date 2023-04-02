@@ -8,7 +8,6 @@ const logo = require('../../img/logo.png');
 const checkImg = require('../../img/check_icon.png');
 const SignUp = () => {
   const [email, setEmail] = useState('');
-  // const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [isFocused, setIsFocused] = useState({
@@ -21,27 +20,12 @@ const SignUp = () => {
     password: false,
     confirmPassword: false,
   });
-  // const [mismatchError, setMismatchError] = useState(false);
-  // const [passwordLengthError, setPasswordLengthError] = useState(false);
   const onChangeEmail = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   }, []);
-  // console.log(isFocused);
   const isEmailError = isTouched.email && !isFocused.email && !/^\S+@\S+\.\S+$/.test(email.trim());
   const isPasswordError = isTouched.password && !isFocused.password && password.length <= 6;
   const isPasswordCheckError = !isFocused.passwordCheck && passwordCheck !== password;
-  console.log(!isFocused.password);
-  // const onChangeNickname = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-  //   setNickname(e.target.value);
-  // }, []);
-
-  // const onChangePassword = useCallback(
-  //   (e: ChangeEvent<HTMLInputElement>) => {
-  //     setPassword(e.target.value);
-  //     setMismatchError(e.target.value === passwordCheck);
-  //   },
-  //   [setPasswordCheck, setPasswordLengthError]
-  // );
 
   const passwordLength = (event: React.ChangeEvent<any>) => {
     const value = event.target.value;

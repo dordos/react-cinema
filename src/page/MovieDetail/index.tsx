@@ -9,7 +9,6 @@ import MovieCast from '../../components/ui/MovieCast';
 import MovieRec from '../../components/ui/MovieRec';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import Social from '../../components/ui/MovieReviews';
 import { useLocation } from 'react-router-dom';
 import { movieImg, movieType } from '../../types/movieType';
 import { BsCartPlus } from 'react-icons/bs';
