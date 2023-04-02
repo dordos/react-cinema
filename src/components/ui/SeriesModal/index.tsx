@@ -13,11 +13,13 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
   const [detailData, setDetailData] = useState<seriesDetailType | any>();
   const [heart, setHeart] = useState<boolean | undefined>();
   const [cartAlert, setCartAlert] = useState(false);
+  // const [seasons, setSeasons] = useState();
   if (detailData != modalDetail) {
     setDetailData(modalDetail);
     setHeart(modalDetail.userSeriesState.pick);
   }
 
+  // console.log(modalDetail);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current == e.target) closeModal();
@@ -40,6 +42,15 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
       }
     });
   }
+  const a = 'aaa';
+  const seasons =
+    detailData?.seasons?.length > 4
+      ? [
+          ...detailData.seasons.slice(0, 4).map((season: any) => season.name),
+          '...',
+          detailData.seasons[detailData.seasons.length - 1].name,
+        ]
+      : detailData?.seasons?.map((season: any) => season.name) || [];
 
   useEffect(() => {}, [heart]);
   return (
@@ -56,7 +67,7 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
           </div>
           <div className='previeTitle'>
             {/* <Link to='/seriesDetail' state={{ seriesId, modalDetail, setseriesDB: detailData }}> */}
-            <h1>{detailData?.original_name}</h1>
+            <h1>{detailData?.name}</h1>
             {/* </Link> */}
           </div>
           <div className='previewInfo'>
@@ -72,18 +83,18 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
             </div>
             <div className='metaDataDetail'>
               <div>
-                {/* <p className='language'>
+                <p className='language'>
                   지원 언어 :
                   {detailData?.spoken_languages.map((language: any, idx: number) => (
                     <span key={idx}>{language.iso_639_1}</span>
                   ))}
-                </p> */}
-                {/* <p className='genres'>
-                  장르 :
-                  {detailData?.type.map((item: any, idx: number) => (
-                    <span>{item.type}</span>
+                </p>
+                <p className='genres'>
+                  시즌 :
+                  {seasons.map((season: any, idx: number) => (
+                    <span key={idx}>{season}</span>
                   ))}
-                </p> */}
+                </p>
               </div>
             </div>
             <div className='myPageInfo'>
