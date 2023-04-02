@@ -16,16 +16,21 @@ const SignUp = () => {
     password: false,
     passwordCheck: false,
   });
+  const [isTouched, setIsTouched] = useState({
+    email: false,
+    password: false,
+    confirmPassword: false,
+  });
   // const [mismatchError, setMismatchError] = useState(false);
   // const [passwordLengthError, setPasswordLengthError] = useState(false);
   const onChangeEmail = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   }, []);
-
-  const isPasswordError = !isFocused.password && password.length <= 6;
-  const isEmailError = !isFocused.email && !/^\S+@\S+\.\S+$/.test(email.trim());
+  // console.log(isFocused);
+  const isEmailError = isTouched.email && !isFocused.email && !/^\S+@\S+\.\S+$/.test(email.trim());
+  const isPasswordError = isTouched.password && !isFocused.password && password.length <= 6;
   const isPasswordCheckError = !isFocused.passwordCheck && passwordCheck !== password;
-
+  console.log(!isFocused.password);
   // const onChangeNickname = useCallback((e: ChangeEvent<HTMLInputElement>) => {
   //   setNickname(e.target.value);
   // }, []);
@@ -72,8 +77,8 @@ const SignUp = () => {
 
   // focus Event
   const focusIn = (e: any) => {
-    // if (e.target.previousSibling.className == 'inputOffFocus' && e.target.value == '')
-    //   e.target.previousSibling.className = 'inputOnFocus';
+    if (e.target.previousSibling.className == 'inputOffFocus' && e.target.value == '')
+      e.target.previousSibling.className = 'inputOnFocus';
 
     const inputName = e.target.name;
     setIsFocused((prevState) => ({
@@ -82,15 +87,16 @@ const SignUp = () => {
     }));
   };
   const focusOut = (e: any) => {
-    // if (e.target.value == '') {
-    //   e.target.previousSibling.className = 'inputOffFocus';
-    //   e.target.nextSibling.className = 'errorMessage';
-    // }
+    if (e.target.value == '') e.target.previousSibling.className = 'inputOffFocus';
 
     const inputName = e.target.name;
     setIsFocused((prevState) => ({
       ...prevState,
       [inputName]: false,
+    }));
+    setIsTouched((prevState) => ({
+      ...prevState,
+      [inputName]: true,
     }));
   };
 
