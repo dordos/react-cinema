@@ -10,15 +10,18 @@ import { get, ref } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
 import { movieDetailType, movieType } from '../../types/movieType';
 import MovieAverage from '../../components/MovieAverage';
+import { seriesType } from '../../types/seriesType';
 
 const PickList = () => {
   const [movieModalState, setMovieModalState] = useState(false);
   const [movieId, setMovieId] = useState<number | undefined>();
 
-  const [movieInfo, setMovieInfo] = useState<movieType[]>();
+  const [movieInfo, setMovieInfo] = useState<movieType[] | seriesType[] | any[]>();
   const [modalDetail, setModalDetail] = useState<movieDetailType | undefined>();
 
   const closeModal = () => setMovieModalState(false);
+
+  console.log(movieInfo);
 
   const onMovieDetail = (selectId: number) => {
     setMovieModalState(!movieModalState);
@@ -37,7 +40,11 @@ const PickList = () => {
         get(pickMovieData).then((snapshot) => {
           if (snapshot.exists()) {
             const data = Object.entries(snapshot.val())
-              .filter(([key, value]: any) => value.userMovieState.pick)
+              .filter(
+                ([key, value]: any) =>
+                  (value.userMovieState && value.userMovieState.pick) ||
+                  (value.userSeriesState && value.userSeriesState.pick)
+              )
               .map(([key, value]) => ({ [key]: value }))
               .reduce((acc, cur) => Object.assign(acc, cur), []);
             const result = Object.values(data);
