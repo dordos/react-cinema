@@ -127,7 +127,6 @@ const Cart = () => {
               (el: Data) => el.userMovieState?.cartState || el.userSeriesState?.cartState
             );
 
-            console.log(cartDB);
             if (JSON.stringify(cartDB) !== JSON.stringify(prevCartData.current)) {
               setCartData(cartDB);
               prevCartData.current = cartDB;
@@ -171,11 +170,15 @@ const Cart = () => {
                   </div>
                   <div className='cartInfo__metaData'>
                     <div className='moviedDte'>{cartItem?.release_date}</div>
-                    <div className='movieTime'>•{cartItem?.runtime}분</div>
+                    <div className='movieTime'>
+                      •{cartItem ? cartItem?.runtime : cartItem.episode_run_time[0]}분
+                      {console.log(cartItem)}
+                      {/* •{cartData.map((item) => item.userSeriesState) ? cartItem.episode_run_time[0] : ''}분 */}
+                    </div>
                   </div>
                   <p className='genres'>
                     장르 :
-                    {cartItem?.genres.map((item: any, idx: number) => (
+                    {cartItem?.genres.slice(0, 3).map((item: any, idx: number) => (
                       <span key={idx}>{item.name}</span>
                     ))}
                   </p>
