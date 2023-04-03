@@ -42,9 +42,9 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
     });
   }
   const seasons =
-    detailData?.seasons?.length > 4
+    detailData?.seasons?.length > 3
       ? [
-          ...detailData.seasons.slice(0, 4).map((season: any) => season.name),
+          ...detailData.seasons.slice(0, 3).map((season: any) => season.name),
           '...',
           detailData.seasons[detailData.seasons.length - 1].name,
         ]

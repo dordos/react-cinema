@@ -92,8 +92,6 @@ const SeriesDetail = () => {
     movieData();
     setHeartState(state.modalDetail.userSeriesState.pick);
   }, []);
-  console.log(abc);
-  console.log(seriesDetail);
   const [onPhoto, setOnPhoto] = useState(true);
   const [onVideo, setOnVideo] = useState(false);
 

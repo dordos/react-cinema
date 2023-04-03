@@ -29,7 +29,7 @@ const Series = () => {
   };
 
   const onSeriesDetail = (selectId: number) => {
-    const MOVIE_DETAIL = `https://api.themoviedb.org/3/tv/${selectId}?api_key=${API_KEY}&language=ko-KR`;
+    const MOVIE_DETAIL = `https://api.themoviedb.org/3/tv/${selectId}?api_key=${API_KEY}&language=en-US`;
     setSeriesModalState(!seriesModalState);
     setSeriesId(selectId);
 
