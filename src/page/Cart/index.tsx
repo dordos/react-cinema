@@ -4,17 +4,18 @@ import './style.scss';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineClose } from 'react-icons/ai';
 
-import { FaEquals, FaPlus } from 'react-icons/fa';
+import { FaElementor, FaEquals, FaPlus } from 'react-icons/fa';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, currentUser, database } from '../../api/firebase';
 import { get, ref, set } from 'firebase/database';
 import { movieDetailType } from '../../types/movieType';
 import MovieAverage from '../../components/MovieAverage';
 import PaymentWindow from '../../components/PaymentWindow';
+import { seriesDetailType } from '../../types/seriesType';
 
 const Cart = () => {
-  const [cartData, setCartData] = useState<movieDetailType[]>();
-  const prevCartData = useRef<movieDetailType[]>();
+  const [cartData, setCartData] = useState<movieDetailType[] | seriesDetailType[] | any[]>();
+  const prevCartData = useRef<movieDetailType[] | seriesDetailType[] | any[]>();
   const [cartCheckList, setCartCheckList] = useState<movieDetailType[]>([]);
   const [controlData, setControlData] = useState<movieDetailType>();
   const [countData, setCountData] = useState<number>(0);
@@ -22,6 +23,11 @@ const Cart = () => {
   const [itemRemove, setItemRemove] = useState<any>();
   const [paymentAlert, setPaymentAlert] = useState(false);
   const closeModal = () => setPaymentAlert(false);
+
+  interface Data {
+    userMovieState?: { cartState: boolean };
+    userSeriesState?: { cartState: boolean };
+  }
 
   const nowDateFn = (days: number) => {
     const today = new Date();
@@ -115,9 +121,13 @@ const Cart = () => {
         const cartData = ref(database, `admins/${user.uid}`);
         get(cartData).then((snapshot) => {
           if (snapshot.exists()) {
-            const data = Object.values<movieDetailType>(snapshot.val());
-            const cartDB = data.filter((el) => el.userMovieState.cartState === true);
+            const data = Object.values<movieDetailType | seriesDetailType>(snapshot.val());
 
+            const cartDB = data.filter(
+              (el: Data) => el.userMovieState?.cartState || el.userSeriesState?.cartState
+            );
+
+            console.log(cartDB);
             if (JSON.stringify(cartDB) !== JSON.stringify(prevCartData.current)) {
               setCartData(cartDB);
               prevCartData.current = cartDB;
@@ -165,13 +175,13 @@ const Cart = () => {
                   </div>
                   <p className='genres'>
                     장르 :
-                    {cartItem?.genres.map((item, idx) => (
+                    {cartItem?.genres.map((item: any, idx: number) => (
                       <span key={idx}>{item.name}</span>
                     ))}
                   </p>
                   <p className='language'>
                     지원 언어 :
-                    {cartItem?.spoken_languages.slice(0, 5).map((language, idx) => (
+                    {cartItem?.spoken_languages.slice(0, 5).map((language: any, idx: string) => (
                       <span key={idx}>{language.iso_639_1}</span>
                     ))}
                   </p>
@@ -185,7 +195,7 @@ const Cart = () => {
                         minusDate(cartItem, -1);
                       }}
                     />
-                    <p>{cartItem.userMovieState.count}일</p>
+                    <p>{cartItem.userMovieState?.count}일</p>
                     <AiOutlinePlusCircle
                       onClick={(e) => {
                         plusDate(cartItem, +1);
@@ -199,7 +209,7 @@ const Cart = () => {
                     </p>
                     <p>
                       <span>종료일 : </span>
-                      {cartItem.userMovieState.endDate}
+                      {cartItem.userMovieState?.endDate}
                     </p>
                   </div>
                 </div>
@@ -207,8 +217,8 @@ const Cart = () => {
                 <div className='rentalPrice'>
                   <h2>대여 금액</h2>
                   <div>
-                    <p>{cartItem?.userMovieState.count}</p>
-                    <span>{cartItem.userMovieState.count > 0 ? ',000' : ''}</span>
+                    <p>{cartItem?.userMovieState?.count}</p>
+                    <span>{cartItem.userMovieState?.count > 0 ? ',000' : ''}</span>
                     <span>원</span>
                   </div>
                 </div>
@@ -237,7 +247,7 @@ const Cart = () => {
               <div className='selectAllTimeWrap'>
                 <h2>총 대여 시간</h2>
                 <div>
-                  <p>{cartCheckList.reduce((acc, item) => acc + item.userMovieState.count, 0)}</p>
+                  <p>{cartCheckList.reduce((acc, item) => acc + item.userMovieState?.count, 0)}</p>
                   <span>일</span>
                 </div>
               </div>
@@ -247,9 +257,9 @@ const Cart = () => {
               <div className='selectAllPriceWrap'>
                 <h2>총 결제 금액</h2>
                 <div>
-                  <p>{cartCheckList.reduce((acc, item) => acc + item.userMovieState.count, 0)}</p>
+                  <p>{cartCheckList.reduce((acc, item) => acc + item.userMovieState?.count, 0)}</p>
                   <p>
-                    {cartCheckList.reduce((acc, item) => acc + item.userMovieState.count, 0) > 0
+                    {cartCheckList.reduce((acc, item) => acc + item.userMovieState?.count, 0) > 0
                       ? ',000'
                       : ''}
                   </p>
@@ -264,7 +274,6 @@ const Cart = () => {
               </div>
             </div>
           </div>
-          ;
         </ul>
       </div>
     </>

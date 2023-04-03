@@ -133,7 +133,7 @@ export async function setSeriesCart(
 ) {
   return set(ref(database, `admins/${currentUser}/${movieId}`), {
     ...seriesDetail,
-    userMovieState: {
+    userSeriesState: {
       ...getUserState,
       cartState: true,
     },
