@@ -13,7 +13,6 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
   const [detailData, setDetailData] = useState<seriesDetailType | any>();
   const [heart, setHeart] = useState<boolean | undefined>();
   const [cartAlert, setCartAlert] = useState(false);
-  // const [seasons, setSeasons] = useState();
   if (detailData != modalDetail) {
     setDetailData(modalDetail);
     setHeart(modalDetail.userSeriesState.pick);
@@ -56,18 +55,18 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
     <div className='seriesPreviewContainer' onClick={closeBtn} ref={modalRef}>
       <div className='previewContent'>
         <div className='previewLeft'>
-          {/* <Link to='/seriesDetail' state={{ seriesId, modalDetail, setseriesDB: detailData }}> */}
-          <img src={`https://image.tmdb.org/t/p/w500/${detailData?.poster_path}`} alt='' />
-          {/* </Link> */}
+          <Link to='/SeriesDetail' state={{ seriesId, modalDetail, setseriesDB: detailData }}>
+            <img src={`https://image.tmdb.org/t/p/w500/${detailData?.poster_path}`} alt='' />
+          </Link>
         </div>
         <div className='previewRight'>
           <div className='closeBtn'>
             <AiOutlineCloseCircle size='36' color='#a3a3a3' onClick={closeModal} />
           </div>
           <div className='previeTitle'>
-            {/* <Link to='/seriesDetail' state={{ seriesId, modalDetail, setseriesDB: detailData }}> */}
-            <h1>{detailData?.name}</h1>
-            {/* </Link> */}
+            <Link to='/SeriesDetail' state={{ seriesId, modalDetail, setseriesDB: detailData }}>
+              <h1>{detailData?.name}</h1>
+            </Link>
           </div>
           <div className='previewInfo'>
             <div className='metaData'>

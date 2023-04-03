@@ -11,34 +11,29 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { movieDetailType, movieType } from '../../types/movieType';
 import MovieAverage from '../../components/MovieAverage';
 import { seriesDetailType, seriesType } from '../../types/seriesType';
+import SeriesModal from '../../components/ui/SeriesModal';
 
 const PickList = () => {
-  type dd = {
-    movie: boolean;
-    series: boolean;
-    closeBtn: boolean;
-  };
-
-  const [deliveryModalState, setDeliveryModalState] = useState({
-    movie: false,
-    series: false,
-    closeBtn: false,
-  });
   const [movieId, setMovieId] = useState<number | undefined>();
 
   const [movieInfo, setMovieInfo] = useState<movieType[] | seriesType[] | any[]>();
   const [movieModalDetail, setMovieModalDetail] = useState<movieDetailType | undefined>();
   const [seriesModalDetail, setSeriesModalDetail] = useState<seriesDetailType | undefined>();
 
-  const closeModal = () => setDeliveryModalState({ ...deliveryModalState, closeBtn: false });
+  const [movieModalState, setMovieModalState] = useState(false);
+  const [seriesModalState, setSeriesModalState] = useState(false);
+  const movieCloseModal = () => setMovieModalState(false);
+  const seriesCloseModal = () => setSeriesModalState(false);
 
   const deliveryDetail = (selectId: number) => {
-    // setDeliveryModalState(!deliveryModalState.movie);
     setMovieId(selectId);
     movieInfo?.filter((item: any) => {
       if (item.id === selectId && item.userMovieState) {
+        setMovieModalState(!movieModalState);
         setMovieModalDetail(item);
-      } else {
+      }
+      if (item.id === selectId && item.userSeriesState) {
+        setSeriesModalState(!seriesModalState);
         setSeriesModalDetail(item);
       }
     });
@@ -64,7 +59,7 @@ const PickList = () => {
         });
       }
     });
-  }, [deliveryModalState]);
+  }, [movieModalState]);
   return (
     <>
       <MenuBar />
@@ -84,8 +79,15 @@ const PickList = () => {
           </li>
         ))}
       </ul>
-      {deliveryModalState && (
-        <MovieModal movieId={movieId} modalDetail={movieModalDetail} closeModal={closeModal} />
+      {movieModalState && (
+        <MovieModal movieId={movieId} modalDetail={movieModalDetail} closeModal={movieCloseModal} />
+      )}
+      {seriesModalState && (
+        <SeriesModal
+          movieId={movieId}
+          modalDetail={seriesModalDetail}
+          closeModal={seriesCloseModal}
+        />
       )}
     </>
   );
