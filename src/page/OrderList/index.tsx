@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
 import { BiDownArrow, BiRightArrow } from 'react-icons/bi';
-import { auth, database, setOrderList } from '../../api/firebase';
+import { auth, database } from '../../api/firebase';
 import { movieDetailType } from '../../types/movieType';
 import { onAuthStateChanged } from 'firebase/auth';
 import { get, ref } from 'firebase/database';
@@ -48,8 +48,9 @@ const OrderList = () => {
               (el: Data) => el.userMovieState?.cartState || el.userSeriesState?.cartState
             );
 
-            console.log(filterData);
-
+            filterData.map((item: Data) => {
+              console.log(item.userMovieState?.endDate || item.userSeriesState?.endDate);
+            });
             // data.filter((item) => {
             //   if (item.userMovieState?.endDate < todayTime || item.userSeriesState?.endDate < todayTime) {
             //     expiryArray.push(item);

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { setOrderList } from '../../api/firebase';
+import { setMovieOrderList, setSeriesOrderList } from '../../api/firebase';
 import './style.scss';
 
 const PaymentWindow = ({ closeModal, paymentData }: any) => {
@@ -14,7 +14,8 @@ const PaymentWindow = ({ closeModal, paymentData }: any) => {
   };
 
   const setPaymentData = () => {
-    setOrderList(paymentData);
+    setMovieOrderList(paymentData);
+    setSeriesOrderList(paymentData);
   };
 
   return (

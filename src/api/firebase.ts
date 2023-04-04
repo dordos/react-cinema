@@ -93,7 +93,7 @@ export async function setCart(
   });
 }
 
-export async function setOrderList(movieDetail: movieDetailType[]) {
+export async function setMovieOrderList(movieDetail: movieDetailType[]) {
   movieDetail.map((item) => {
     return set(ref(database, `admins/${currentUser}/${item.id}`), {
       ...item,
@@ -140,19 +140,6 @@ export async function setSeriesCart(
   });
 }
 
-export async function setSeriesOrderList(seriesDetail: seriesDetailType[]) {
-  seriesDetail.map((item) => {
-    return set(ref(database, `admins/${currentUser}/${item.id}`), {
-      ...item,
-      userSeriesState: {
-        ...item?.userSeriesState,
-        ordered: true,
-        cartState: false,
-      },
-    });
-  });
-}
-
 export async function setSeriesPickDB(
   movieId: number,
   seriesDetail: seriesDetailType | undefined,
@@ -164,5 +151,18 @@ export async function setSeriesPickDB(
       ...seriesDetail?.userSeriesState,
       pick: state,
     },
+  });
+}
+
+export async function setSeriesOrderList(seriesDetail: seriesDetailType[]) {
+  seriesDetail.map((item) => {
+    return set(ref(database, `admins/${currentUser}/${item.id}`), {
+      ...item,
+      userSeriesState: {
+        ...item?.userSeriesState,
+        ordered: true,
+        cartState: false,
+      },
+    });
   });
 }
