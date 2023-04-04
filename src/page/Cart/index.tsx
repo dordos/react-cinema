@@ -16,7 +16,7 @@ import { seriesDetailType } from '../../types/seriesType';
 const Cart = () => {
   const [cartData, setCartData] = useState<movieDetailType[] | seriesDetailType[] | any[]>();
   const prevCartData = useRef<movieDetailType[] | seriesDetailType[] | any[]>();
-  const [cartCheckList, setCartCheckList] = useState<movieDetailType[]>([]);
+  const [cartCheckList, setCartCheckList] = useState<any[]>([]);
   const [controlData, setControlData] = useState<movieDetailType>();
   const [countData, setCountData] = useState<number>(0);
   const [endDate, setEndDate] = useState<string>();
@@ -48,19 +48,31 @@ const Cart = () => {
     setEndDate(filterEndDate);
   };
 
-  const plusDate = (target: movieDetailType, increase: number) => {
+  const plusDate = (target: any, increase: number) => {
     const item = { ...target };
-    if (item.userMovieState.count < 99) {
+    if (item.userMovieState && item.userMovieState.count < 99) {
       item.userMovieState.count += increase;
       setControlData(item);
       totalData();
       endDateFn(item);
     }
+    if (item.userSeriesState && item.userSeriesState.count < 99) {
+      item.userSeriesState.count += increase;
+      setControlData(item);
+      totalData();
+      endDateFn(item);
+    }
   };
-  const minusDate = (target: movieDetailType, decrease: number) => {
+  const minusDate = (target: any, decrease: number) => {
     const item = { ...target };
-    if (item.userMovieState.count < 99 && item.userMovieState.count > 0) {
+    if (item.userMovieState && item.userMovieState.count < 99 && item.userMovieState.count > 0) {
       item.userMovieState.count += decrease;
+      setControlData(item);
+      totalData();
+      endDateFn(item);
+    }
+    if (item.userSeriesState && item.userSeriesState.count < 99 && item.userSeriesState.count > 0) {
+      item.userSeriesState.count += decrease;
       setControlData(item);
       totalData();
       endDateFn(item);
@@ -70,7 +82,7 @@ const Cart = () => {
   const totalData = () => {
     const filteredCartData = cartData?.filter((item: any) => cartCheckList.includes(item.id));
     const totalCount: any = filteredCartData?.reduce(
-      (acc, item) => acc + item.userMovieState.count,
+      (acc, item) => acc + (item.userMovieState.count | item.userSeriesState.count),
       0
     );
     setCountData(totalCount);
@@ -115,6 +127,12 @@ const Cart = () => {
     setPaymentAlert(!paymentAlert);
   };
 
+  console.log(
+    cartCheckList.reduce(
+      (acc, item) => acc + Number(item.userMovieState?.count + item.userSeriesState?.count),
+      0
+    )
+  );
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -145,99 +163,112 @@ const Cart = () => {
       <div className='cartWrap'>
         <ul className='cart'>
           {/* movies list */}
-          {cartData?.map((cartItem, idx) => (
-            <>
-              {cartItem.userMovieState ? (
-                <li className='cartItemList' key={idx}>
-                  <div className='orderCheck'>
-                    <input
-                      type='checkbox'
-                      className='cartCheckBox'
-                      name={`cartItemCheck${idx}`}
-                      onChange={(e) => {
-                        cartSelect(e.target.checked, cartItem.id);
+          {cartData?.map((cartItem, idx) =>
+            cartItem.userMovieState || cartItem.userSeriesState ? (
+              <li className='cartItemList' key={idx}>
+                <div className='orderCheck'>
+                  <input
+                    type='checkbox'
+                    className='cartCheckBox'
+                    name={`cartItemCheck${idx}`}
+                    onChange={(e) => {
+                      cartSelect(e.target.checked, cartItem.id);
+                    }}
+                  />
+                  <label htmlFor='cartCheckBox'></label>
+                </div>
+                <div className='cartItem__img'>
+                  <img src={`https://image.tmdb.org/t/p/w500/${cartItem?.poster_path}`} alt='' />
+                </div>
+
+                <div className='cartInfo'>
+                  <h1>{cartItem?.title}</h1>
+                  <div className='cartAverage'>
+                    <MovieAverage movieAverage={cartItem?.vote_average} key={cartItem?.id} />
+                    <div className='avaerageNum'>{averageNumber(cartItem?.vote_average)}</div>
+                  </div>
+                  <div className='cartInfo__metaData'>
+                    <div className='moviedDte'>
+                      {cartItem?.release_date || cartItem?.last_air_date}
+                    </div>
+                    <div className='movieTime'>
+                      {cartItem?.runtime || cartItem.episode_run_time[0]}분
+                    </div>
+                  </div>
+                  <p className='genres'>
+                    장르 :
+                    {cartItem?.genres.slice(0, 3).map((item: any, idx: number) => (
+                      <span key={idx}>{item.name}</span>
+                    ))}
+                  </p>
+                  <p className='language'>
+                    지원 언어 :
+                    {cartItem?.spoken_languages.slice(0, 5).map((language: any, idx: string) => (
+                      <span key={idx}>{language.iso_639_1}</span>
+                    ))}
+                  </p>
+                </div>
+
+                <div className='rentalTime'>
+                  <h2>대여시간</h2>
+                  <div className='addRentalTime'>
+                    <AiOutlineMinusCircle
+                      onClick={(e) => {
+                        minusDate(cartItem, -1);
                       }}
                     />
-                    <label htmlFor='cartCheckBox'></label>
+                    <p>{cartItem.userMovieState?.count || cartItem.userSeriesState?.count}일</p>
+                    <AiOutlinePlusCircle
+                      onClick={(e) => {
+                        plusDate(cartItem, +1);
+                      }}
+                    />
                   </div>
-                  <div className='cartItem__img'>
-                    <img src={`https://image.tmdb.org/t/p/w500/${cartItem?.poster_path}`} alt='' />
-                  </div>
-
-                  <div className='cartInfo'>
-                    <h1>{cartItem?.title}</h1>
-                    <div className='cartAverage'>
-                      <MovieAverage movieAverage={cartItem?.vote_average} key={cartItem?.id} />
-                      <div className='avaerageNum'>{averageNumber(cartItem?.vote_average)}</div>
-                    </div>
-                    <div className='cartInfo__metaData'>
-                      <div className='moviedDte'>{cartItem?.release_date}</div>
-                      <div className='movieTime'>{cartItem?.runtime}분</div>
-                    </div>
-                    <p className='genres'>
-                      장르 :
-                      {cartItem?.genres.slice(0, 3).map((item: any, idx: number) => (
-                        <span key={idx}>{item.name}</span>
-                      ))}
+                  <div className='retalDate'>
+                    <p>
+                      <span>시작일 : </span>
+                      {nowDateFn(0)}
                     </p>
-                    <p className='language'>
-                      지원 언어 :
-                      {cartItem?.spoken_languages.slice(0, 5).map((language: any, idx: string) => (
-                        <span key={idx}>{language.iso_639_1}</span>
-                      ))}
+                    <p>
+                      <span>종료일 : </span>
+                      {cartItem.userMovieState?.endDate || cartItem.userSeriesState?.endDate}
                     </p>
                   </div>
+                </div>
 
-                  <div className='rentalTime'>
-                    <h2>대여시간</h2>
-                    <div className='addRentalTime'>
-                      <AiOutlineMinusCircle
-                        onClick={(e) => {
-                          minusDate(cartItem, -1);
-                        }}
-                      />
-                      <p>{cartItem.userMovieState?.count}일</p>
-                      <AiOutlinePlusCircle
-                        onClick={(e) => {
-                          plusDate(cartItem, +1);
-                        }}
-                      />
-                    </div>
-                    <div className='retalDate'>
-                      <p>
-                        <span>시작일 : </span>
-                        {nowDateFn(0)}
-                      </p>
-                      <p>
-                        <span>종료일 : </span>
-                        {cartItem.userMovieState?.endDate}
-                      </p>
-                    </div>
+                <div className='rentalPrice'>
+                  <h2>대여 금액</h2>
+                  <div>
+                    <p>
+                      {cartItem.userMovieState && cartItem.userMovieState?.count}
+                      {cartItem.userSeriesState && cartItem.userSeriesState?.count}
+                    </p>
+                    <span>
+                      {cartItem.userMovieState?.count > 0
+                        ? ',000'
+                        : '' || cartItem.userSeriesState?.count > 0
+                        ? ',000'
+                        : ''}
+                    </span>
+                    <span>원</span>
                   </div>
+                </div>
+                <div
+                  className='listClose'
+                  onClick={(e) => {
+                    removeCart(cartItem.id);
+                  }}
+                >
+                  <AiOutlineClose />
+                </div>
+              </li>
+            ) : null
+          )}
 
-                  <div className='rentalPrice'>
-                    <h2>대여 금액</h2>
-                    <div>
-                      <p>{cartItem?.userMovieState?.count}</p>
-                      <span>{cartItem.userMovieState?.count > 0 ? ',000' : ''}</span>
-                      <span>원</span>
-                    </div>
-                  </div>
-                  <div
-                    className='listClose'
-                    onClick={(e) => {
-                      removeCart(cartItem.id);
-                    }}
-                  >
-                    <AiOutlineClose />
-                  </div>
-                </li>
-              ) : null}
+          {/* series */}
 
-              {/* series */}
-
-              {cartItem.userSeriesState ? (
-                <li className='cartItemList' key={idx}>
+          {/* {cartItem.userSeriesState ? (
+                <li className='cartItemList' key={cartItem.id}>
                   <div className='orderCheck'>
                     <input
                       type='checkbox'
@@ -323,7 +354,7 @@ const Cart = () => {
                 </li>
               ) : null}
             </>
-          ))}
+          ))} */}
 
           <div className='totalPrice'>
             <div>
@@ -340,7 +371,18 @@ const Cart = () => {
               <div className='selectAllTimeWrap'>
                 <h2>총 대여 시간</h2>
                 <div>
-                  <p>{cartCheckList.reduce((acc, item) => acc + item.userMovieState?.count, 0)}</p>
+                  <p>
+                    {cartCheckList.reduce(
+                      (acc, item) =>
+                        acc +
+                        (item.userMovieState?.count
+                          ? item.userMovieState?.count
+                          : 0 + item.userSeriesState?.count
+                          ? item.userSeriesState?.count
+                          : 0),
+                      0
+                    )}
+                  </p>
                   <span>일</span>
                 </div>
               </div>
@@ -350,13 +392,33 @@ const Cart = () => {
               <div className='selectAllPriceWrap'>
                 <h2>총 결제 금액</h2>
                 <div>
-                  <p>{cartCheckList.reduce((acc, item) => acc + item.userMovieState?.count, 0)}</p>
                   <p>
-                    {cartCheckList.reduce((acc, item) => acc + item.userMovieState?.count, 0) > 0
+                    {cartCheckList.reduce(
+                      (acc, item) =>
+                        acc +
+                        (item.userMovieState?.count
+                          ? item.userMovieState?.count
+                          : 0 + item.userSeriesState?.count
+                          ? item.userSeriesState?.count
+                          : 0),
+                      0
+                    )}
+                  </p>
+                  <span className='cartDigit'>
+                    {cartCheckList.reduce(
+                      (acc, item) =>
+                        acc +
+                        (item.userMovieState?.count
+                          ? item.userMovieState?.count
+                          : 0 + item.userSeriesState?.count
+                          ? item.userSeriesState?.count
+                          : 0),
+                      0
+                    ) > 0
                       ? ',000'
                       : ''}
-                  </p>
-                  <span>원</span>
+                  </span>
+                  <span className='cartDigitText'>원</span>
                 </div>
               </div>
               <div className='cart-payment-button'>
