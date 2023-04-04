@@ -127,12 +127,6 @@ const Cart = () => {
     setPaymentAlert(!paymentAlert);
   };
 
-  console.log(
-    cartCheckList.reduce(
-      (acc, item) => acc + Number(item.userMovieState?.count + item.userSeriesState?.count),
-      0
-    )
-  );
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -264,97 +258,6 @@ const Cart = () => {
               </li>
             ) : null
           )}
-
-          {/* series */}
-
-          {/* {cartItem.userSeriesState ? (
-                <li className='cartItemList' key={cartItem.id}>
-                  <div className='orderCheck'>
-                    <input
-                      type='checkbox'
-                      className='cartCheckBox'
-                      name={`cartItemCheck${idx}`}
-                      onChange={(e) => {
-                        cartSelect(e.target.checked, cartItem.id);
-                      }}
-                    />
-                    <label htmlFor='cartCheckBox'></label>
-                  </div>
-                  <div className='cartItem__img'>
-                    <img src={`https://image.tmdb.org/t/p/w500/${cartItem?.poster_path}`} alt='' />
-                  </div>
-
-                  <div className='cartInfo'>
-                    <h1>{cartItem?.name}</h1>
-                    <div className='cartAverage'>
-                      <MovieAverage movieAverage={cartItem?.vote_average} key={cartItem?.id} />
-                      <div className='avaerageNum'>{averageNumber(cartItem?.vote_average)}</div>
-                    </div>
-                    <div className='cartInfo__metaData'>
-                      <div className='moviedDte'>{cartItem?.last_air_date}</div>
-                      <div className='movieTime'>{cartItem.episode_run_time[0]}분</div>
-                    </div>
-                    <p className='genres'>
-                      장르 :
-                      {cartItem?.genres.slice(0, 3).map((item: any, idx: number) => (
-                        <span key={idx}>{item.name}</span>
-                      ))}
-                    </p>
-                    <p className='language'>
-                      지원 언어 :
-                      {cartItem?.spoken_languages.slice(0, 5).map((language: any, idx: string) => (
-                        <span key={idx}>{language.iso_639_1}</span>
-                      ))}
-                    </p>
-                  </div>
-
-                  <div className='rentalTime'>
-                    <h2>대여시간</h2>
-                    <div className='addRentalTime'>
-                      <AiOutlineMinusCircle
-                        onClick={(e) => {
-                          minusDate(cartItem, -1);
-                        }}
-                      />
-                      <p>{cartItem.userSeriesState?.count}일</p>
-                      <AiOutlinePlusCircle
-                        onClick={(e) => {
-                          plusDate(cartItem, +1);
-                        }}
-                      />
-                    </div>
-                    <div className='retalDate'>
-                      <p>
-                        <span>시작일 : </span>
-                        {nowDateFn(0)}
-                      </p>
-                      <p>
-                        <span>종료일 : </span>
-                        {cartItem.userSeriesState?.endDate}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className='rentalPrice'>
-                    <h2>대여 금액</h2>
-                    <div>
-                      <p>{cartItem?.userSeriesState?.count}</p>
-                      <span>{cartItem.userSeriesState?.count > 0 ? ',000' : ''}</span>
-                      <span>원</span>
-                    </div>
-                  </div>
-                  <div
-                    className='listClose'
-                    onClick={(e) => {
-                      removeCart(cartItem.id);
-                    }}
-                  >
-                    <AiOutlineClose />
-                  </div>
-                </li>
-              ) : null}
-            </>
-          ))} */}
 
           <div className='totalPrice'>
             <div>

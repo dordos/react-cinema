@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
@@ -7,12 +6,18 @@ import { auth, database, setOrderList } from '../../api/firebase';
 import { movieDetailType } from '../../types/movieType';
 import { onAuthStateChanged } from 'firebase/auth';
 import { get, ref } from 'firebase/database';
+import { seriesDetailType } from '../../types/seriesType';
 
 const OrderList = () => {
   const [onRental, setOnRental] = useState(true);
   const [onExpiry, setOnExpiry] = useState(true);
   const [rentalData, setRentalData] = useState<movieDetailType[]>();
   const [expiryData, setExpiryData] = useState<movieDetailType[]>();
+
+  interface Data {
+    userMovieState?: { cartState: boolean };
+    userSeriesState?: { cartState: boolean };
+  }
 
   const showRental = () => {
     console.log(onRental);
@@ -31,20 +36,29 @@ const OrderList = () => {
         const orderData = ref(database, `admins/${user.uid}`);
         get(orderData).then((snapshot) => {
           if (snapshot.exists()) {
-            const data: movieDetailType[] = Object.values(snapshot.val());
-            const filterData = data.filter((item) => item.userMovieState.ordered === true);
+            const data = Object.values<movieDetailType | seriesDetailType>(snapshot.val());
+            // const filterData = data.filter((item) => item.userMovieState.ordered === true);
 
-            const expiryArray: movieDetailType[] = [];
-            const rentalArray: movieDetailType[] = [];
-            filterData.filter((item) => {
-              if (item.userMovieState.endDate < todayTime) {
-                expiryArray.push(item);
-                setExpiryData(expiryArray);
-              } else if (item.userMovieState.endDate >= todayTime) {
-                rentalArray.push(item);
-                setRentalData(rentalArray);
-              }
-            });
+            const expiryArray: movieDetailType[] | seriesDetailType[] = [];
+            const rentalArray: movieDetailType[] | seriesDetailType[] = [];
+            // const seriesExpiryArray: seriesDetailType[] = [];
+            // const seriesRentalArray: seriesDetailType[] = [];
+
+            const filterData = data.filter(
+              (el: Data) => el.userMovieState?.cartState || el.userSeriesState?.cartState
+            );
+
+            console.log(filterData);
+
+            // data.filter((item) => {
+            //   if (item.userMovieState?.endDate < todayTime || item.userSeriesState?.endDate < todayTime) {
+            //     expiryArray.push(item);
+            //     setExpiryData(expiryArray);
+            //   } else if (item.userMovieState.endDate >= todayTime) {
+            //     movieRentalArray.push(item);
+            //     setRentalData(movieRentalArray);
+            //   }
+            // });
           }
         });
       }
