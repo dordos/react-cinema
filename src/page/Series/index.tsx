@@ -63,7 +63,10 @@ const Series = () => {
     const SERIES_URL = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_watch_monetization_types=flatrate`;
 
     const getData = await axios.get(SERIES_URL);
-    const fillterData = getData.data.results.filter((el: seriesType) => el.poster_path !== null);
+    const fillterData = getData.data.results.filter(
+      (el: seriesType) =>
+        el.poster_path !== null && el.original_language !== 'ar' && el.original_language !== 'hi'
+    );
     setSeries((prev) => [...prev, ...fillterData]);
   };
 
