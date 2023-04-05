@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/retflx/static/css/main.10bf034f.css",
-    "main.js": "/retflx/static/js/main.f91d7c46.js",
+    "main.css": "/retflx/static/css/main.4d4d11ed.css",
+    "main.js": "/retflx/static/js/main.f57d8983.js",
     "static/media/signIn_background.jpg": "/retflx/static/media/signIn_background.c2c72aff99e788fa5719.jpg",
     "static/media/signUp_background.jpg": "/retflx/static/media/signUp_background.a1253aa87a2b876b6445.jpg",
     "static/media/logo.png": "/retflx/static/media/logo.f5824be095acd2f73090.png",
@@ -11,11 +11,11 @@
     "static/media/cart.svg": "/retflx/static/media/cart.1f8781b10c21e9c668390571395aedf8.svg",
     "static/media/clapperboard.svg": "/retflx/static/media/clapperboard.5237b5f3709f6d65670228c763cde5cc.svg",
     "index.html": "/retflx/index.html",
-    "main.10bf034f.css.map": "/retflx/static/css/main.10bf034f.css.map",
-    "main.f91d7c46.js.map": "/retflx/static/js/main.f91d7c46.js.map"
+    "main.4d4d11ed.css.map": "/retflx/static/css/main.4d4d11ed.css.map",
+    "main.f57d8983.js.map": "/retflx/static/js/main.f57d8983.js.map"
   },
   "entrypoints": [
-    "static/css/main.10bf034f.css",
-    "static/js/main.f91d7c46.js"
+    "static/css/main.4d4d11ed.css",
+    "static/js/main.f57d8983.js"
   ]
 }
