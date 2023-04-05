@@ -12,7 +12,7 @@ function App() {
     <>
       <Outlet />
     </>
-    // <ReactQueryDevtools initialIsOpen={true} />
+    //  <ReactQueryDevtools initialIsOpen={true} />
     // </QueryClientProvider>
   );
 }
