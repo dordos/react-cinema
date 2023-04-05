@@ -11,27 +11,30 @@ import OrderList from './page/OrderList';
 import Home from './page/Home';
 import Series from './page/Series';
 import SeriesDetail from './page/SeriesDetail';
-const router = createBrowserRouter([
-  {
-    path: process.env.PUBLIC_URL,
-    element: <App />,
-    children: [
-      {
-        index: true,
-        path: '/',
-        element: <Home />,
-      },
-      { path: 'SignUp', element: <SignUp /> },
-      { path: 'SignIn', element: <SignIn /> },
-      { path: 'MovieDetail', element: <MovieDetail /> },
-      { path: 'PickList', element: <PickList /> },
-      { path: 'Cart', element: <Cart /> },
-      { path: 'OrderList', element: <OrderList /> },
-      { path: 'Series', element: <Series /> },
-      { path: 'SeriesDetail', element: <SeriesDetail /> },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <App />,
+      children: [
+        {
+          index: true,
+          path: '/',
+          element: <Home />,
+        },
+        { path: 'SignUp', element: <SignUp /> },
+        { path: 'SignIn', element: <SignIn /> },
+        { path: 'MovieDetail', element: <MovieDetail /> },
+        { path: 'PickList', element: <PickList /> },
+        { path: 'Cart', element: <Cart /> },
+        { path: 'OrderList', element: <OrderList /> },
+        { path: 'Series', element: <Series /> },
+        { path: 'SeriesDetail', element: <SeriesDetail /> },
+      ],
+    },
+  ],
+  { basename: process.env.REACT_APP_PUBLIC_URL }
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(<RouterProvider router={router} />);
