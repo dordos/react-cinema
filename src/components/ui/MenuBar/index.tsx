@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.scss';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import LogInModal from '../LogInModal';

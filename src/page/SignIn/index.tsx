@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { Form, Link, useNavigation } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { Link, useNavigation } from 'react-router-dom';
 import { logIn } from '../../api/firebase';
 import useInput from '../../hooks/useInput';
 import './style.scss';

@@ -1,10 +1,7 @@
-import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Form, Link } from 'react-router-dom';
-import SingUp from '../../../page/SignUp';
-// import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import './style.scss';
 import useInput from '../../../hooks/useInput';
-import LogOutModal from '../LogOutModal';
 import { logIn } from '../../../api/firebase';
 
 const LogInModal = ({ userState }: any) => {

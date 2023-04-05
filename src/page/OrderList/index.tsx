@@ -3,10 +3,8 @@ import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
 import { BiDownArrow, BiRightArrow } from 'react-icons/bi';
 import { auth, database } from '../../api/firebase';
-import { movieDetailType } from '../../types/movieType';
 import { onAuthStateChanged } from 'firebase/auth';
 import { get, ref } from 'firebase/database';
-import { seriesDetailType } from '../../types/seriesType';
 
 const OrderList = () => {
   const [onRental, setOnRental] = useState(true);

@@ -1,11 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import MovieModal from '../../components/ui/MovieModal';
 import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
-import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
-import { auth, currentUser, database } from '../../api/firebase';
+import { auth, database } from '../../api/firebase';
 import { get, ref } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
 import { movieDetailType, movieType } from '../../types/movieType';

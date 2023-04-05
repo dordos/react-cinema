@@ -1,13 +1,9 @@
 import React from 'react';
 import './style.scss';
 import { BsStar, BsStarFill } from 'react-icons/bs';
-// import { IoChevronBackOut, IoChevronForward } from 'react-icons/io';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const Reviews = () => {
-  // const [starAverage, setStarAverage] = useState([
-  // ]);
-
   return (
     <div className='reviews'>
       <div className='addReviews'>

@@ -1,9 +1,8 @@
-import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import { Form, Link } from 'react-router-dom';
 import './style.scss';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../api/firebase';
-import SignIn from '../SignIn';
 const logo = require('../../img/logo.png');
 const checkImg = require('../../img/check_icon.png');
 const SignUp = () => {

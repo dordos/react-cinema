@@ -17,7 +17,6 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
     setDetailData(modalDetail);
     setHeart(modalDetail.userSeriesState.pick);
   }
-  console.log(modalDetail);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {

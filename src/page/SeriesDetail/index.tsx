@@ -3,19 +3,15 @@ import MenuBar from '../../components/ui/MenuBar';
 import './style.scss';
 import axios from 'axios';
 import { useEffect } from 'react';
-import ImagePreview from '../../components/ui/ImagePreview';
-import VideoPreview from '../../components/ui/VideoPreview';
-import MovieCast from '../../components/ui/MovieCast';
-import MovieRec from '../../components/ui/MovieRec';
 import { BsStar, BsStarHalf, BsStarFill } from 'react-icons/bs';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
-import { movieImg, movieType } from '../../types/movieType';
+import { movieImg } from '../../types/movieType';
 import { BsCartPlus } from 'react-icons/bs';
 import { currentUser, database, setSeriesCart, setSeriesPickDB } from '../../api/firebase';
 import { get, ref } from 'firebase/database';
 import ModalCartAlert from '../../components/ModalCartAlert';
-import { seriesDetailType, seriesType } from '../../types/seriesType';
+import { seriesDetailType } from '../../types/seriesType';
 import { API_KEY } from '../../api/theMovieAPI';
 
 const SeriesDetail = () => {
@@ -41,7 +37,6 @@ const SeriesDetail = () => {
     setSeriesPickDB(state.seriesId, state.modalDetail, !heartState);
   }
 
-  console.log('d');
   function addCart() {
     setCartAlert(true);
     setTimeout(() => {

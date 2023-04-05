@@ -2,7 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getDatabase, ref, get, set } from 'firebase/database';
-import { movieDetailType, movieType } from '../types/movieType';
+import { movieDetailType } from '../types/movieType';
 import { seriesDetailType } from '../types/seriesType';
 
 export const firebaseConfig = {
@@ -132,8 +132,6 @@ export async function setSeriesCart(
   seriesDetail: seriesDetailType | undefined,
   getUserState: any
 ) {
-  console.log(getUserState);
-  console.log(seriesDetail);
   return set(ref(database, `admins/${currentUser}/${movieId}`), {
     ...seriesDetail,
     userSeriesState: {
