@@ -10,7 +10,6 @@ function App() {
   return (
     // <QueryClientProvider client={queryClient}>
     <>
-      <MenuBar />
       <Outlet />
     </>
     // <ReactQueryDevtools initialIsOpen={true} />
