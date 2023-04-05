@@ -11,13 +11,8 @@ import { seriesDetailType } from '../../types/seriesType';
 const OrderList = () => {
   const [onRental, setOnRental] = useState(true);
   const [onExpiry, setOnExpiry] = useState(true);
-  const [rentalData, setRentalData] = useState<movieDetailType[]>();
-  const [expiryData, setExpiryData] = useState<movieDetailType[]>();
-
-  interface Data {
-    userMovieState?: { cartState: boolean };
-    userSeriesState?: { cartState: boolean };
-  }
+  const [rentalData, setRentalData] = useState<any[]>();
+  const [expiryData, setExpiryData] = useState<any[]>();
 
   const showRental = () => {
     setOnRental(!onRental);
@@ -35,32 +30,28 @@ const OrderList = () => {
         const orderData = ref(database, `admins/${user.uid}`);
         get(orderData).then((snapshot) => {
           if (snapshot.exists()) {
-            const data = Object.values<movieDetailType | seriesDetailType>(snapshot.val());
-            console.log(data);
-            // const filterData = data.filter((item) => item.userMovieState.ordered === true);
+            const data = Object.values(snapshot.val());
 
-            const expiryArray: movieDetailType[] | seriesDetailType[] = [];
-            const rentalArray: movieDetailType[] | seriesDetailType[] = [];
-            // const seriesExpiryArray: seriesDetailType[] = [];
-            // const seriesRentalArray: seriesDetailType[] = [];
+            const filteredData = data.filter((item: any) => {
+              return item.userMovieState?.ordered || item.userSeriesState.ordered;
+            });
 
-            // const filterData = data.filter(
-            //   (el: Data) =>
-            //     (el.userMovieState?.ordered === true && el.userMovieState?.cartState) ||
-            //     el.userSeriesState?.cartState
-            // );
-            // filterData.map((item: Data) => {
-            //   console.log(item.userMovieState?.endDate || item.userSeriesState?.endDate);
-            // });
-            // data.filter((item) => {
-            //   if (item.userMovieState?.endDate < todayTime || item.userSeriesState?.endDate < todayTime) {
-            //     expiryArray.push(item);
-            //     setExpiryData(expiryArray);
-            //   } else if (item.userMovieState.endDate >= todayTime) {
-            //     movieRentalArray.push(item);
-            //     setRentalData(movieRentalArray);
-            //   }
-            // });
+            const rentalDatafilter = filteredData.filter((item: any) => {
+              return (
+                (item.userMovieState?.endDate && item.userMovieState?.endDate >= todayTime) ||
+                (item.userSeriesState?.endDate && item.userSeriesState?.endDate >= todayTime)
+              );
+            });
+
+            const expiryDatafilter = filteredData.filter((item: any) => {
+              return (
+                (item.userMovieState?.endDate && item.userMovieState?.endDate < todayTime) ||
+                (item.userSeriesState?.endDate && item.userSeriesState?.endDate < todayTime)
+              );
+            });
+
+            setRentalData(rentalDatafilter);
+            setExpiryData(expiryDatafilter);
           }
         });
       }
@@ -91,10 +82,20 @@ const OrderList = () => {
                       <h2>{item?.title}</h2>
                       <div>
                         <p>
-                          대여 날짜 : <span>{item.userMovieState.startDate}</span>
+                          대여 날짜 :{' '}
+                          <span>
+                            {item.userMovieState
+                              ? item.userMovieState.startDate
+                              : item.userSeriesState.startDate}
+                          </span>
                         </p>
                         <p>
-                          만료 날짜 : <span>{item.userMovieState.endDate}</span>
+                          만료 날짜 :{' '}
+                          <span>
+                            {item.userMovieState
+                              ? item.userMovieState.endDate
+                              : item.userSeriesState.endDate}
+                          </span>
                         </p>
                       </div>
                     </div>
@@ -102,7 +103,7 @@ const OrderList = () => {
                   <div className='orderList__rentalPriceWrap'>
                     <h2>총 결제 금액</h2>
                     <p>
-                      {item.userMovieState.count}
+                      {item.userMovieState ? item.userMovieState.count : item.userSeriesState.count}
                       <span>,000</span>
                       <span>원</span>
                     </p>
@@ -129,13 +130,25 @@ const OrderList = () => {
                       <img src={`https://image.tmdb.org/t/p/w500/${item?.poster_path}`} alt='' />
                     </div>
                     <div className='orderList__rentalInfo'>
-                      <h2>{item?.title}</h2>
+                      <h2>{item.userMovieState ? item?.title : item?.name}</h2>
                       <div>
                         <p>
-                          대여 날짜 : <span>{item.userMovieState.startDate}</span>
+                          대여 날짜 :{' '}
+                          <span>
+                            {' '}
+                            {item.userMovieState
+                              ? item.userMovieState.startDate
+                              : item.userSeriesState.startDate}
+                          </span>
                         </p>
                         <p>
-                          만료 날짜 : <span>{item.userMovieState.endDate}</span>
+                          만료 날짜 :{' '}
+                          <span>
+                            {' '}
+                            {item.userMovieState
+                              ? item.userMovieState.endDate
+                              : item.userSeriesState.endDate}
+                          </span>
                         </p>
                       </div>
                     </div>

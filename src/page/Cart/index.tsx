@@ -48,6 +48,16 @@ const Cart = () => {
     setEndDate(filterEndDate);
   };
 
+  const seriesendDateFn = (days: seriesDetailType) => {
+    const calculateDate: any = nowDateFn(days.userSeriesState.count);
+    const filterDate = cartData?.filter((el) => el.id === days.id);
+    const filterEndDate = filterDate?.reduce(
+      (acc, item) => (item.userSeriesState.endDate = calculateDate),
+      '0000-00-00'
+    );
+    setEndDate(filterEndDate);
+  };
+
   const plusDate = (target: any, increase: number) => {
     const item = { ...target };
     if (item.userMovieState && item.userMovieState.count < 99) {
@@ -60,7 +70,7 @@ const Cart = () => {
       item.userSeriesState.count += increase;
       setControlData(item);
       totalData();
-      endDateFn(item);
+      seriesendDateFn(item);
     }
   };
   const minusDate = (target: any, decrease: number) => {
@@ -75,7 +85,7 @@ const Cart = () => {
       item.userSeriesState.count += decrease;
       setControlData(item);
       totalData();
-      endDateFn(item);
+      seriesendDateFn(item);
     }
   };
 
