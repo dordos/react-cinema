@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/retflx/static/css/main.4d4d11ed.css",
-    "main.js": "/retflx/static/js/main.d9d695bf.js",
+    "main.js": "/retflx/static/js/main.274814b3.js",
     "static/media/signIn_background.jpg": "/retflx/static/media/signIn_background.c2c72aff99e788fa5719.jpg",
     "static/media/signUp_background.jpg": "/retflx/static/media/signUp_background.a1253aa87a2b876b6445.jpg",
     "static/media/logo.png": "/retflx/static/media/logo.f5824be095acd2f73090.png",
@@ -12,10 +12,10 @@
     "static/media/clapperboard.svg": "/retflx/static/media/clapperboard.5237b5f3709f6d65670228c763cde5cc.svg",
     "index.html": "/retflx/index.html",
     "main.4d4d11ed.css.map": "/retflx/static/css/main.4d4d11ed.css.map",
-    "main.d9d695bf.js.map": "/retflx/static/js/main.d9d695bf.js.map"
+    "main.274814b3.js.map": "/retflx/static/js/main.274814b3.js.map"
   },
   "entrypoints": [
     "static/css/main.4d4d11ed.css",
-    "static/js/main.d9d695bf.js"
+    "static/js/main.274814b3.js"
   ]
 }
