@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MenuBar from './components/ui/MenuBar';
 
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
 function App() {
   console.log('d');
   return (
