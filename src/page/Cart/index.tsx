@@ -159,10 +159,6 @@ const Cart = () => {
     setEndDate(endDate);
   }, [itemRemove]);
 
-  cartData?.map((item) => {
-    console.log(item.genres);
-  });
-
   return (
     <>
       <MenuBar />
