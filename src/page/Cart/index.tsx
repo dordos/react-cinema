@@ -285,7 +285,7 @@ const Cart = () => {
                   <div className='cartInfo__metaData'>
                     <div className='moviedDate'>{cartItem?.last_air_date}</div>
                     <div className='movieTime'>
-                      {cartItem?.episode_run_time ? cartItem?.episode_run_time[0] : null}분
+                      {cartItem?.episode_run_time ? cartItem?.episode_run_time[0] : '100'}분
                     </div>
                   </div>
                   <p className='genres'>
