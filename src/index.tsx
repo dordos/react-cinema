@@ -10,16 +10,15 @@ import Cart from './page/Cart';
 import OrderList from './page/OrderList';
 import Home from './page/Home';
 import Series from './page/Series';
-import SearchItems from './components/SearchItems';
 import SeriesDetail from './page/SeriesDetail';
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: process.env.PUBLIC_URL,
     element: <App />,
     children: [
       {
         index: true,
-        path: '/',
+        path: process.env.PUBLIC_URL,
         element: <Home />,
       },
       { path: 'SignUp', element: <SignUp /> },
