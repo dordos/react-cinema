@@ -12,14 +12,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
 import { movieImg, movieType } from '../../types/movieType';
 import { BsCartPlus } from 'react-icons/bs';
-import {
-  currentUser,
-  database,
-  setCart,
-  setPickDB,
-  setSeriesCart,
-  setSeriesPickDB,
-} from '../../api/firebase';
+import { currentUser, database, setSeriesCart, setSeriesPickDB } from '../../api/firebase';
 import { get, ref } from 'firebase/database';
 import ModalCartAlert from '../../components/ModalCartAlert';
 import { seriesDetailType, seriesType } from '../../types/seriesType';
@@ -48,6 +41,7 @@ const SeriesDetail = () => {
     setSeriesPickDB(state.seriesId, state.modalDetail, !heartState);
   }
 
+  console.log('d');
   function addCart() {
     setCartAlert(true);
     setTimeout(() => {
