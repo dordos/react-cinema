@@ -47,6 +47,7 @@ const Series = () => {
             userSeriesState: {
               pick: false,
               cartState: false,
+              ordered: false,
               count: 0,
               startDate: nowDateFn(),
               endDate: nowDateFn(),

@@ -48,6 +48,7 @@ const Movies = () => {
             userMovieState: {
               pick: false,
               cartState: false,
+              ordered: false,
               count: 0,
               startDate: nowDateFn(),
               endDate: nowDateFn(),
