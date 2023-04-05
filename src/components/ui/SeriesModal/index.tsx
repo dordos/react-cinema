@@ -18,7 +18,6 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
     setHeart(modalDetail.userSeriesState.pick);
   }
 
-  // console.log(modalDetail);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeBtn = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current == e.target) closeModal();
@@ -28,7 +27,7 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
     setHeart(!heart);
     setSeriesPickDB(seriesId, detailData, !heart);
   }
-
+  console.log(seriesId);
   function addCart() {
     setCartAlert(true);
     setTimeout(() => {
@@ -36,6 +35,7 @@ const SeriesModal = ({ seriesId, closeModal, modalDetail }: seriesDetailType | a
     }, 2000);
 
     get(ref(database, `admins/${currentUser}/${seriesId}`)).then((snapshot) => {
+      console.log('a');
       if (snapshot.exists()) {
         setSeriesCart(seriesId, detailData, snapshot.val().userSeriesState);
       }

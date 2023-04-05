@@ -129,9 +129,11 @@ export async function getSeriesCart() {
 
 export async function setSeriesCart(
   movieId: number,
-  seriesDetail: movieDetailType | undefined,
+  seriesDetail: seriesDetailType | undefined,
   getUserState: any
 ) {
+  console.log(getUserState);
+  console.log(seriesDetail);
   return set(ref(database, `admins/${currentUser}/${movieId}`), {
     ...seriesDetail,
     userSeriesState: {

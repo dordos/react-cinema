@@ -84,7 +84,7 @@ const PickList = () => {
       )}
       {seriesModalState && (
         <SeriesModal
-          movieId={movieId}
+          seriesId={movieId}
           modalDetail={seriesModalDetail}
           closeModal={seriesCloseModal}
         />
