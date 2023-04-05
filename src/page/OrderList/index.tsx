@@ -20,7 +20,6 @@ const OrderList = () => {
   }
 
   const showRental = () => {
-    console.log(onRental);
     setOnRental(!onRental);
   };
 
@@ -37,6 +36,7 @@ const OrderList = () => {
         get(orderData).then((snapshot) => {
           if (snapshot.exists()) {
             const data = Object.values<movieDetailType | seriesDetailType>(snapshot.val());
+            console.log(data);
             // const filterData = data.filter((item) => item.userMovieState.ordered === true);
 
             const expiryArray: movieDetailType[] | seriesDetailType[] = [];
@@ -44,13 +44,14 @@ const OrderList = () => {
             // const seriesExpiryArray: seriesDetailType[] = [];
             // const seriesRentalArray: seriesDetailType[] = [];
 
-            const filterData = data.filter(
-              (el: Data) => el.userMovieState?.cartState || el.userSeriesState?.cartState
-            );
-
-            filterData.map((item: Data) => {
-              console.log(item.userMovieState?.endDate || item.userSeriesState?.endDate);
-            });
+            // const filterData = data.filter(
+            //   (el: Data) =>
+            //     (el.userMovieState?.ordered === true && el.userMovieState?.cartState) ||
+            //     el.userSeriesState?.cartState
+            // );
+            // filterData.map((item: Data) => {
+            //   console.log(item.userMovieState?.endDate || item.userSeriesState?.endDate);
+            // });
             // data.filter((item) => {
             //   if (item.userMovieState?.endDate < todayTime || item.userSeriesState?.endDate < todayTime) {
             //     expiryArray.push(item);

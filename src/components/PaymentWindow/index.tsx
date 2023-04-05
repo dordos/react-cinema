@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { setMovieOrderList, setSeriesOrderList } from '../../api/firebase';
+import { movieDetailType } from '../../types/movieType';
+import { seriesDetailType } from '../../types/seriesType';
 import './style.scss';
 
 const PaymentWindow = ({ closeModal, paymentData }: any) => {
@@ -14,8 +16,14 @@ const PaymentWindow = ({ closeModal, paymentData }: any) => {
   };
 
   const setPaymentData = () => {
-    setMovieOrderList(paymentData);
-    setSeriesOrderList(paymentData);
+    paymentData.forEach((item: movieDetailType | seriesDetailType) => {
+      if ('userMovieState' in item) {
+        setMovieOrderList([item]);
+      }
+      if ('userSeriesState' in item) {
+        setSeriesOrderList([item]);
+      }
+    });
   };
 
   return (

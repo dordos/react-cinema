@@ -93,8 +93,8 @@ export async function setCart(
   });
 }
 
-export async function setMovieOrderList(movieDetail: movieDetailType[]) {
-  movieDetail.map((item) => {
+export async function setMovieOrderList(movieDetail: movieDetailType[]): Promise<void> {
+  const promises = movieDetail.map((item) => {
     return set(ref(database, `admins/${currentUser}/${item.id}`), {
       ...item,
       userMovieState: {
@@ -104,6 +104,7 @@ export async function setMovieOrderList(movieDetail: movieDetailType[]) {
       },
     });
   });
+  await Promise.all(promises);
 }
 
 // ---------------------------------------------------------
@@ -154,8 +155,8 @@ export async function setSeriesPickDB(
   });
 }
 
-export async function setSeriesOrderList(seriesDetail: seriesDetailType[]) {
-  seriesDetail.map((item) => {
+export async function setSeriesOrderList(seriesDetail: seriesDetailType[]): Promise<void> {
+  const promises = seriesDetail.map((item) => {
     return set(ref(database, `admins/${currentUser}/${item.id}`), {
       ...item,
       userSeriesState: {
@@ -165,4 +166,5 @@ export async function setSeriesOrderList(seriesDetail: seriesDetailType[]) {
       },
     });
   });
+  await Promise.all(promises);
 }
