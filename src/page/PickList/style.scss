@@ -1,12 +1,13 @@
 .pickList {
   width: 1200px;
-  padding: 80px 80px 0px 80px;
+  padding: 80px;
   margin: auto;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(auto, 1fr);
   grid-column-gap: 30px;
   grid-row-gap: 30px;
+
   li {
     display: flex;
     flex-direction: column;
