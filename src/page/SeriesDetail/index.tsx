@@ -80,7 +80,6 @@ const SeriesDetail = () => {
   const [onPhoto, setOnPhoto] = useState(true);
   const [onVideo, setOnVideo] = useState(false);
 
-  console.log(images);
   return (
     <>
       <MenuBar />
