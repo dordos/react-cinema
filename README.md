@@ -28,3 +28,5 @@
 8. 디테일 페이지  
    8-1 : 찜목록 기능
    8-2 : 장바구니 기능
+
+![main](https://user-images.githubusercontent.com/38099290/230389683-6a973c29-9c4a-404d-9d8a-af14a91308fe.gif)
