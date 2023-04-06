@@ -29,4 +29,56 @@
    8-1 : 찜목록 기능
    8-2 : 장바구니 기능
 
-![main](https://user-images.githubusercontent.com/38099290/230389683-6a973c29-9c4a-404d-9d8a-af14a91308fe.gif)
+## RETFLX 미리보기
+
+- ### Main
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/38099290/230427711-d663deda-f2f5-4403-8804-234934cfb294.gif
+">
+<img src="https://user-images.githubusercontent.com/38099290/230428066-04e40d0d-6a6a-4108-8524-e007b4bc62e0.gif
+">
+</p>
+<hr/>
+
+- ### Sign-Up / Sigi-In
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/38099290/230428416-a1b9c474-c942-4cc8-a6a2-6de181568455.gif
+">
+<img src="https://user-images.githubusercontent.com/38099290/230428453-93abf832-0981-42f7-abb2-64d32008a40a.gif
+">
+</p>
+<hr/>
+
+- ### Pick
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/38099290/230428679-ae8af5c3-da87-47bb-9c8e-e552d5f1e03e.gif
+">
+</p>
+<hr/>
+
+- ### Modal / Detail
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/38099290/230428718-0e62c393-27a0-4643-a00c-aeaa2a33f5e3.gif
+">
+</p>
+<hr/>
+
+- ### Cart
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/38099290/230429164-d94ea047-6ba3-4734-961b-db6dae71c42e.gif
+">
+<img src="https://user-images.githubusercontent.com/38099290/230429177-fe417eba-4372-4de1-ab81-e1a015007f62.gif
+">
+</p>
+<hr/>
+
+- ### Order
+<p align="center">
+<img src="https://user-images.githubusercontent.com/38099290/230429185-6014ed0f-10d9-42bc-b096-2de5df2669f2.gif
+">
+</p>
