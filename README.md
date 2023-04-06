@@ -1,4 +1,8 @@
-#RETFLX (영화 / 시리즈 대여 사이트)
+# RETFLX (영화 / 시리즈 대여 사이트)
+
+## RETFLX 바로가기
+
+[https://startling-puppy-793592.netlify.app](https://startling-puppy-793592.netlify.app)
 
 ## RETFLX 기능
 
@@ -79,7 +83,7 @@
 
 - ### Order
 <p align="center">
+<img src=![order](./src/gif/order.gif)>
 <img src="https://user-images.githubusercontent.com/38099290/230429185-6014ed0f-10d9-42bc-b096-2de5df2669f2.gif
 ">
 </p>
-![order](https://user-images.githubusercontent.com/38099290/230429185-6014ed0f-10d9-42bc-b096-2de5df2669f2.gif)
