@@ -31,7 +31,7 @@ const OrderList = () => {
             const data = Object.values(snapshot.val());
 
             const filteredData = data.filter((item: any) => {
-              return item.userMovieState?.ordered || item.userSeriesState.ordered;
+              return item.userMovieState?.ordered || item.userSeriesState?.ordered;
             });
 
             const rentalDatafilter = filteredData.filter((item: any) => {
