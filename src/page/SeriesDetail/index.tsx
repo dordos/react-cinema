@@ -18,7 +18,7 @@ const SeriesDetail = () => {
   let { state } = useLocation();
 
   const API_URL = `https://api.themoviedb.org/3/tv/${state.seriesId}?api_key=${API_KEY}&language=en-US`;
-  const MOIVE_IMG = `https://api.themoviedb.org/3/tv/${state.seriesId}/images?api_key=${API_KEY}`;
+  const SERIES_IMG = `https://api.themoviedb.org/3/tv/${state.seriesId}/images?api_key=${API_KEY}`;
 
   const [seriesDetail, setSeriesDetail] = useState<seriesDetailType>();
   const [heartState, setHeartState] = useState(false);
@@ -63,18 +63,14 @@ const SeriesDetail = () => {
     setStarAverage(averageCopy);
   };
 
-  const [abc, abcc] = useState<any>();
   useEffect(() => {
     async function movieData() {
       const response = await axios.get(API_URL);
       const results = response.data;
       setSeriesDetail(results);
 
-      const a = `https://api.themoviedb.org/3/tv/${82552}/episode_groups?api_key=${API_KEY}&language=en-US`;
-      const bb = await axios.get(a);
-      abcc(bb);
+      const response_img = await axios.get(SERIES_IMG);
 
-      const response_img = await axios.get(MOIVE_IMG);
       setImages(response_img.data);
       star(response.data.vote_average);
     }
@@ -84,18 +80,18 @@ const SeriesDetail = () => {
   const [onPhoto, setOnPhoto] = useState(true);
   const [onVideo, setOnVideo] = useState(false);
 
-  const onMedia = () => {
-    setOnPhoto(!onPhoto);
-    setOnVideo(!onVideo);
-  };
-
+  console.log(images);
   return (
     <>
       <MenuBar />
       <div className='seriesDetail'>
         <div className='mainDetailContainer'>
           <img
-            src={`https://image.tmdb.org/t/p/original/${images?.backdrops[0].file_path}`}
+            src={
+              images?.backdrops[0]
+                ? `https://image.tmdb.org/t/p/original/${images?.backdrops[0].file_path}`
+                : ``
+            }
             alt=''
           />
 
