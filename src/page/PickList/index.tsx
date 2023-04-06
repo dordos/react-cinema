@@ -57,7 +57,7 @@ const PickList = () => {
         });
       }
     });
-  }, [movieModalState]);
+  }, [movieModalState, seriesModalState]);
   return (
     <>
       <MenuBar />
