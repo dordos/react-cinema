@@ -84,6 +84,6 @@
 - ### Order
 <p align="center">
 <img src=![order](./src/gif/order.gif)>
-<img src="https://user-images.githubusercontent.com/38099290/230429185-6014ed0f-10d9-42bc-b096-2de5df2669f2.gif
+<img src="https://user-images.githubusercontent.com/38099290/230429185-6014ed0f-10d9-42bc-b096-2de5df2669f2.gif?raw=true
 ">
 </p>
