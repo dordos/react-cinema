@@ -62,9 +62,9 @@ const MenuBar = () => {
           </li>
           <form onSubmit={handleSubmit}>
             <li className='search'>
-              <Link to='/SearchItems'>
-                <BiSearchAlt2 />
-              </Link>
+              {/* <Link to='/SearchItems'> */}
+              <BiSearchAlt2 />
+              {/* </Link> */}
               <input
                 type='text'
                 placeholder='찾고싶은 영화를 입력해주세요.'
