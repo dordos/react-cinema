@@ -1,4 +1,5 @@
 .DS_Store
+.gitignore
 # dependencies
 /node_modules
 /.pnp
@@ -6,7 +7,6 @@
 
 # testing
 /coverage
-
 .env
 .idea
 
