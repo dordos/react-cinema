@@ -5,11 +5,10 @@ import './style.scss';
 import { ref, get } from 'firebase/database';
 import { currentUser, database } from '../../../api/firebase';
 import { movieDetailType, movieType } from '../../../types/movieType';
+import { API_KEY } from '../../../api/theMovieAPI';
 import axios from 'axios';
 
 const Movies = () => {
-  const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-
   const [movieModalState, setMovieModalState] = useState(false);
   const closeModal = () => setMovieModalState(false);
 
